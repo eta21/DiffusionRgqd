@@ -1,15 +1,15 @@
 \name{GQD.TIpassage}
 \alias{GQD.TIpassage}
-%- Also NEED an '\alias' for EACH other topic documented here.
-\title{Compute the First Passage Time Density of a GQD with Time Inhomogeneous Coefficients.
+
+\title{Compute the First Passage Time Density of a GQD With Time Inhomogeneous Coefficients.
 }
 \description{
-\code{GQD.TIpassage()} solves first passage time problems for GQDs with time dependent coefficients: \strong{\deqn{dX_t = (G0(t)+G1(t)X_t+G2(t)X_t^2)dt+\sqrt{Q0(t)+Q1(t)X_t+Q2(t)X_t^2}dW_t}}  to a fixed barrier.
+\code{GQD.TIpassage()} solves first passage time problems for GQDs with time dependent coefficients: \strong{\deqn{dX_t = (G_0(t)+G_1(t)X_t+G_2(t)X_t^2)dt+\sqrt{Q_0(t)+Q_1(t)X_t+Q_2(t)X_t^2}dW_t}}  to a fixed barrier.
 The function combines the cumulant truncation procedure of Varughese (2013) with a numerical solution to a non-singular Volterra integral equation for the first passage time density, developed by Buonocore et al. (1987), in order to generate an approximate solution.
 
 }
 \usage{
-GQD.TIpassage(Xs, B, s, t, delt, theta, IEQ.type = "Buonocore")
+GQD.TIpassage(Xs,B, s, t, delt, theta=c(0), IEQ.type='Buonocore', wrt=FALSE)
 }
 
 \arguments{
@@ -20,6 +20,8 @@ GQD.TIpassage(Xs, B, s, t, delt, theta, IEQ.type = "Buonocore")
   \item{delt}{Stepsize for  the solution of the first passage time density.}
   \item{theta}{Parameter vector for parameters contained in the coefficients (if required).}
   \item{IEQ.type}{Currently only \code{IEQ.type = "Buonocore"} is supported.}
+  \item{wrt}{If \code{TRUE} a .cpp file will be written to the current directory. For bug report diagnostics.}
+
 }
 \details{
 \bold{Detail [1]}: First passage throug a time dependant barrier may be analised by applying the transform:
@@ -95,11 +97,9 @@ Here sqrt(t)*cos(3*pi*t) constitutes the product of two terms that cannot be wri
 \seealso{
 \code{\link{GQD.density}} for functions that generate the transitional density of GQDs and \code{\link{GQD.mcmc}} for MCMC procedures for GQD models. 
 }
-\section{Bugs}{
 
-Report bugs or issues at \url{https://sites.google.com/site/diffusionronline/home/bug-reports-1}.
-}
 \examples{
+
 #=========================================================================
 # Generate the first passage time density of a CIR process with time 
 # dependant drift to a fixed barrier.
@@ -147,7 +147,8 @@ Report bugs or issues at \url{https://sites.google.com/site/diffusionronline/hom
 # Plot the two solutions.
 #===============================================================================
   expr1 <- expression(dX[t]==(10+0.5*sin(2*pi*t)-X[t])*dt+0.25*sqrt(X[t])*dW[t])
-  expr2 <- expression(dX[t]==(0.1*(10+0.2*sin(2*pi*t)+0.3*sqrt(t)*(1+cos(3*pi*t))-0.1*(1+0.2*sin(2*pi*t))*X[t])*dt+0.25*sqrt(X[t])*dW[t]))
+  expr2 <- expression(dX[t]==(0.1*(10+0.2*sin(2*pi*t)+0.3*sqrt(t)*(1+cos(3*pi*t))
+                      -0.1*(1+0.2*sin(2*pi*t))*X[t])*dt+0.25*sqrt(X[t])*dW[t]))
 
   
   par(mfrow=c(1,1))
@@ -162,33 +163,28 @@ Report bugs or issues at \url{https://sites.google.com/site/diffusionronline/hom
 # of a non-linear diffusion.
 #===============================================================================
   
-  GQD.remove()         
-  # Redefine the coefficients with a parameter (theta is reserved again)
-  G1 <- function(t){theta[1]*(10+0.2*sin(2*pi*t)+0.3*prod(sqrt(t),1+cos(3*pi*t)))}
-  G2 <- function(t){-theta[1]}
-  Q2 <- function(t){0.05}
-  
-  delt  <- 1/100
-  X0 <- 8
-  BB <- 11
-  T0 <- 1
-  TT <- 4
-  
-  # Now just give a value for the parameter in the standard fashion.
-  res3=GQD.TIpassage(X0,BB,T0,TT,delt,theta=c(0.1))
-  
-    expr3 <- expression(dX[t]==(theta[1]*(10+0.5*sin(2*pi*t))*X[t]-theta[1]*X[t]^2)*dt+0.05*X[t]*dW[t])
-  par(mfrow=c(1,1))
-  plot(res3$density~res3$time,type='l',col=2,ylim=c(0,2.2),
-       main=expr3,ylab='Density',xlab='Time',cex.main=0.95)
-  
-  # Change the parameter and see the affect on the f.p.t. density.
-  th.seq=seq(0.1,0.5,1/20)
-  for(i in 2:length(th.seq))
-  {
-   res3=GQD.TIpassage(X0,BB,T0,TT,delt,theta=c(th.seq[i]))
-   lines(res3$density~res3$time,type='l',col=rainbow(10)[i])
-  }
-  legend('topright',legend=th.seq,col=rainbow(10),lty='solid',cex=0.75,
-         title=expression(theta[1]))
+GQD.remove()
+# Redefine the coefficients with a parameter theta:
+G1 <- function(t){theta[1]*(10+0.2*sin(2*pi*t)+0.3*prod(sqrt(t),1+cos(3*pi*t)))}
+G2 <- function(t){-theta[1]}
+Q2 <- function(t){0.1}
+# Now just give a value for the parameter in the standard fashion:
+res3=GQD.TIpassage(8,12,1,4,1/100,theta=c(0.5))
+
+plot(res3$density~res3$time,type='l',col=2,ylim=c(0,1.0),
+main='First Passage Time Density',ylab='Density',xlab='Time',cex.main=0.95)
+# Change the parameter and see the effect on the f.p.t. density.
+th.seq=seq(0.1,0.5,1/20)
+for(i in 2:length(th.seq))
+{
+  res3=GQD.TIpassage(8,12,1,4,1/100,,theta=c(th.seq[i]))
+  lines(res3$density~res3$time,type='l',col=rainbow(10)[i])
 }
+lines(res3$density~res3$time,type='l',col=rainbow(10)[i],lwd=2)
+legend('topright',legend=th.seq,col=rainbow(10),lty='solid',cex=0.75,
+title=expression(theta[1]))
+#===============================================================================
+}
+\keyword{Syntax}
+\keyword{C++}
+\keyword{First passage time}

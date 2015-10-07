@@ -1,5 +1,5 @@
 GQD.TIpassage=
-  function(Xs,B,s,t,delt,theta=c(1),IEQ.type='Buonocore',wrt=FALSE)
+  function(Xs,B,s,t,delt,theta=c(0),IEQ.type='Buonocore',wrt=FALSE)
   {
     Tmax=t
     # Warning Module

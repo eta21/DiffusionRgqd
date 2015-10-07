@@ -6,13 +6,13 @@ MCMC Inference on Generalized Quadratic Diffusion Models (GQDs).
 }
 \description{
 \code{GQD.mcmc()} uses parametrised coefficients (provided by the user as R-functions) to construct a C++ program in real time that allows the user to perform Bayesian inference on the resulting diffusion model. Given a set of starting parameters and other input parameters, a MCMC chain is returned for further analysis.
-The structure of the model is predefined and coefficients may be provided for models nested within the generalized quadratic diffusion framework. That is, the saturated GQD model is given by: \strong{\deqn{dX_t = (G0(t)+G1(t)X_t+G2(t)X_t^2)dt+\sqrt{Q0(t)+Q1(t)X_t+Q2(t)X_t^2}dW_t}} where dW_t is Standard Brownian Motion.
+The structure of the model is predefined and coefficients may be provided for models nested within the generalized quadratic diffusion framework. That is, the saturated GQD model is given by: \strong{\deqn{dX_t = (G_0(t)+G_1(t)X_t+G_2(t)X_t^2)dt+\sqrt{Q_0(t)+Q_1(t)X_t+Q_2(t)X_t^2}dW_t}} where dW_t is Standard Brownian Motion.
 }
 \usage{
-GQD.mcmc(X, time, mesh = 10, theta, sds, updates, burns= min(round(updates/2), 25000), 
-         Dtype = "Saddle", Trunc = c(4, 4), RK.order = 4, P = 200, alpha = 0,
-         lower = min(na.omit(X))/2, upper = max(na.omit(X))*2, exclude = NULL, 
-         plot.chain = TRUE, Tag = NA)
+GQD.mcmc(X, time, mesh=10, theta, sds, updates, burns=min(round(updates/2),25000),
+         Dtype='Saddle', Trunc=c(4,4), RK.order=4, P=200, alpha=0,
+         lower=min(na.omit(X))/2, upper=max(na.omit(X))*2,
+         exclude=NULL, plot.chain=TRUE, Tag=NA, wrt=FALSE)
 }
 
 \arguments{
@@ -48,6 +48,7 @@ The number of updates to burn. That is, the first \code{burns} values are omitte
 \item{alpha}{Normalization parameter controlig the mesh concentration when normalizing members of the Pearson system (see details). Increasing \code{alpha} decreases concentration around the mean and vice versa (default \code{alpha = 0}).}
 \item{lower,upper}{Lower and upper bounds for the normalization range.}
 \item{Tag}{\code{Tag} can be used to name (tag) an MCMC run e.g. \code{Tag='Run_1'}}
+\item{wrt}{If \code{TRUE} a .cpp file will be written to the current directory. For bug report diagnostics.}
 }
 \details{
 
@@ -115,47 +116,54 @@ Here sqrt(t)*cos(3*pi*t) constitutes the product of two terms that cannot be wri
 
 
 \examples{
+\dontrun{
 #===============================================================================
 # This example simulates a time inhomogeneous diffusion and shows how to conduct
 # inference using GQD.mcmc
 #-------------------------------------------------------------------------------
-  
-  data(SDEsim1)
-  par(mfrow=c(1,1))
-  x <- SDEsim1
-  plot(x$Xt~x$time,type='l',col='blue')
-  
- #------------------------------------------------------------------------------
- # Define parameterized coefficients of the process, and set up starting
- # parameters.
- #------------------------------------------------------------------------------
+library(DiffusionRgqd)
+data(SDEsim1)
+par(mfrow=c(1,1))
+x <- SDEsim1
+plot(x$Xt~x$time,type='l',col='blue')
+#------------------------------------------------------------------------------
+# Define parameterized coefficients of the process, and set up starting
+# parameters.
+# True model: dX_t = 2X_t(5+3sin(0.25 pi t)-X_t)dt+0.5X_tdW_t
+#------------------------------------------------------------------------------
 
-  # Remove any existing coeffients. If none are pressent NAs will be returned, but 
-  # this is a safeguard against overlapping.
-    GQD.remove()
+# Remove any existing coeffients. If none are pressent NAs will be returned, but
+# this is a safeguard against overlapping.
+GQD.remove()
 
-  # Define time dependant coefficients. Note that all functions have a single argument.
-  # This argument has to be `t' in order for the dependancy to be recognized.
-  # theta does not have to be defined as an argument.
+# Define time dependant coefficients. Note that all functions have a single argument.
+# This argument has to be `t' in order for the dependancy to be recognized.
+# theta does not have to be defined as an argument.
 
-  G1 <- function(t){theta[1]*(theta[2]+theta[3]*sin(2*pi*(t-theta[4])))}
-  G2 <- function(t){-theta[1]}
-  Q2 <- function(t){theta[5]*theta[5]}
+G1 <- function(t){theta[1]*(theta[2]+theta[3]*sin(0.25*pi*t))}
+G2 <- function(t){-theta[1]}
+Q2 <- function(t){theta[4]*theta[4]}
 
-  theta.start  <- c(2,15,5,0.5,1)               # Starting values for the chain
-  proposal.sds <- c(0.1,0.3,0.2,0.05,0.1)*1/2   # Std devs for proposal distributions
-  mesh.points  <- 10                            # Number of mesh points
-  updates      <- 5000                         # Perform 50000 updates
+theta.start  <- c(1,1,1,1)                    # Starting values for the chain
+proposal.sds <- c(0.1,0.3,0.2,0.1)*1/2        # Std devs for proposal distributions
+mesh.points  <- 10                            # Number of mesh points
+updates      <- 50000                         # Perform 50000 updates
 
- #------------------------------------------------------------------------------
- # Run the MCMC procedure for the model defined above
- #------------------------------------------------------------------------------
-  priors=function(theta){dunif(theta[4],0,2)}
-  m1 <- GQD.mcmc(x$Xt,x$time,mesh=mesh.points,theta=theta.start,sds=proposal.sds,updates=updates,RK.order=4)
+#------------------------------------------------------------------------------
+# Run the MCMC procedure for the model defined above
+#------------------------------------------------------------------------------
+
+m1 <- GQD.mcmc(x$Xt,x$time,mesh=mesh.points,theta=theta.start,sds=proposal.sds,
+               updates=updates,RK.order=4,wrt=T)
+
+# Calculate estimates:
+GQD.estimates(m1,thin=200)
 #===============================================================================
 
-
 }
-
+}
+\keyword{Syntax}
+\keyword{C++}
+\keyword{MCMC}
 
 

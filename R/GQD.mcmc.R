@@ -1,6 +1,8 @@
 GQD.mcmc <-
-function(X,time,mesh=10,theta,sds,updates,burns=min(round(updates/2),25000),Dtype='Saddle',Trunc=c(4,4),RK.order=4,P=200,alpha=0,lower=min(na.omit(X))/2,upper=max(na.omit(X))*2,exclude=NULL,plot.chain=TRUE,wrt=FALSE,Tag=NA,adapt=0)
+function(X,time,mesh=10,theta,sds,updates,burns=min(round(updates/2),25000),Dtype='Saddle',Trunc=c(4,4),RK.order=4,P=200,alpha=0,lower=min(na.omit(X))/2,upper=max(na.omit(X))*2,exclude=NULL,plot.chain=TRUE,Tag=NA,wrt=FALSE)
 {
+   theta = theta+runif(length(theta),0.01,0.02)*sign(theta)
+   adapt=0
    check_for_model=function()
   {
     txt=''
@@ -1378,7 +1380,9 @@ if(Dindex!=1)
      result=eval(body(namess2[i]))
      func.list.timehomo[i]=2-(sum(diff(result)==0)==(length(result)-1))
    }
-
+    #print(t)
+    
+    #print(func.list.timehomo)
    if(any(func.list.timehomo==2)){homo=F}
 
    #BUILD ODE --------------------------------------------------------------------

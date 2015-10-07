@@ -8,9 +8,9 @@ MCMC Inference on Bivariate Generalized Quadratic Diffusions (2D GQDs).
 \code{BiGQD.mcmc()} uses parametrised coefficients (provided by the user as R-functions) to construct a C++ program in real time that allows the user to perform Bayesian inference on the resulting diffusion model. Given a set of starting parameters and other input parameters, a MCMC chain is returned for further analysis. The user may specify any model within the GQD framework by defining parametrised functions giving the form of the coefficients of the model. See the package manual for a description of the process.
 }
 \usage{
-BiGQD.mcmc(X, time, mesh = 10, theta, sds, updates, burns = min(round(updates/2), 25000), 
-           exclude = NULL, plot.chain = TRUE, RK.order = 4,Tag = NA, Dtype = "Saddlepoint", 
-           recycle = FALSE)
+BiGQD.mcmc(X, time, mesh=10, theta, sds, updates, burns=min(round(updates/2),25000),
+           RK.order=4, exclude=NULL, plot.chain=TRUE, Tag=NA, Dtype='Saddlepoint',
+           recycle=FALSE, rtf=runif(2), wrt=FALSE)
 }
 \arguments{
   \item{X}{A matrix containing rows of data points to be modelled. Although observations are allowed to be non-equidistant, observations in both dimensions are assumed to occur at the same time epochs (i.e. \code{time} gives the time signature for both dimensions).
@@ -32,10 +32,8 @@ BiGQD.mcmc(X, time, mesh = 10, theta, sds, updates, burns = min(round(updates/2)
 \item{Tag}{\code{Tag} can be used to name (tag) an MCMC run e.g. \code{Tag='Run_1'}}
 \item{Dtype}{The density approximant to use. Valid types are \code{"Saddlepoint"} (default), \code{"Edgeworth"} or \code{"Normal"}.}
 \item{recycle}{Whether or not to recycle the roots calculated for the saddlepoint approximation over succesive updates.}
-
-}
-\details{
-
+\item{rtf}{Starting vector for internal use.}
+\item{wrt}{If \code{TRUE} a .cpp file will be written to the current directory. For bug report diagnostics.}
 }
 \value{
   \item{par.matrix }{A matrix containing the MCMC chain on \code{theta}. }
@@ -108,81 +106,87 @@ Here sqrt(t)*cos(3*pi*t) constitutes the product of two terms that cannot be wri
 }
 
 \examples{
-  
+\dontrun{
 #===============================================================================
-# This example simulates a bivariat time inhomogeneous diffusion and shows how 
-# to conduct inference using BiGQD.mcmc(). We fit two competing models and then 
+# This example simulates a bivariat time homogeneous diffusion and shows how
+# to conduct inference using BiGQD.mcmc(). We fit two competing models and then
 # use the output to select a winner.
 #-------------------------------------------------------------------------------
 
-  rm(list=ls(all=TRUE))
-  Bisim3=function()
-  {
-     delt=1/1000
-     sdelt=sqrt(delt)
-     tt=seq(0,50,delt)
-     N=length(tt)
-     X1=rep(5,N)
-     X2=rep(5,N)
-     d=0
-     for(i in 2:N)
-     {
-       X1[i]=X1[i-1]+1.5*(5+2*sin(2*pi*d)-X1[i-1])*delt+0.7*sqrt(X1[i-1])*rnorm(1,sd=sdelt)
-       X2[i]=X2[i-1]+1.5*(5-X2[i-1])*delt+1*sqrt(X2[i-1])*rnorm(1,sd=sdelt)
-       d=d+delt
-     }
-     sttt= seq(1,N,by=250)
-     return(list(X=rbind(X1[sttt],X2[sttt]),tt=tt[sttt]))
-  }
-  x=Bisim3()
-
-  plot(x$X[1,]~x$tt,type='l',col='blue',ylim=c(0,10))#range(x$X))
-  lines(x$X[2,]~x$tt,col='green')
-
-
-  X=cbind(x$X[1,-10],x$X[2,-10])
-  time=x$tt[-10]
-  Nupdates=5000
+  data(SDEsim2)
+  data(SDEsim2)
+  attach(SDEsim2)
+  # Have a look at the time series:
+  plot(Xt~time,type='l',col='blue',ylim=c(2,10),main='Simulated Data',xlab='Time (t)',ylab='State',
+       axes=FALSE)
+  lines(Yt~time,col='red')
+  expr1=expression(dX[t]==2(Y[t]-X[t])*dt+0.3*sqrt(X[t]*Y[t])*dW[t])
+  expr2=expression(dX[t]==(5-Y[t])*dt+0.5*sqrt(Y[t])*dB[t])
+  text(50,9,expr1)
+  text(50,8.5,expr2)
+  axis(1,seq(0,100,5))
+  axis(1,seq(0,100,5/10),tcl=-0.2,labels=NA)
+  axis(2,seq(0,20,2))
+  axis(2,seq(0,20,2/10),tcl=-0.2,labels=NA)
 
  #------------------------------------------------------------------------------
  # Define the coefficients of a proposed model
  #------------------------------------------------------------------------------
+  GQD.remove()
+  a00 <- function(t){theta[1]*theta[2]}
+  a10 <- function(t){-theta[1]}
+  c00 <- function(t){theta[3]*theta[3]}
 
-  a00=function(t){theta[1]*(theta[2]+theta[3]*sin(2.0*pi*t))}
-  a10=function(t){-theta[1]}
-  c00=function(t){theta[4]*theta[4]}
+  b00 <- function(t){theta[4]}
+  b01 <- function(t){-theta[5]}
+  f00 <- function(t){theta[6]*theta[6]}
 
-  b00=function(t){theta[5]*theta[6]}
-  b01=function(t){-theta[5]}
-  f00=function(t){theta[7]*theta[7]}
+  theta.start <- c(3,3,3,3,3,3)
+  prop.sds    <- c(0.15,0.16,0.04,0.99,0.19,0.04)
+  updates     <- 50000
+  X           <- cbind(Xt,Yt)
+  
+  # Define prior distributions:
+  priors=function(theta){dunif(theta[1],0,100)*dunif(theta[4],0,100)}
   
   # Run the MCMC procedure
-  m1=BiGQD.mcmc(X,time,mesh=20,theta =c(3,15,0.1,3,3,15,3),sds=c(0.1,0.1*3,0.1,0.1,0.1,0.1*3,0.1),Nupdates)
+  m1=BiGQD.mcmc(X,time,10,theta.start,prop.sds,updates)
 
  #------------------------------------------------------------------------------
  # Remove old coefficients and define the coefficients of a new model
  #------------------------------------------------------------------------------
-  
   GQD.remove()
-  a00=function(t){theta[1]*(theta[2]+theta[3]*sin(2.0*pi*t))}
-  a10=function(t){-theta[1]}
-  c10=function(t){theta[4]*theta[4]}
+  a10 <- function(t){-theta[1]}
+  a01 <- function(t){theta[1]*theta[2]}
+  c11 <- function(t){theta[3]*theta[3]}
 
-  b00=function(t){theta[5]*theta[6]}
-  b01=function(t){-theta[5]}
-  f01=function(t){theta[7]*theta[7]}
-  
-  m2=BiGQD.mcmc(X,time,mesh=20,theta =c(3,15,0.1,3,3,15,3),sds=c(0.1,0.1*3,0.1,0.1,0.1,0.1*3,0.1),Nupdates)
+  b00 <- function(t){theta[4]*theta[5]}
+  b01 <- function(t){-theta[4]}
+  f01 <- function(t){theta[6]*theta[6]}
 
+  theta.start <- c(3,3,3,3,3,3)
+  prop.sds    <- c(0.16,0.02,0.01,0.18,0.12,0.01)
+
+  # Define prior distributions:
+  priors=function(theta){dunif(theta[1],0,100)*dunif(theta[4],0,100)}
+
+  # Run the MCMC procedure
+  m2=BiGQD.mcmc(X,time,10,theta.start,prop.sds,updates)
+
+ # Compare estimates:
+  GQD.estimates(m1)
+  GQD.estimates(m2)
 
  #------------------------------------------------------------------------------
  # Compare the two models
  #------------------------------------------------------------------------------
 
   GQD.dic(list(m1,m2))
-  GQD.estimates(m1)
-  
-#=============================================================================== 
- 
- }
 
+
+#===============================================================================
+ }
+ }
+\keyword{Syntax}
+\keyword{C++}
+\keyword{MCMC}

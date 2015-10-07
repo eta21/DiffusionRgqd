@@ -6,12 +6,11 @@ Calculate the First Passage Time Density of a Time-Homogeneous GQD Process to a 
 }
 \description{
 \code{GQD.passage} uses the cumulant truncation procedure of Varughese (2013) in conjunction with a Volterra-type integral equation developed by Buonocore et al. (1987) in order to approximate the first passage time density of a time-homogeneous univariate GQD \strong{\deqn{dX_t = (theta[1]+theta[2]X_t+theta[3]X_t^2)dt+\sqrt{theta[4]+theta[5]X_t+theta[6]X_t^2}dW_t,}}  to a fixed barrier. 
-to a fixed barrier.
 }
 \usage{
 GQD.passage(Xs, B, theta, t, delt)
 }
-%- maybe also 'usage' for other objects documented here.
+
 \arguments{
 
   \item{Xs}{
@@ -26,15 +25,13 @@ Initial value of the process.
   \item{delt}{Stepsize for  the solution of the first passage time density.
 }
 }
-\details{
 
-}
 \value{
 
   \item{density }{The approximate first passage time density.}
   \item{time}{The time points at which the approximation is evaluated.}
   \item{prob.coverage}{The approximate cumulative probability coverage.}
-%% ...
+
 
 }
 \references{
@@ -66,21 +63,19 @@ Varughese, M.M. 2013 Parameter estimation for multivariate diffusion systems. \e
 \author{Etienne A.D. Pienaar: \email{etiannead@gmail.com}
 }
 \note{
-Since time-homogeneity is assumed for the present implementation, the interface of \code{\link{GQD.mcmc}} etc. is discarded and the model is inferred from the non-zero values of \code{theta}. For example \code{theta = c(0.5*10,-0.5,0,0.5^2,0,0)} defines an Ornstein-Uhlenbeck model.
+\bold{Note [1]}: Since time-homogeneity is assumed for the present implementation, the interface of \code{\link{GQD.mcmc}} etc. is discarded and the model is inferred from the non-zero values of \code{theta}. For example \code{theta = c(0.5*10,-0.5,0,0.5^2,0,0)} defines an Ornstein-Uhlenbeck model.
 }
 \section{Warning}{
-Some instability may occur when \code{delt} is large or where the saddlepoint approximation fails. As allways it is important to check both the validity of the diffusion process under the given parameters and the quality of the sadlepoint approximation. For a given set of parameters the latter can be checked using \code{\link[DiffusionRgqd]{GQD.density}}. 
+\bold{Warning [1]}: Some instability may occur when \code{delt} is large or where the saddlepoint approximation fails. As allways it is important to check both the validity of the diffusion process under the given parameters and the quality of the sadlepoint approximation. For a given set of parameters the latter can be checked using \code{\link[DiffusionRgqd]{GQD.density}}. 
 
-The first passage time problem is considered from one side only i.e. Xs<B. For Xs>B one may equivalently consider Yt=-X_t, apply Ito's lemma and proceed as above.} 
+\bold{Warning [2]}: The first passage time problem is considered from one side only i.e. Xs<B. For Xs>B one may equivalently consider Yt=-X_t, apply Ito's lemma and proceed as above.} 
 
 \seealso{
 \code{\link[DiffusionRgqd]{GQD.density}} for functions that generate the transitional density of GQDs. \code{\link{GQD.mcmc}} and  \code{\link{GQD.remove}} for MCMC procedures to perform inference on GQDs. 
 }
-\section{Bugs}{
 
-Report bugs or issues at \url{https://sites.google.com/site/diffusionronline/home/bug-reports-1}.
-}
 \examples{
+
 #===============================================================================
 # Calculate the first passage time from state X_0 = 7 to X_T =10 for
 # various diffusions, with T the first passage time.
@@ -109,8 +104,7 @@ Report bugs or issues at \url{https://sites.google.com/site/diffusionronline/hom
 
 
 }
+\keyword{Syntax}
+\keyword{C++}
+\keyword{First passage time}
 
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

@@ -7,7 +7,8 @@ Generate the Transition Density of a Scalar Generalized Quadratic Diffusion (GQD
 \code{GQD.density} approximates the transition density of a scalar generalized quadratic diffusion model (GQD). Given an initial value for the diffusion, \code{Xs}, the approximation is evaluated for all \code{Xt} at equispaced time-nodes given by splitting [\code{s}, \code{t}] into subintervals of length \code{delt}.
  }
 \usage{
-GQD.density(Xs , Xt, s, t, delt, Dtype, Trunc, P, alpha, lower, upper)
+GQD.density(Xs, Xt, s, t, delt=1/100, Dtype='Saddlepoint', Trunc=c(4,4),
+            P=100, alpha=0, lower=0, upper=50)
 }
 \arguments{
   \item{Xs}{Initial value of the process at time s.}
@@ -37,23 +38,12 @@ GQD.density(Xs , Xt, s, t, delt, Dtype, Trunc, P, alpha, lower, upper)
   \item{mesh}{A matrix giving the mesh used for normalization of the density.}
 }
 
-\section{Syntax}{
 
-}
 
 \references{
 Updates available on GitHub at \url{https://github.com/eta21}. Visit \url{http://etiennead.wix.com/diffusionr} for more details on the DiffusionRgqd package.
 
 Daniels, H.E. 1954 Saddlepoint approximations in statistics. \emph{Ann. Math. Stat.}, \bold{25}:631--650.
-
-Eddelbuettel, D. and Romain, F. 2011 Rcpp: Seamless R and C++ integration. \emph{Journal of Statistical Software}, \bold{40}(8):1--18,. URL \url{http://www.jstatsoft.org/v40/i08/}.
-
-Eddelbuettel, D. 2013 \emph{Seamless R and C++ Integration with Rcpp}. New York: Springer. ISBN
-978-1-4614-6867-7.
-
-Eddelbuettel, D. and Sanderson, C. 2014 Rcpparmadillo: Accelerating R with high-performance C++
-linear algebra. \emph{Computational Statistics and Data Analysis}, \bold{71}:1054--1063. URL
-\url{http://dx.doi.org/10.1016/j.csda.2013.02.005}.
 
 Feagin, T. 2007 A tenth-order Runge-Kutta method with error estimate. \emph{In Proceedings of the IAENG
 Conf. on Scientifc Computing}.
@@ -65,8 +55,6 @@ Varughese, M.M. 2013 Parameter estimation for multivariate diffusion systems. \e
 Etienne A.D. Pienaar: \email{etiannead@gmail.com}
 }
 
-\note{
-}
 
 \section{Warning}{
 \bold{Warning [1]}:
@@ -109,11 +97,13 @@ See \code{\link{GQD.mcmc}} and \code{\link{GQD.mle}} for likelihood based infere
   if(require(rgl, quietly = TRUE))
   {
     open3d(windowRect=c(50,50,640+50,50+640),zoom=0.95)
-    persp3d(x=M$Xt,y=M$time,z=M$density,col=3,box=FALSE,xlab='State (X_t)',ylab='Time (t)',zlab='Density f(X_t|X_s)')
+    persp3d(x=M$Xt,y=M$time,z=M$density,col=3,box=FALSE,xlab='State (X_t)',
+            ylab='Time (t)',zlab='Density f(X_t|X_s)')
     play3d(spin3d(axis=c(0,0,1), rpm=3), duration=10)
   }else
   {
-    persp(x=M$Xt,y=M$time,z=M$density,col=3,xlab='State (X_t)',ylab='Time (t)',zlab='Density f(X_t|X_s)',border=NA,shade=0.5,theta=145)
+    persp(x=M$Xt,y=M$time,z=M$density,col=3,xlab='State (X_t)',ylab='Time (t)',
+          zlab='Density f(X_t|X_s)',border=NA,shade=0.5,theta=145)
   }
 
 #===============================================================================
@@ -134,19 +124,26 @@ See \code{\link{GQD.mcmc}} and \code{\link{GQD.mle}} for likelihood based infere
   increment  <-  1/50          
   
   # Generate the transitional density
-  M <- GQD.density(Xs=initial,Xt=states,s=0,t=Tmax,delt=increment,Dtype='Beta',Trunc=c(8,8))
+  M <- GQD.density(Xs=initial,Xt=states,s=0,t=Tmax,delt=increment,
+                   Dtype='Beta',Trunc=c(8,8))
   
   if(require(rgl, quietly = TRUE))
   { 
     open3d(windowRect=c(50,50,640+50,50+640),zoom=0.95)
-    persp3d(x=M$Xt,y=M$time,z=M$density,col='steelblue',box=FALSE,xlab='State (X_t)',ylab='Time (t)',zlab='Density f(X_t|X_s)')
+    persp3d(x=M$Xt,y=M$time,z=M$density,col='steelblue',box=FALSE,
+            xlab='State (X_t)',ylab='Time (t)',zlab='Density f(X_t|X_s)')
     play3d(spin3d(axis=c(0,0,1), rpm=3), duration=10)
   }else
   {
-    persp(x=M$Xt,y=M$time,z=M$density,col=3,xlab='State (X_t)',ylab='Time (t)',zlab='Density f(X_t|X_s)',border=NA,shade=0.5,theta=145)
+    persp(x=M$Xt,y=M$time,z=M$density,col=3,xlab='State (X_t)',ylab='Time (t)',
+          zlab='Density f(X_t|X_s)',border=NA,shade=0.5,theta=145)
   }
 #===============================================================================
+
 }
 
-\keyword{ transition density }
-\keyword{ cumulants }
+\keyword{Transition density }
+\keyword{Cumulants }
+\keyword{Moments }
+\keyword{Saddlepoint }
+\keyword{Pearson system }

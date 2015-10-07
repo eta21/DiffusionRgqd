@@ -1,6 +1,6 @@
-BiGQD.mcmc=function(X,time,mesh=10,theta,sds,updates,burns=min(round(updates/2),25000),exclude=NULL,plot.chain=TRUE,RK.order=4,rtf=runif(2),wrt=FALSE,Tag=NA,Dtype='Saddlepoint',recycle=FALSE,adapt=0)
+BiGQD.mcmc=function(X,time,mesh=10,theta,sds,updates,burns=min(round(updates/2),25000),RK.order=4,exclude=NULL,plot.chain=TRUE,Tag=NA,Dtype='Saddlepoint',recycle=FALSE,rtf=runif(2),wrt=FALSE)
 {
-
+    adapt=0
     check_for_model=function()
   {
     txt=''

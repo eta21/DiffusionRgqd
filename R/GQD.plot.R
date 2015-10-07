@@ -13,7 +13,7 @@
 
       tt = seq(burns,dim(x$par.matrix)[1],thin)
 
-      windows()
+      #windows()
       nper=length(theta)
       if(nper==1){par(mfrow=c(1,2));d1=1;d2=1;}
       if(nper==2){par(mfrow=c(2,2));d1=1;d2=2;}
@@ -77,7 +77,7 @@
 
    if(class(x)=='BiGQD.density')
    {
-     x11()
+     #x11()
      for(i in 1:dim(x$density)[3])
     {
       # Now illustrate the density:

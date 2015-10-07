@@ -7,7 +7,7 @@ Generate the Transition Density of a Bivariate Generalized Quadratic Diffusion M
 \code{BiGQD.density} generates approximate transitional densities for bivariate generalized quadratic diffusions (GQDs). Given a starting coordinate, (\code{Xs}, \code{Ys}), the approximation is evaluated over a lattice \code{Xt} x \code{Yt} for an equispaced discretization (intervals of width \code{delt}) of the transition time horizon [\code{s}, \code{t}] .  
 }
 \usage{
-BiGQD.density(Xs, Ys, Xt, Yt, s, t, delt, Dtype)
+BiGQD.density(Xs, Ys, Xt, Yt, s, t, delt=1/100, Dtype='Saddlepoint')
 }
 \arguments{
   \item{Xt}{x-Coordinates of the lattice at which to evaluate the transition density.}
@@ -57,8 +57,7 @@ Varughese, M.M. 2013 Parameter estimation for multivariate diffusion systems. \e
 Etienne A.D. Pienaar: \email{etiannead@gmail.com}
 }
 
-\note{
-}
+
 \section{Warning}{
 \bold{Warning [1]}:
 The system of ODEs that dictate the evolution of the cumulants do so approximately. Thus, although it is unlikely such cases will be encountered in inferential contexts, it is worth checking (by simulation) whether cumulants accurately replicate those of the target GQD. Furthermore, it may in some cases occur that the cumulants are indeed accurate whilst the density approximation fails. This can again be verified by simulation.  
@@ -73,6 +72,7 @@ See \code{\link{BiGQD.mcmc}} and \code{\link{BiGQD.mle}} for likelihood based in
 
 
 \examples{
+\dontrun{
 #===============================================================================
 # Generate the transition density of a stochastic perturbed Lotka-Volterra
 # preditor-prey model, with state-dependent volatility:
@@ -140,3 +140,10 @@ for(i in 1:1001)
 #===============================================================================
 }
 
+}
+
+\keyword{Transition density}
+\keyword{Bivariate Saddlepoint}
+\keyword{Bivariate Edgeworth}
+\keyword{Moments}
+\keyword{Cumulants}

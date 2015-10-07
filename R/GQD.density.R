@@ -1,6 +1,6 @@
-GQD.density<-function(Xs,Xt,s,t,delt=1/100,Dtype='Saddlepoint',Trunc=c(4,4),P=100,alpha=0,lower=0,upper=50,lookin=1)
+GQD.density<-function(Xs,Xt,s,t,delt=1/100,Dtype='Saddlepoint',Trunc=c(4,4),P=100,alpha=0,lower=0,upper=50)
 {
-  
+   lookin=1
      check_for_model=function()
   {
     txt=''

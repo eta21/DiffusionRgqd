@@ -35,14 +35,14 @@ Updates available on GitHub at \url{https://github.com/eta21}. Visit \url{http:/
 \author{
 Etienne A.D. Pienaar: \email{etiannead@gmail.com}
 }
-\note{
-}
+
 
 \seealso{
   \code{\link{GQD.mle}}
 }
 
 \examples{
+\dontrun{
 #===============================================================================
 # Simulate a time inhomogeneous diffusion.
 #-------------------------------------------------------------------------------
@@ -50,7 +50,7 @@ Etienne A.D. Pienaar: \email{etiannead@gmail.com}
   data(SDEsim1)
   attach(SDEsim1)
   par(mfrow=c(1,1))
-  expr1=expression(dX[t]==2*(5+3*sin(pi*(t-0.5))-X[t])*dt+0.5*sqrt(X[t]))
+  expr1=expression(dX[t]==2*X[t]*(5+3*sin(0.5*pi*t)-X[t])*dt+0.5*X[t]dW[t])
   plot(Xt~time,type='l',col='blue',xlab='Time (t)',ylab=expression(X[t]),main=expr1)
 
  #------------------------------------------------------------------------------
@@ -58,35 +58,35 @@ Etienne A.D. Pienaar: \email{etiannead@gmail.com}
  #------------------------------------------------------------------------------
 
   GQD.remove()
-  G0 <- function(t){theta[1]+theta[2]*sin(2*pi*(t-theta[3]))}
-  G1 <- function(t){-theta[4]}
-  Q0 <- function(t){theta[5]*theta[5]}
+  G0 <- function(t){theta[1]*(theta[2]+theta[3]*sin(0.25*pi*t))}
+  G1 <- function(t){-theta[1]}
+  Q0 <- function(t){theta[4]*theta[4]}
 
-  theta.start  <- c(10,1,5,0.2,1)                 # Starting values for the chain
+  theta.start  <- c(1,1,1,1)                      # Starting values for the chain
   mesh.points  <- 10                              # Number of mesh points
-  
+
   m1 <- GQD.mle(Xt,time,mesh=mesh.points,theta=theta.start)
 
   GQD.remove()
-  G0 <- function(t){theta[1]+theta[2]*sin(pi*(t-theta[3]))}
-  G1 <- function(t){-theta[4]}
-  Q1 <- function(t){theta[5]*theta[5]}
 
-  theta.start  <- c(10,1,5,0.2,1)                 # Starting values for the chain
+  G1 <- function(t){theta[1]*(theta[2]+theta[3]*sin(0.25*pi*t))}
+  G2 <- function(t){-theta[1]}
+  Q2 <- function(t){theta[4]*theta[4]}
+
+  theta.start  <- c(1,1,1,1)                      # Starting values for the chain
   mesh.points  <- 10                              # Number of mesh points
 
   m2 <- GQD.mle(Xt,time,mesh=mesh.points,theta=theta.start)
 
-  m1$opt$par
-  m1$opt$convergence
-  m2$opt$par
-  m2$opt$convergence
+  # Check estimates:
+  GQD.estimates(m1)
+  GQD.estimates(m2)
 
-
+  # Compare models:
   GQD.aic(list(m1,m2))
 
 #===============================================================================
-
 }
-\keyword{ kwd1 }
-\keyword{ kwd2 }
+}
+\keyword{Akaike information criterion (AIC)}
+\keyword{Bayesian information criterion (BIC)}

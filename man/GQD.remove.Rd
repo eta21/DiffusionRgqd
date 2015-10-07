@@ -1,6 +1,6 @@
 \name{GQD.remove}
 \alias{GQD.remove}
-%- Also NEED an '\alias' for EACH other topic documented here.
+
 \title{
 Remove the Coefficients of a GQD Model.
 }
@@ -9,7 +9,7 @@ Remove the Coefficients of a GQD Model.
 \usage{
 GQD.remove()
 }
-%- maybe also 'usage' for other objects documented here.
+
 \details{
 \code{GQD.remove} clears the workspace of functions with names that match the coefficients of the 1D GQD. This may be used when more than one model is specified  in a given session.
 }
@@ -31,7 +31,6 @@ Etienne A.D. Pienaar: \email{etiennead@gmail.com}
 \seealso{
 \code{\link{GQD.density}} and \code{\link{BiGQD.density}}.
 }
+\keyword{Remove models}
 
-\examples{
-}
 

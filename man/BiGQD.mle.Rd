@@ -8,8 +8,8 @@ Calculate Maximum Likelihood Estimates for a 2D GQD Model.
 \code{BiGQD.mle()} uses parametrised coefficients (provided by the user as R-functions) to construct a C++ program in real time that allows the user to perform maximum likelihood inference on the resulting diffusion model. The user may specify any model within the GQD framework by defining parametrised functions giving the form of the coefficients of the model. See the package manual for a description of the process.
 }
 \usage{
-BiGQD.mle(X, time, mesh = 10, theta, control = NULL, method = "Nelder-Mead", max.iter = 2000, 
-          exclude = NULL, RK.order = 4, Tag = NA, Dtype ="Saddlepoint")
+BiGQD.mle(X, time, mesh=10, theta, control=NULL, method='Nelder-Mead', RK.order=4,
+          exclude=NULL, Tag=NA, Dtype='Saddlepoint', rtf= runif(2,-1,1), wrt=FALSE)
 }
 
 \arguments{
@@ -21,16 +21,17 @@ BiGQD.mle(X, time, mesh = 10, theta, control = NULL, method = "Nelder-Mead", max
 }
   \item{theta}{The parameter vector starting values.
 }
-  \item{max.iter}{The maximum number of iterations of the optimizer. 
-}
+  \item{control}{ List of control variables to be used by \code{\link{optim}}.}
+  \item{method}{ Method to be used by \code{\link{optim}}.}
+  
 \item{exclude}{ Vector indicating which transitions to exclude from the analysis. Default = \code{NULL}.}
 \item{RK.order}{The order of the Runge-Kutta solver used to approximate the trajectories of cumulants. Must be 4 (default) or 10.}
 \item{Tag}{\code{Tag} can be used to name (tag) an MCMC run e.g. \code{Tag='Run_1'}}
 \item{Dtype}{The density approximant to use. Valid types are \code{"Saddlepoint"} (default), \code{"Edgeworth"} or \code{"Normal"}.}
+\item{rtf}{Starting vector for internal use.}
+\item{wrt}{If \code{TRUE} a .cpp file will be written to the current directory. For bug report diagnostics.}
 }
-\details{
 
-}
 \value{
   \item{opt }{The output from optim. }
 
@@ -40,7 +41,7 @@ BiGQD.mle(X, time, mesh = 10, theta, control = NULL, method = "Nelder-Mead", max
   \item{model.info$p}{The dimension of \code{theta}.}
 }
 \references{
-Visit \url{https://sites.google.com/site/diffusionronline/} for more details on the DiffusionRgqd package.
+Updates available on GitHub at \url{https://github.com/eta21}. Visit \url{http://etiennead.wix.com/diffusionr} for more details on the DiffusionRgqd package.
 
 Daniels, H.E. 1954 Saddlepoint approximations in statistics. \emph{Ann. Math. Stat.}, \bold{25}:631--650.
 
@@ -96,61 +97,78 @@ Here sqrt(t)*cos(3*pi*t) constitutes the product of two terms that cannot be wri
 }
 
 \examples{
+\dontrun{
 #===============================================================================
-# Simulate a time inhomogeneous diffusion.
+# This example simulates a bivariate time homogeneous diffusion and shows how
+# to conduct inference using BiGQD.mle(). We fit two competing models and then
+# use the output to select a winner.
 #-------------------------------------------------------------------------------
- 
- rm(list=ls(all=TRUE))
 
-  Bisim3=function()
-  {
-     delt=1/1000
-     sdelt=sqrt(delt)
-     tt=seq(0,50,delt)
-     N=length(tt)
-     X1=rep(5,N)
-     X2=rep(5,N)
-     d=0
-     for(i in 2:N)
-     {
-       X1[i]=X1[i-1]+1.5*(5+2*sin(2*pi*d)-X1[i-1])*delt+0.7*sqrt(X1[i-1])*rnorm(1,sd=sdelt)
-       X2[i]=X2[i-1]+1.5*(5-X2[i-1])*delt+1*sqrt(X2[i-1])*rnorm(1,sd=sdelt)
-       d=d+delt
-     }
-     sttt= seq(1,N,by=100)
-     return(list(X=rbind(X1[sttt],X2[sttt]),tt=tt[sttt]))
-  }
-  x=Bisim3()
-
-  plot(x$X[1,]~x$tt,type='l',col='blue',ylim=c(0,10))#range(x$X))
-  lines(x$X[2,]~x$tt,col='green')
-
-
-  X=t(x$X)
-  time=x$tt
-
+  data(SDEsim2)
+  data(SDEsim2)
+  attach(SDEsim2)
+  # Have a look at the time series:
+  plot(Xt~time,type='l',col='blue',ylim=c(2,10),main='Simulated Data',xlab='Time (t)',ylab='State',
+       axes=FALSE)
+  lines(Yt~time,col='red')
+  expr1=expression(dX[t]==2(Y[t]-X[t])*dt+0.3*sqrt(X[t]*Y[t])*dW[t])
+  expr2=expression(dX[t]==(5-Y[t])*dt+0.5*sqrt(Y[t])*dB[t])
+  text(50,9,expr1)
+  text(50,8.5,expr2)
+  axis(1,seq(0,100,5))
+  axis(1,seq(0,100,5/10),tcl=-0.2,labels=NA)
+  axis(2,seq(0,20,2))
+  axis(2,seq(0,20,2/10),tcl=-0.2,labels=NA)
 
  #------------------------------------------------------------------------------
  # Define the coefficients of a proposed model
  #------------------------------------------------------------------------------
+  GQD.remove()
+  a00 <- function(t){theta[1]*theta[2]}
+  a10 <- function(t){-theta[1]}
+  c00 <- function(t){theta[3]*theta[3]}
 
+  b00 <- function(t){theta[4]}
+  b01 <- function(t){-theta[5]}
+  f00 <- function(t){theta[6]*theta[6]}
 
-  a00=function(t){theta[1]+theta[2]*sin(2*pi*t)}
-  a10=function(t){-theta[3]}
-  c10=function(t){theta[4]*theta[4]}
+  theta.start <- c(3,3,3,3,3,3)
+  X           <- cbind(Xt,Yt)
 
-  b00=function(t){theta[5]}
-  b01=function(t){-theta[6]}
-  f01=function(t){theta[7]*theta[7]}
- 
+  # Calculate MLEs
+  m1=BiGQD.mle(X,time,10,theta.start)
+
  #------------------------------------------------------------------------------
- # Calculate MLEs
+ # Remove old coefficients and define the coefficients of a new model
  #------------------------------------------------------------------------------
+  GQD.remove()
+  a10 <- function(t){-theta[1]}
+  a01 <- function(t){theta[1]*theta[2]}
+  c11 <- function(t){theta[3]*theta[3]}
 
-  m1=BiGQD.mle(X,time,mesh=20,theta =c(3,2,1,3,3,10,3),max.iter=3000)
+  b00 <- function(t){theta[4]*theta[5]}
+  b01 <- function(t){-theta[4]}
+  f01 <- function(t){theta[6]*theta[6]}
 
+  theta.start <- c(3,3,3,3,3,3)
+
+  # Calculate MLEs
+  m2=BiGQD.mle(X,time,10,theta.start)
+
+ # Compare estimates:
   GQD.estimates(m1)
+  GQD.estimates(m2)
+
+ #------------------------------------------------------------------------------
+ # Compare the two models
+ #------------------------------------------------------------------------------
+
+  GQD.aic(list(m1,m2))
+
+
 #===============================================================================
-
 }
-
+}
+\keyword{Syntax}
+\keyword{C++}
+\keyword{Maximum likelihood}

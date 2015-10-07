@@ -1,6 +1,6 @@
  #rm(list=ls(all=TRUE))
 
-BiGQD.mle=function(X,time,mesh=10,theta,control=NULL,method='Nelder-Mead',max.iter=2000,exclude=NULL,RK.order=4,wrt=FALSE,Tag=NA,Dtype='Saddlepoint',rtf= runif(2,-1,1))
+BiGQD.mle=function(X,time,mesh=10,theta,control=NULL,method='Nelder-Mead',RK.order=4,exclude=NULL,Tag=NA,Dtype='Saddlepoint',rtf= runif(2,-1,1),wrt=FALSE)
 {
    check_for_model=function()
   {

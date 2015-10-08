@@ -1545,7 +1545,7 @@ if(Dindex!=1)
           retries=retries+1
           retry.indexes[retries] = i
           max.retries=max.retries+1
-          alarm()
+          #alarm()
           while(is.na(rat)&&(retry.count<=10))
           {
             theta = theta.temp

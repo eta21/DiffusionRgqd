@@ -2,6 +2,7 @@
 
 BiGQD.mle=function(X,time,mesh=10,theta,control=NULL,method='Nelder-Mead',RK.order=4,exclude=NULL,Tag=NA,Dtype='Saddlepoint',rtf= runif(2,-1,1),wrt=FALSE)
 {
+  rtf=0*rtf+1
   solver   =function(Xs, Xt, theta, N , delt , N2, tt  , P , alpha, lower , upper, tro  ){}
   rm(list =c('solver')) 
   check_for_model=function()
@@ -865,7 +866,7 @@ vec br(N2);
 vec anew(N2);
 vec bnew(N2);
 int ind=0;
-while((max(abser)>0.001)&&(ind<2500))
+while((max(abser)>0.001)&&(ind<5000))
 {
 gg=x0.col(0)+x0.col(1)%a+(1.0/2.0)*x0.col(2)%a%a+(1.0/6.0)*x0.col(3)%a%a%a +x0.col(8)%b +(1.0/2.0)*x0.col(9)%b%b+x0.col(10)%a%b+(1.0/6.0)*b%b%b%x0.col(12)+(1.0/2.0)*a%a%b%x0.col(13)+(1.0/2.0)*a%b%b%x0.col(11)-Xt;
 hh=x0.col(4)+x0.col(5)%b+(1.0/2.0)*x0.col(6)%b%b+(1.0/6.0)*x0.col(7)%b%b%b +x0.col(8)%a +x0.col(9)%a%b+(1.0/2.0)*x0.col(10)%a%a+(1.0/2.0)*a%b%b%x0.col(12)+(1.0/6.0)*a%a%a%x0.col(13)+(1.0/2.0)*a%a%b%x0.col(11)-Yt;

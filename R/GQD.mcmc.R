@@ -1,3 +1,4 @@
+globalVariables('priors')
 GQD.mcmc <-
 function(X,time,mesh=10,theta,sds,updates,burns=min(round(updates/2),25000),Dtype='Saddle',Trunc=c(4,4),RK.order=4,P=200,alpha=0,lower=min(na.omit(X))/2,upper=max(na.omit(X))*2,exclude=NULL,plot.chain=TRUE,Tag=NA,wrt=FALSE)
 {

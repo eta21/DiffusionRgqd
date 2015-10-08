@@ -9,11 +9,11 @@ BugReports: https://github.com/eta21/DiffusionRgqd/issues
 MailingList: Please send questions and comments to etiennead@gmail.com.
 Depends: R (>= 3.2.1)
 Imports: 
-    RcppArmadillo, 
     Rcpp,
+    RcppArmadillo,
     rgl
 Suggests:
     plot3D,
     coda,
     fptdApprox
-License:  GPL (>= 3)
+License:  GPL-3

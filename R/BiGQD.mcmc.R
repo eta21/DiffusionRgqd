@@ -1,6 +1,8 @@
 BiGQD.mcmc=function(X,time,mesh=10,theta,sds,updates,burns=min(round(updates/2),25000),RK.order=4,exclude=NULL,plot.chain=TRUE,Tag=NA,Dtype='Saddlepoint',recycle=FALSE,rtf=runif(2),wrt=FALSE)
 {
-    adapt=0
+  solver   =function(Xs, Xt, theta, N , delt , N2, tt  , P , alpha, lower , upper, tro  ){}
+  rm(list =c('solver'))  
+  adapt=0
     check_for_model=function()
   {
     txt=''

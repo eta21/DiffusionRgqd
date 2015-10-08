@@ -2,7 +2,9 @@
 
 BiGQD.mle=function(X,time,mesh=10,theta,control=NULL,method='Nelder-Mead',RK.order=4,exclude=NULL,Tag=NA,Dtype='Saddlepoint',rtf= runif(2,-1,1),wrt=FALSE)
 {
-   check_for_model=function()
+  solver   =function(Xs, Xt, theta, N , delt , N2, tt  , P , alpha, lower , upper, tro  ){}
+  rm(list =c('solver')) 
+  check_for_model=function()
   {
     txt=''
     namess=c('a00','a10','a20','a01','a02','a11',

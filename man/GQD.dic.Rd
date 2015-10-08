@@ -79,8 +79,7 @@ Etienne A.D. Pienaar: \email{etiannead@gmail.com}
   m1 <- GQD.mcmc(Xt,time,mesh=mesh.points,theta=theta.start,sds=proposal.sds,
                  updates=updates)
 
-  m=mcmc(m1$par.matrix)
-  round(summary(window(m,2500,5000,100))[[1]][,2],2)
+ 
  #------------------------------------------------------------------------------
  # Define coefficients of model 2
  #------------------------------------------------------------------------------

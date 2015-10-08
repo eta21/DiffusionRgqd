@@ -7,12 +7,12 @@ Simulated Stochastic Lotka-Volterra Eqns
 \description{
 The dataset contains discretely sampled observations for a simulated stochastic differential equation (SDE) with dynamics:
 \if{html}{
-{\deqn{dX_t = (X_t-0.4X_tY_t)dt+sqrt(0.05X_t)dW_t}} 
-{\deqn{dY_t = (-Y_t+0.4X_tY_t-0.2Y_t^2)dt+sqrt(0.1X_t)dB_t}} 
+{\deqn{dX_t = (1.5X_t-0.4X_tY_t)dt+sqrt(0.05X_t)dW_t}} 
+{\deqn{dY_t = (-1.5Y_t+0.4X_tY_t-0.2Y_t^2)dt+sqrt(0.1X_t)dB_t}} 
 }
 \if{latex}{
-{\deqn{dX_t = (X_t-0.4X_tY_t)dt+\sqrt{0.05X_t}dW_t}} 
-{\deqn{dY_t = (-Y_t+0.4X_tY_t-0.2Y_t^2)dt+\sqrt{0.1X_t}dB_t}}
+{\deqn{dX_t = (1.5X_t-0.4X_tY_t)dt+\sqrt{0.05X_t}dW_t}} 
+{\deqn{dY_t = (-1.5Y_t+0.4X_tY_t-0.2Y_t^2)dt+\sqrt{0.1X_t}dB_t}}
 }
 where \code{dW_t} and \code{dB_t} are standard Brownian motions, \code{t} is time and \code{X_0 = 5}, \code{Y_0 = 5}.
 }

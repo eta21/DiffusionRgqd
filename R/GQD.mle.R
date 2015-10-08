@@ -1,6 +1,8 @@
 GQD.mle <-function(X,time,mesh=10,theta,control=NULL,method='Nelder-Mead',Dtype='Saddle',Trunc=c(4,4),RK.order=4,P=200,alpha=0,lower=min(X)/2,upper=max(X)*2,exclude=NULL,Tag=NA,wrt=FALSE)
 {
-    theta = theta+runif(length(theta),0.01,0.02)*sign(theta)
+  solver   =function(Xs, Xt, theta, N , delt , N2, tt  , P , alpha, lower , upper, tro  ){}
+  rm(list =c('solver'))  
+  theta = theta+runif(length(theta),0.01,0.02)*sign(theta)
      check_for_model=function()
   {
     txt=''

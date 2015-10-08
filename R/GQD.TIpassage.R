@@ -1,6 +1,11 @@
 GQD.TIpassage=
   function(Xs,B,s,t,delt,theta=c(0),IEQ.type='Buonocore',wrt=FALSE)
   {
+    fpt      =function(res,res2,N,delt){}
+    ieq      =function(res1,res2,N,delt){}
+    solver   =function(Xs, Xt, theta, N , delt , N2, tt  , P , alpha, lower , upper, tro  ){}
+    rm(list =c('fpt','ieq','solver'))
+    
     Tmax=t
     # Warning Module
     if(delt>=0.1){warning("Large delt may result in poor approximations.");}

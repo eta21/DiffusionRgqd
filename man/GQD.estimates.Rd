@@ -61,7 +61,7 @@ G2 <- function(t){-theta[1]}
 Q2 <- function(t){theta[4]*theta[4]}
 
 theta.start  <- c(1,1,1,1)                    # Starting values for the chain
-proposal.sds <- c(0.1,0.3,0.2,0.1)*1/2        # Std devs for proposal distributions
+proposal.sds <- c(0.4,0.3,0.2,0.1)*1/2        # Std devs for proposal distributions
 mesh.points  <- 10                            # Number of mesh points
 updates      <- 50000                         # Perform 50000 updates
 

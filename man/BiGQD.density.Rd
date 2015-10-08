@@ -76,31 +76,32 @@ See \code{\link{BiGQD.mcmc}} and \code{\link{BiGQD.mle}} for likelihood based in
 #===============================================================================
 # Generate the transition density of a stochastic perturbed Lotka-Volterra
 # preditor-prey model, with state-dependent volatility:
-# dX = (X-0.4*X*Y)dt          +sqrt(0.05*X)dWt
-# dY = (-Y+0.4*X*Y-0.2*Y^2)dt +sqrt(0.10*Y)dBt
+# dX = (1.5X-0.4*X*Y)dt          +sqrt(0.05*X)dWt
+# dY = (-1.5Y+0.4*X*Y-0.2*Y^2)dt +sqrt(0.10*Y)dBt
 #-------------------------------------------------------------------------------
 
 # Remove any existing coefficients
 GQD.remove()
 
 # Define the X dimesnion coefficients
-a10 = function(t){1}
+a10 = function(t){1.5}
 a11 = function(t){-0.4}
 c10 = function(t){0.05}
 
 # Define the Y dimension coefficients
-b01 = function(t){-1}
+b01 = function(t){-1.5}
 b11 = function(t){0.4}
 b02 = function(t){-0.2}
 f01 = function(t){0.1}
 
 # Approximate the transition density
-res = BiGQD.density(5,5,seq(1,7,length=30),seq(0,6,length=30),0,10,1/100)
+res = BiGQD.density(5,5,seq(3,8,length=25),seq(2,6,length=25),0,10,1/100)
+
 
 #------------------------------------------------------------------------------
 # Visuallize the density
 #------------------------------------------------------------------------------
-x11()
+
 par(ask=FALSE)
 # Load simulated trajectory of the joint expectation:
 data(SDEsim3)

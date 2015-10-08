@@ -368,7 +368,7 @@ BiGQD.density=function(Xs,Ys,Xt,Yt,s,t,delt=1/100,Dtype='Saddlepoint')
       k13=x[13]
       k31=x[14]
       tme=proc.time()
-      ffab=function(xm1,xm2,a=rep(5,nnn*nnn),b=rep(2,nnn*nnn))
+      ffab=function(xm1,xm2,a=rep(0,nnn*nnn),b=rep(0,nnn*nnn))
       {
         XMAT1=xm1
         XMAT2=xm2
@@ -376,7 +376,7 @@ BiGQD.density=function(Xs,Ys,Xt,Yt,s,t,delt=1/100,Dtype='Saddlepoint')
         
         k=0
         abser=rep(0.1,nnn*nnn)
-        while((k<5000)&(sum(abser>0.001)>0))
+        while((k<5000)&(sum(abser>0.005)>0))
         {
           # K= k10*a+k01*b+1/2*k20*a^2+1/2*k02*b^2+1/6*k30*a^3+1/6*k03*b^3+1/24*k40*a^4+1/24*k04*b^4+k11*a*b+1/2*k12*a*b^2+1/2*k21*a^2*b+1/6*a*b^3*k13+1/6*a^3*b*k31+1/4*a^2*b^2*k22
           gg=k10+k20*a+1/2*k30*a^2+1/6*k40*a^3 +k11*b +1/2*k12*b^2+k21*a*b+1/6*b^3*k13+1/2*a^2*b*k31+1/2*a*b^2*k22-XMAT1
@@ -412,13 +412,13 @@ BiGQD.density=function(Xs,Ys,Xt,Yt,s,t,delt=1/100,Dtype='Saddlepoint')
         hh1=k11 +k12*b+k21*a+1/2*b^2*k13+1/2*a^2*k31+a*b*k22
         hh2=k02+k03*b+1/2*k04*b^2 +k12*a+a*b*k13+1/2*a^2*k22
         DK2=gg1*hh2-gg2*hh1
-        return(exp(K-a*xmat1-b*xmat2)/(2*pi)/sqrt(DK2))
+        return(exp(K-a*xmat1-b*xmat2)/(2*pi)/sqrt(abs(DK2)))
       }
       
       
       cc=ffab(X1,X2,a,b)
-      a=cc[[1]]
-      b=cc[[2]]
+      a=cc[[1]]*0
+      b=cc[[2]]*0
       nr.updates[lll-1]=cc$k
       DDD[,,lll]=t(matrix(fff(cc$a,cc$b,X1,X2),nnn,nnn,byrow=T))
       tme=proc.time()-tme
@@ -508,7 +508,7 @@ BiGQD.density=function(Xs,Ys,Xt,Yt,s,t,delt=1/100,Dtype='Saddlepoint')
   {
     p=1/3*(3*(MM[4,]/6)*MM[2,] - ((MM[3,]/2)^2))/((MM[4,]/6)^2)
     q=1/27*(27*((MM[4,]/6)^2)*(MM[1,]-Xt[i]) - 9*(MM[4,]/6)*(MM[3,]/2)*MM[2,] + 2*((MM[3,]/2)^3))/((MM[4,]/6)^3)
-    chk=(q^2)/4 + (p^3)/27
+    chk=abs((q^2)/4 + (p^3)/27)
     th=-(MM[3,]/2)/(3*(MM[4,]/6))+(-q/2+sqrt(chk))^(1/3)-(q/2+sqrt(chk))^(1/3)
     
     K=MM[1,]*th+(MM[2,]*th^2)/2+(MM[3,]*th^3)/6 +(MM[4,]*th^4)/24
@@ -516,14 +516,14 @@ BiGQD.density=function(Xs,Ys,Xt,Yt,s,t,delt=1/100,Dtype='Saddlepoint')
     K2=MM[2,]+(MM[3,]*th)+(MM[4,]*th^2)/2
     K3=MM[3,]+(MM[4,]*th)
     K4=MM[4,]
-    DD1[i,]=1/sqrt(2*pi*(K2))*exp(K-th*K1)
+    DD1[i,]=1/sqrt(2*pi*abs(K2))*exp(K-th*K1)
   }
   DD2=matrix(0,nnn,dim(MM)[2])
   for(i in 1:length(Yt))
   {
     p=1/3*(3*(MM[8,]/6)*MM[6,] - ((MM[7,]/2)^2))/((MM[8,]/6)^2)
     q=1/27*(27*((MM[8,]/6)^2)*(MM[5,]-Yt[i]) - 9*(MM[8,]/6)*(MM[7,]/2)*MM[6,] + 2*((MM[7,]/2)^3))/((MM[8,]/6)^3)
-    chk=(q^2)/4 + (p^3)/27
+    chk=abs((q^2)/4 + (p^3)/27)
     th=-(MM[7,]/2)/(3*(MM[8,]/6))+(-q/2+sqrt(chk))^(1/3)-(q/2+sqrt(chk))^(1/3)
     
     K=MM[5,]*th+(MM[6,]*th^2)/2+(MM[7,]*th^3)/6 +(MM[8,]*th^4)/24
@@ -531,7 +531,7 @@ BiGQD.density=function(Xs,Ys,Xt,Yt,s,t,delt=1/100,Dtype='Saddlepoint')
     K2=MM[6,]+(MM[7,]*th)+(MM[8,]*th^2)/2
     K3=MM[7,]+(MM[8,]*th)
     K4=MM[8,]
-    DD2[i,]=1/sqrt(2*pi*(K2))*exp(K-th*K1)
+    DD2[i,]=1/sqrt(2*pi*abs(K2))*exp(K-th*K1)
   }
   
   

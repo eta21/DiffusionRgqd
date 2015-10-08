@@ -121,11 +121,11 @@ Here sqrt(t)*cos(3*pi*t) constitutes the product of two terms that cannot be wri
 # This example simulates a time inhomogeneous diffusion and shows how to conduct
 # inference using GQD.mcmc
 #-------------------------------------------------------------------------------
-library(DiffusionRgqd)
-data(SDEsim1)
-par(mfrow=c(1,1))
-x <- SDEsim1
-plot(x$Xt~x$time,type='l',col='blue')
+ data(SDEsim1)
+ attach(SDEsim1)
+ par(mfrow=c(1,1))
+ expr1=expression(dX[t]==2*X[t]*(5+3*sin(0.5*pi*t)-X[t])*dt+0.5*X[t]*dW[t])
+ plot(Xt~time,type='l',col='blue',xlab='Time (t)',ylab=expression(X[t]),main=expr1)
 #------------------------------------------------------------------------------
 # Define parameterized coefficients of the process, and set up starting
 # parameters.
@@ -145,7 +145,7 @@ G2 <- function(t){-theta[1]}
 Q2 <- function(t){theta[4]*theta[4]}
 
 theta.start  <- c(1,1,1,1)                    # Starting values for the chain
-proposal.sds <- c(0.1,0.3,0.2,0.1)*1/2        # Std devs for proposal distributions
+proposal.sds <- c(0.4,0.3,0.2,0.1)*1/2        # Std devs for proposal distributions
 mesh.points  <- 10                            # Number of mesh points
 updates      <- 50000                         # Perform 50000 updates
 
@@ -153,7 +153,7 @@ updates      <- 50000                         # Perform 50000 updates
 # Run the MCMC procedure for the model defined above
 #------------------------------------------------------------------------------
 
-m1 <- GQD.mcmc(x$Xt,x$time,mesh=mesh.points,theta=theta.start,sds=proposal.sds,
+m1 <- GQD.mcmc(Xt,time,mesh=mesh.points,theta=theta.start,sds=proposal.sds,
                updates=updates,RK.order=4,wrt=T)
 
 # Calculate estimates:

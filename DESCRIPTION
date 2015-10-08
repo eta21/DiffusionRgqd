@@ -2,7 +2,7 @@ Package: DiffusionRgqd
 Version: 0.1.0
 Title: Inference and Analysis for Generalized Quadratic Diffusions
 Description: Tools for performing inference and analysis on a class of quadratic diffusion processes for both scalar and bivariate diffusion systems. For scalar diffusions, a module is provided for solving first passage time problems for both time-homogeneous and time-inhomogeneous GQDs.
-Authors@R:c( person("Etienne A.D.", "Pienaar", email = "etiennead@gmail.com",role = c("aut", "cre")),
+Authors@R:c(person("Etienne A.D.", "Pienaar", email = "etiennead@gmail.com",role = c("aut", "cre")),
              person("Melvin M.", "Varughese", email = "melvin.varughese@uct.ac.za",role = c("ctb")))
 URL: https://github.com/eta21
 BugReports: https://github.com/eta21/DiffusionRgqd/issues

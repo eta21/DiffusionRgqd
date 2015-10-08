@@ -1,5 +1,5 @@
 ## Test environments
-* Local Windows 7 install, R 3.1.2
+* Local Windows 7 install, R 3.2.1
 * win-builder (devel and release)
 
 ## R CMD check results
@@ -9,8 +9,9 @@
 
 ## Resubmission
 This is a resubmission. In this version I have:
+
 * Corrected DISCRIPTION file errors as pointed out by CRAN staff.
 * Corrected version number in DESCRIPTION file.
 * Updated NAMESPACE file.
-* Used \donttest{} for examples in excess of 5 secs runtime.
+* Used \donttest{} for examples in excess of 5 secs runtime. Ran with  --run-donttest produced no additional ERRORs, WARNINGs or NOTEs.
 

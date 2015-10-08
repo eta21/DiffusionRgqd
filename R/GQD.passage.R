@@ -1,6 +1,11 @@
 GQD.passage<-function(Xs,B,theta,t,delt)
 {
- 
+  #utils::globalVariables(c('fpt','ieq','solverFPT'),'DiffusionRgqd')
+  fpt      =function(res,res2,N,delt){}
+  ieq      =function(res1,res2,N,delt){}
+  solverFPT=function(Xs,Bt,theta,N,delt,tt){}
+  rm(list =c('fpt','ieq','solverFPT'))
+  #solverFPT=function(Xs,Bt,theta,N,delt,tt){}
   #library(Rcpp)
   #library(RcppArmadillo)
   txt1=

@@ -1,7 +1,0 @@
----
-output: html_document
----
-# DiffusionRgqd
-## Inference and Analysis for Generalized Quadratic Diffusions
-
-__DiffusionRgqd__ is collection of tools for performing inference and analysis on scalar and bivariate time-inhomogeneous diffusion processes with quadratic drift and diffusion terms in R. The package focuses on likelihood based inference and model selection for discretely observed diffusion processes and analysis based on quantities such as the transitional density and first passage time densities for scalar diffusion processes.

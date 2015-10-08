@@ -280,6 +280,7 @@ BiGQD.mcmc=function(X,time,mesh=10,theta,sds,updates,burns=min(round(updates/2),
        pp=function(theta){}
        body(pp)=parse(text =body(priors)[2])
        prior.list=paste0('d(theta)',':',paste0(body(priors)[2]))
+       print(body(pp))
        if(length(priors(theta))!=1){stop(" ==============================================================================
    Incorrect input: Prior distribution must return a single value only!
    ==============================================================================");}

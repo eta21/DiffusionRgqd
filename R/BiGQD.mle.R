@@ -269,24 +269,7 @@ BiGQD.mle=function(X,time,mesh=10,theta,control=NULL,method='Nelder-Mead',RK.ord
     {
        if(sum(round(diff(T.seq)[-excl]-c(diff(T.seq)[-excl])[1],10)==0)!=length(T.seq)-1-length(excl)){homo.res=F}
     }
-   #==============================================================================
-   #                           Prior distribution Module
-   #==============================================================================
-    if(sum(objects(pos=1)=='priors')==1)
-    {
-       pp=function(theta){}
-       body(pp)=parse(text =body(priors)[2])
-       prior.list=paste0('d(theta)',':',paste0(body(priors)[2]))
-       if(length(priors(theta))!=1){stop(" ==============================================================================
-   Incorrect input: Prior distribution must return a single value only!
-   ==============================================================================");}
-    }
-    if(sum(objects(pos=1)=='priors')==0)
-    {
-      prior.list=paste0('d(theta)',':',' None.')
-      pp=function(theta){1}
-    }
-    if(length(pp(theta))!=1){stop("Prior density must return only a single value!")}
+
    #==============================================================================
    #                           Solution TYPE Module
    #==============================================================================

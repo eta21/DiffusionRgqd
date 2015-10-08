@@ -4,7 +4,15 @@
 
 ## R CMD check results
 * There were no ERRORs or WARNINGs.
-* There were no NOTEs.
+* There was one NOTE with four entries:
+
++ BiGQD.mcmc: no visible binding for global variable 'priors'
++ BiGQD.mcmc: no visible global function definition for 'priors'
++ GQD.mcmc: no visible binding for global variable 'priors'
++ GQD.mcmc: no visible global function definition for 'priors'
+
+This is a result of the package interface and is of no consequence to how the package operates. If the function 'priors' is not specified by the user then it is created by GQD.mcmc or BiGQD.mcmc as needed. 
+
 * PDF version of manual was OK.
 
 ## Resubmission

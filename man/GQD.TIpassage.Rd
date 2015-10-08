@@ -99,7 +99,7 @@ Here sqrt(t)*cos(3*pi*t) constitutes the product of two terms that cannot be wri
 }
 
 \examples{
-
+\donttest{
 #=========================================================================
 # Generate the first passage time density of a CIR process with time 
 # dependant drift to a fixed barrier.
@@ -184,6 +184,7 @@ lines(res3$density~res3$time,type='l',col=rainbow(10)[i],lwd=2)
 legend('topright',legend=th.seq,col=rainbow(10),lty='solid',cex=0.75,
 title=expression(theta[1]))
 #===============================================================================
+}
 }
 \keyword{Syntax}
 \keyword{C++}

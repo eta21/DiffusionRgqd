@@ -97,7 +97,7 @@ Here sqrt(t)*cos(3*pi*t) constitutes the product of two terms that cannot be wri
 }
 
 \examples{
-\dontrun{
+\donttest{
 #===============================================================================
 # This example simulates a bivariate time homogeneous diffusion and shows how
 # to conduct inference using BiGQD.mle(). We fit two competing models and then

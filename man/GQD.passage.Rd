@@ -75,7 +75,7 @@ Varughese, M.M. 2013 Parameter estimation for multivariate diffusion systems. \e
 }
 
 \examples{
-
+\donttest{
 #===============================================================================
 # Calculate the first passage time from state X_0 = 7 to X_T =10 for
 # various diffusions, with T the first passage time.
@@ -102,7 +102,7 @@ Varughese, M.M. 2013 Parameter estimation for multivariate diffusion systems. \e
   plot(res3$density~res3$time,type='l',main=expr3,xlab='Time (t)',ylab='density',col='blue')
   plot(res4$density~res4$time,type='l',main=expr4,xlab='Time (t)',ylab='density',col='blue')
 
-
+}
 }
 \keyword{Syntax}
 \keyword{C++}

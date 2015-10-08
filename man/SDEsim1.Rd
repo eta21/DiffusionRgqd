@@ -30,7 +30,10 @@ Updates available on GitHub at \url{https://github.com/eta21}. Visit \url{http:/
 }
 
 \examples{
-data(SDEsim1)
-plot(rev(SDEsim1),type='l',col='blue',main='SDEsim1')
+ data(SDEsim1)
+ attach(SDEsim1)
+ par(mfrow=c(1,1))
+ expr1=expression(dX[t]==2*X[t]*(5+3*sin(0.5*pi*t)-X[t])*dt+0.5*X[t]*dW[t])
+ plot(Xt~time,type='l',col='blue',xlab='Time (t)',ylab=expression(X[t]),main=expr1)
 }
 \keyword{datasets}

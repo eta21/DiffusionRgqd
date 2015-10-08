@@ -69,7 +69,7 @@ See \code{\link{GQD.mcmc}} and \code{\link{GQD.mle}} for likelihood based infere
 }
 
 \examples{
-
+\donttest{
 #===============================================================================
 # Generate the transition density of a CIR process with time dependant
 # drift and volatility.
@@ -139,7 +139,7 @@ See \code{\link{GQD.mcmc}} and \code{\link{GQD.mle}} for likelihood based infere
           zlab='Density f(X_t|X_s)',border=NA,shade=0.5,theta=145)
   }
 #===============================================================================
-
+}
 }
 
 \keyword{Transition density }

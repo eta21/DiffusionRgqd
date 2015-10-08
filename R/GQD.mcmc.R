@@ -1288,8 +1288,8 @@ if(Dindex!=1)
 
    txt.full=paste(fpart,'\n',dims[1],'\n',dims[2],ODEpart,Dpart)
    type.sol ="                 Gneralized Ornstein-Uhlenbeck "
-   library(Rcpp)
-   library(RcppArmadillo)
+   #library(Rcpp)
+   #library(RcppArmadillo)
    if(wrt){write(txt.full,file='GQD.mcmc.cpp')}
    stre="Compiling C++ code. Please wait."
    cat(stre, " \r")
@@ -1423,8 +1423,8 @@ if(Dindex!=1)
    }
    type.sol ="                 Generalized Quadratic Diffusion (GQD) "
 
-   library(Rcpp)
-   library(RcppArmadillo)
+   #library(Rcpp)
+   #library(RcppArmadillo)
    if(wrt){write(txt.full,file='GQD.mcmc.cpp')}
    
    stre="Compiling C++ code. Please wait."

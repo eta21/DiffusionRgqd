@@ -38,6 +38,7 @@ Updates available on GitHub at \url{https://github.com/eta21}. Visit \url{http:/
 \code{\link{GQD.mcmc}}, \code{\link{GQD.mle}}, \code{\link{GQD.density}}, \code{\link{BiGQD.density}} etc.  
 }
 \examples{
+  \donttest{
   # Remove any existing coefficients
   GQD.remove()         
   
@@ -58,6 +59,7 @@ Updates available on GitHub at \url{https://github.com/eta21}. Visit \url{http:/
   M <- GQD.density(Xs=initial,Xt=states,s=Tstart,t=Tmax,delt=increment)
   
   GQD.plot(M)
+  }
 }
 \keyword{Plot}
 

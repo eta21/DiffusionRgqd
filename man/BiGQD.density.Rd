@@ -72,7 +72,7 @@ See \code{\link{BiGQD.mcmc}} and \code{\link{BiGQD.mle}} for likelihood based in
 
 
 \examples{
-\dontrun{
+\donttest{
 #===============================================================================
 # Generate the transition density of a stochastic perturbed Lotka-Volterra
 # preditor-prey model, with state-dependent volatility:

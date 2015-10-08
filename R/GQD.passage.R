@@ -1,8 +1,8 @@
 GQD.passage<-function(Xs,B,theta,t,delt)
 {
  
-  library(Rcpp)
-  library(RcppArmadillo)
+  #library(Rcpp)
+  #library(RcppArmadillo)
   txt1=
     '
   

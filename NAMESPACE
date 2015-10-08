@@ -1,1 +1,11 @@
 exportPattern("^[[:alpha:]]+")
+importFrom("grDevices", "colorRampPalette", "rainbow")
+importFrom("graphics", "abline", "box", "filled.contour", "hist",
+             "lines", "par", "persp", "plot")
+importFrom("stats", "acf", "cor", "dnorm", "na.omit", "optim",
+             "quantile", "rnorm", "runif")
+importFrom("utils", "alarm", "flush.console", "setTxtProgressBar",
+             "txtProgressBar")
+importFrom("Rcpp", "sourceCpp")
+importFrom("RcppArmadillo", "armadillo_set_seed")
+importFrom("rgl", "persp3d","open3d","play3d","spin3d")

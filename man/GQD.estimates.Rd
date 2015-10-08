@@ -32,7 +32,7 @@ Etienne A.D. Pienaar: \email{etiannead@gmail.com}
 Updates available on GitHub at \url{https://github.com/eta21}. Visit \url{http://etiennead.wix.com/diffusionr} for more details on the DiffusionRgqd package.
 }
 \examples{
-\dontrun{
+\donttest{
 #===============================================================================
 # This example simulates a time inhomogeneous diffusion and shows how to conduct
 # inference using GQD.mcmc

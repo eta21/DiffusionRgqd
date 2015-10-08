@@ -116,7 +116,7 @@ Here sqrt(t)*cos(3*pi*t) constitutes the product of two terms that cannot be wri
 
 
 \examples{
-\dontrun{
+\donttest{
 #===============================================================================
 # This example simulates a time inhomogeneous diffusion and shows how to conduct
 # inference using GQD.mcmc

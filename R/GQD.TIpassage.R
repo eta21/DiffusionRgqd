@@ -488,17 +488,17 @@ GQD.TIpassage=
       type.sol ="                 Generalized Quadratic Diffusion (GQD) "#paste0("GENERALIZED LINEAR DIFFUSON",c('',": TIME INHOMOGNEOUS")[2-homo],c(')','+INDEPENDENT')[1+state1])
       
     }
-    library(Rcpp)
-    library(RcppArmadillo)
+    #library(Rcpp)
+    #library(RcppArmadillo)
 stre="Compiling C++ code. Please wait."
 cat(stre, " \r")
     sourceCpp(code=txt.full)
 cat('                                     ','\r')
-    N=(TT-T0)/delt
-    tt=seq(T0,TT-delt,delt)
+    N=(t-s)/delt
+    tt=seq(s,t-delt,delt)
     
     res=solver(rep(B,N),rep(B,N),c(0,theta),N,delt,N,tt)
-    res2=solver(rep(X0,1),rep(B,1),c(0,theta),N,delt,1,0)
+    res2=solver(rep(Xs,1),rep(B,1),c(0,theta),N,delt,1,0)
     y=fpt(res,res2,N,delt)
     #print('Done.')
     }
@@ -992,8 +992,8 @@ arma::vec ieq(arma::mat res1,arma::vec res2,int N,double delt)
      txt.full=paste(txt.full,text)}
      #write(txt.full,'result.cpp')
 
-     library(Rcpp)
-     library(RcppArmadillo)
+     #library(Rcpp)
+     #library(RcppArmadillo)
      if(wrt)
      {
        write(txt.full,'FPT_modelbuild.cpp') 

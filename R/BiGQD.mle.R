@@ -1177,8 +1177,8 @@ if(state4)
      type.sol ="                  GENERALIZED QUADRATIC DIFFUSON"
 }
 
-   library(Rcpp)
-   library(RcppArmadillo)
+   #library(Rcpp)
+   #library(RcppArmadillo)
    if(wrt)
    {
      write(txt.full,'BiGQD.mle.cpp')

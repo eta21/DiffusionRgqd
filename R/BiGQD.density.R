@@ -402,7 +402,7 @@ BiGQD.density=function(Xs,Ys,Xt,Yt,s,t,delt=1/100,Dtype='Saddlepoint')
         return(list(a=a,b=b,k=k))
       }
       
-      ff=function(a,b,xmat1,xmat2)
+      fff=function(a,b,xmat1,xmat2)
       {
         K= k10*a+k01*b+1/2*k20*a^2+1/2*k02*b^2+1/6*k30*a^3+1/6*k03*b^3+1/24*k40*a^4+1/24*k04*b^4+k11*a*b+1/2*k12*a*b^2+1/2*k21*a^2*b+1/6*a*b^3*k13+1/6*a^3*b*k31+1/4*a^2*b^2*k22
         gg=k10+k20*a+1/2*k30*a^2+1/6*k40*a^3 +k11*b +1/2*k12*b^2+k21*a*b+1/6*b^3*k13+1/2*a^2*b*k31+1/2*a*b^2*k22-xmat1
@@ -420,14 +420,14 @@ BiGQD.density=function(Xs,Ys,Xt,Yt,s,t,delt=1/100,Dtype='Saddlepoint')
       a=cc[[1]]
       b=cc[[2]]
       nr.updates[lll-1]=cc$k
-      DDD[,,lll]=t(matrix(ff(cc$a,cc$b,X1,X2),nnn,nnn,byrow=T))
+      DDD[,,lll]=t(matrix(fff(cc$a,cc$b,X1,X2),nnn,nnn,byrow=T))
       tme=proc.time()-tme
       #print(tme)
     }
   }
   if(Dtype=='Edgeworth')
   {
-    ff=function(xx,yy,m)
+    ffff=function(xx,yy,m)
     {
       X=rep(xx,length(yy))
       Y=rep(yy,each=length(xx))
@@ -496,7 +496,7 @@ BiGQD.density=function(Xs,Ys,Xt,Yt,s,t,delt=1/100,Dtype='Saddlepoint')
     DDD[1,1,1] = 1
     for(i in 2:dim(MM)[2])
     {
-      DDD[,,i]=ff(Xt,Yt,MM[,i])
+      DDD[,,i]=ffff(Xt,Yt,MM[,i])
       setTxtProgressBar(pb,i+N.mesh," "," ")
     }
     

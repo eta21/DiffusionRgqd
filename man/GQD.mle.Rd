@@ -102,7 +102,7 @@ Here sqrt(t)*cos(3*pi*t) constitutes the product of two terms that cannot be wri
 }
 
 \examples{
-\dontrun{
+\donttest{
 #===============================================================================
 # Simulate a time inhomogeneous diffusion.
 #-------------------------------------------------------------------------------
@@ -110,7 +110,7 @@ Here sqrt(t)*cos(3*pi*t) constitutes the product of two terms that cannot be wri
   data(SDEsim1)
   attach(SDEsim1)
   par(mfrow=c(1,1))
-  expr1=expression(dX[t]==2*X[t]*(5+3*sin(0.5*pi*t)-X[t])*dt+0.5*X[t]dW[t])
+  expr1=expression(dX[t]==2*X[t]*(5+3*sin(0.5*pi*t)-X[t])*dt+0.5*X[t]*dW[t])
   plot(Xt~time,type='l',col='blue',xlab='Time (t)',ylab=expression(X[t]),main=expr1)
 
  #------------------------------------------------------------------------------

@@ -12,8 +12,9 @@ Imports:
     Rcpp,
     RcppArmadillo,
     rgl
+LinkingTo: Rcpp, RcppArmadillo
 Suggests:
     plot3D,
     coda,
     fptdApprox
-License:  GPL-3
+License: GPL (>= 2)

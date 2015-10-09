@@ -1,3 +1,5 @@
+useDynLib(DiffusionRgqd)
+importFrom(Rcpp, evalCpp)
 exportPattern("^[[:alpha:]]+")
 importFrom("grDevices", "colorRampPalette", "rainbow")
 importFrom("graphics", "abline", "box", "filled.contour", "hist",

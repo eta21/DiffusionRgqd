@@ -11,7 +11,7 @@
 ## Resubmission
 This is a resubmission. In this version I have:
 
-* Corrected DISCRIPTION file errors as pointed out by CRAN staff.
+* Corrected DESCRIPTION file errors as pointed out by CRAN staff.
 * Corrected version number in DESCRIPTION file.
 * Updated NAMESPACE file.
 * Used \donttest{} for examples in excess of 5 secs runtime. Ran with  --run-donttest produced no additional ERRORs, WARNINGs or NOTEs.

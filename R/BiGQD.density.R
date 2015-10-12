@@ -1,4 +1,4 @@
-BiGQD.density=function(Xs,Ys,Xt,Yt,s,t,delt=1/100,Dtype='Saddlepoint')
+BiGQD.density=function(Xs,Ys,Xt,Yt,s,t,delt=1/100,Dtype='Saddlepoint',print.output=TRUE)
 {
   check_for_model=function()
   {
@@ -239,8 +239,10 @@ BiGQD.density=function(Xs,Ys,Xt,Yt,s,t,delt=1/100,Dtype='Saddlepoint')
          namess4[31:36][which(indnames[31:36]==T)])
   Info=data.frame(matrix(Info,length(Info),1))
   colnames(Info)=''
-  print(Info,row.names = FALSE,right=F)
-  
+  if(print.output)
+  {
+    print(Info,row.names = FALSE,right=F)
+  }
   N.mesh=(t-s)/delt+1
   pb <- txtProgressBar(1,2*N.mesh,1,style = 1,width = 65)
   #print(body(f))
@@ -347,6 +349,8 @@ BiGQD.density=function(Xs,Ys,Xt,Yt,s,t,delt=1/100,Dtype='Saddlepoint')
     nr.updates=rep(0,n2-1)
     a=rep(0,nnn*nnn)
     b=rep(0,nnn*nnn)
+    
+    
     for(lll in 2:n2)
     {
       setTxtProgressBar(pb,lll+N.mesh," "," ")
@@ -414,11 +418,11 @@ BiGQD.density=function(Xs,Ys,Xt,Yt,s,t,delt=1/100,Dtype='Saddlepoint')
         DK2=gg1*hh2-gg2*hh1
         return(exp(K-a*xmat1-b*xmat2)/(2*pi)/sqrt(abs(DK2)))
       }
-      
-      
+             dett = (k02*k20-k11^2)
+      a    = (k20*(k10-X1)-k11*(k01-X2))/dett
+      b    = (-k11*(k10-X1)+k02*(k01-X2))/dett
       cc=ffab(X1,X2,a,b)
-      a=cc[[1]]*0
-      b=cc[[2]]*0
+
       nr.updates[lll-1]=cc$k
       DDD[,,lll]=t(matrix(fff(cc$a,cc$b,X1,X2),nnn,nnn,byrow=T))
       tme=proc.time()-tme

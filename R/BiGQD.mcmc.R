@@ -1,5 +1,5 @@
 globalVariables('priors')
-BiGQD.mcmc=function(X,time,mesh=10,theta,sds,updates,burns=min(round(updates/2),25000),RK.order=4,exclude=NULL,plot.chain=TRUE,Tag=NA,Dtype='Saddlepoint',recycle=FALSE,rtf=runif(2),wrt=FALSE)
+BiGQD.mcmc=function(X,time,mesh=10,theta,sds,updates,burns=min(round(updates/2),25000),RK.order=4,exclude=NULL,plot.chain=TRUE,Tag=NA,Dtype='Saddlepoint',recycle=FALSE,rtf=runif(2),wrt=FALSE,print.output=TRUE)
 {
   solver   =function(Xs, Xt, theta, N , delt , N2, tt  , P , alpha, lower , upper, tro  ){}
   rm(list =c('solver'))  
@@ -118,6 +118,7 @@ BiGQD.mcmc=function(X,time,mesh=10,theta,sds,updates,burns=min(round(updates/2),
     ,'36. Input: NAs not allowed.\n'
     ,'37. Input: length(Dtype)!=1.\n'
     ,'38. Input: NAs not allowed.\n'
+    ,'39. Input: Time series contains values of small magnitude.\n    This may result in numerical instabilities.\n    It may be advisable to scale the data by a constant factor.\n'
   )
 
    warntrue = rep(F,40)
@@ -143,7 +144,7 @@ BiGQD.mcmc=function(X,time,mesh=10,theta,sds,updates,burns=min(round(updates/2),
       for(j in 1:length(theta))
       {
         dresult1=eval(body(namess[i]))
-        theta[j] = theta[j]+runif(1,-0.01,0.01)
+        theta[j] = theta[j]+runif(1,0.1,0.2)
         dresult2=eval(body(namess[i]))
         dff = abs(dresult1-dresult2)
         if(any(round(dff,6)!=0)){pers.represented[j]=pers.represented[j]+1}
@@ -247,7 +248,18 @@ BiGQD.mcmc=function(X,time,mesh=10,theta,sds,updates,burns=min(round(updates/2),
       stop(prnt)
    }
 
-
+   if(any(X<10^-2)){warntrue[39]=T}
+   # Print warnings:
+   if(any(warntrue))
+   {
+      prnt = b1
+      for(i in which(warntrue))
+      {
+         prnt = paste0(prnt,warn[i])
+      }
+      prnt = paste0(prnt,b2)
+      warning(prnt)
+   }
 
 
 
@@ -857,8 +869,9 @@ vec abser(N2);
 abser=0.1+abser;
 a.ones();
 b.ones();
-a=starts.col(0);
-b=starts.col(1);
+vec det=(x0.col(1)%x0.col(5)-x0.col(8)%x0.col(8));
+a=-(Xt-x0.col(0))%x0.col(5)/det+(Yt-x0.col(4))%x0.col(8)/det;
+b=+(Xt-x0.col(0))%x0.col(8)/det-(Yt-x0.col(4))%x0.col(1)/det;
 vec gg(N2);
 vec hh(N2);
 vec gg1(N2);
@@ -1241,8 +1254,10 @@ if(state4)
          buffer6,'',prior.list)
    Info=data.frame(matrix(Info,length(Info),1))
    colnames(Info)=''
-   print(Info,row.names = FALSE,right=F)
-
+   if(print.output)
+   {
+     print(Info,row.names = FALSE,right=F)
+   }
     ############################################################################
     ############################################################################
     ############################################################################
@@ -1288,7 +1303,8 @@ if(state4)
     {
     pb <- txtProgressBar(1,updates,1,style = 1,width = 65)
     failed.chain=F
-    for(i in 2:updates)
+    i=2
+    while(i<=updates)
     {
         theta.temp=theta
         theta=theta+rnorm(length(theta),sd=sds)
@@ -1307,7 +1323,8 @@ if(state4)
           #alarm()
           while(is.na(rat)&&(retry.count<=10))
           {
-            theta = theta.temp
+            i = max(i-10,2)
+            theta = par.matrix[,i]
             theta=theta+rnorm(length(theta),sd=sds)
             prop.matrix[,i] = theta
             tempp=solver(X1[-nnn],X2[-nnn],X1[-1],X2[-1],c(0,theta),mesh,delt,nnn-1,T.seq[-nnn],strts,tro,secmom)
@@ -1327,9 +1344,10 @@ if(state4)
         ll[i]=lold
         kk=kk+is.true
         acc[i]=kk/i
-        if(max.retries>250){print('Fail: Failed evaluation limit exceeded!');failed.chain=T;break;}
+        if(max.retries>2000){print('Fail: Failed evaluation limit exceeded!');failed.chain=T;break;}
         if(any(is.na(theta))){print('Fail: Samples were NA! ');failed.chain=T;break;}
         setTxtProgressBar(pb, i)
+        i=i+1
 
     }
     close(pb)
@@ -1404,8 +1422,10 @@ if(state4)
              buffer1)
     Info2=data.frame(matrix(Info2,length(Info2),1))
     colnames(Info2)=''
+    if(print.output)
+    {
     print(Info2,row.names = FALSE,right=F)
-
+    }
     if(plot.chain)
     {
       nper=length(theta)

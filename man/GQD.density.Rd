@@ -8,7 +8,7 @@ Generate the Transition Density of a Scalar Generalized Quadratic Diffusion (GQD
  }
 \usage{
 GQD.density(Xs, Xt, s, t, delt=1/100, Dtype='Saddlepoint', Trunc=c(4,4),
-            P=100, alpha=0, lower=0, upper=50)
+            P=100, alpha=0, lower=0, upper=50, print.output=TRUE)
 }
 \arguments{
   \item{Xs}{Initial value of the process at time s.}
@@ -21,6 +21,7 @@ GQD.density(Xs, Xt, s, t, delt=1/100, Dtype='Saddlepoint', Trunc=c(4,4),
 \item{P}{Normalization parameter indicating the number of points to use when normalizing members of the Pearson system (see details)}
 \item{alpha}{Normalization parameter controlig the mesh concentration when normalizing members of the Pearson system (see details). Increasing \code{alpha} decreases concentration around the mean and vice versa (default \code{alpha = 0}).}
 \item{lower,upper}{Lower and upper bounds for the normalization range.}
+\item{print.output}{If \code{TRUE} information about the model and algorithm is printed to the console. }
 }
 \details{
 \if{html}{\figure{TransDens1.png}{GQD}}

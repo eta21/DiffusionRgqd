@@ -1,4 +1,4 @@
-GQD.density<-function(Xs,Xt,s,t,delt=1/100,Dtype='Saddlepoint',Trunc=c(4,4),P=100,alpha=0,lower=0,upper=50)
+GQD.density<-function(Xs,Xt,s,t,delt=1/100,Dtype='Saddlepoint',Trunc=c(4,4),P=100,alpha=0,lower=0,upper=50,print.output=TRUE)
 {
    lookin=1
      check_for_model=function()
@@ -281,8 +281,10 @@ GQD.density<-function(Xs,Xt,s,t,delt=1/100,Dtype='Saddlepoint',Trunc=c(4,4),P=10
   Info=c(buffer0,type.sol,buffer0,buffer4,namess4[1:3],buffer5,namess4[4:6],buffer6,dinfo)
   Info=data.frame(matrix(Info,length(Info),1))
   colnames(Info)=''
+  if(print.output)
+  {
   print(Info,row.names = FALSE,right=F)
-  
+  }
   t.alpha=
     c(0.000000000000000000000000000000000000000000000000000000000000,
       0.100000000000000000000000000000000000000000000000000000000000,

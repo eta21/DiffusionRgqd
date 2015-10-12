@@ -50,7 +50,7 @@ Etienne A.D. Pienaar: \email{etiannead@gmail.com}
  data(SDEsim1)
  attach(SDEsim1)
  par(mfrow=c(1,1))
- expr1=expression(dX[t]==2*X[t]*(5+3*sin(0.5*pi*t)-X[t])*dt+0.5*X[t]*dW[t])
+ expr1=expression(dX[t]==2*(5+3*sin(0.5*pi*t)-X[t])*dt+0.5*sqrt(X[t])*dW[t])
  plot(Xt~time,type='l',col='blue',xlab='Time (t)',ylab=expression(X[t]),main=expr1)
 
 
@@ -93,26 +93,13 @@ Etienne A.D. Pienaar: \email{etiannead@gmail.com}
   m2 <- GQD.mcmc(Xt,time,mesh=mesh.points,theta=theta.start,sds=proposal.sds,
                  updates=updates)
 
- #------------------------------------------------------------------------------
- # Define coefficients of model 3
- #------------------------------------------------------------------------------
-
-  GQD.remove()
-  G1 <- function(t){theta[1]*(theta[2]+theta[3]*sin(0.25*pi*t))}
-  G2 <- function(t){-theta[1]}
-  Q2 <- function(t){theta[4]*theta[4]}
-
-  proposal.sds  = c(0.1,0.1,0.1,0.05)
-  m3 <- GQD.mcmc(Xt,time,mesh=mesh.points,theta=theta.start,sds=proposal.sds,
-                 updates=updates)
-
   # Checkthe parameter estimates:
-  GQD.estimates(m3,thin = 200)
+  GQD.estimates(m2,thin = 200)
  #------------------------------------------------------------------------------
- # Summarize the output from all three models.
+ # Summarize the output from the models.
  #------------------------------------------------------------------------------
 
- GQD.dic(list(m1,m2,m3))
+ GQD.dic(list(m1,m2))
  
 #===============================================================================
 }

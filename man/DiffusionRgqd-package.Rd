@@ -12,9 +12,9 @@ A package for Performing Inference and Analysis on Generalized Quadratic Diffusi
 \tabular{ll}{
 Package: \tab DiffusionRgqd\cr
 Type: \tab Package\cr
-Version: \tab 0.0.0.9000\cr
-Date: \tab 2015-10-07\cr
-License: \tab GPL (>= 3)\cr
+Version: \tab 0.1.2\cr
+Date: \tab 2015-11-01\cr
+License: \tab GPL (>= 2)\cr
 }
 The package is designed around an interface whereby the user supplies standard R-functions dictating the functional form of the coefficients of the GQD.  
 For example, for scalar GQDs nested within the stochastic differential equation: \strong{\deqn{dX_t = (G_0(t)+G_1(t)X_t+G_2(t)X_t^2)dt+\sqrt{Q_0(t)+Q_1(t)X_t+Q_2(t)X_t^2}dW_t,}} the user supplies \strong{\code{G0(t)}},\strong{\code{G1(t)}} and \strong{\code{Q1(t)}}  etc. These coefficients may depend on a both vector of parameters and time. 
@@ -52,11 +52,5 @@ Updates available on GitHub at \url{https://github.com/eta21}. Visit \url{http:/
 \dontrun{
 example(GQD.density)
 example(BiGQD.density)
-
-example(GQD.mcmc)
-example(BiGQD.mcmc)
-
-example(GQD.passage)
-example(GQD.TIpassage)
 }
 }

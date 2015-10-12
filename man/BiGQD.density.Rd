@@ -7,7 +7,7 @@ Generate the Transition Density of a Bivariate Generalized Quadratic Diffusion M
 \code{BiGQD.density} generates approximate transitional densities for bivariate generalized quadratic diffusions (GQDs). Given a starting coordinate, (\code{Xs}, \code{Ys}), the approximation is evaluated over a lattice \code{Xt} x \code{Yt} for an equispaced discretization (intervals of width \code{delt}) of the transition time horizon [\code{s}, \code{t}] .  
 }
 \usage{
-BiGQD.density(Xs, Ys, Xt, Yt, s, t, delt=1/100, Dtype='Saddlepoint')
+BiGQD.density(Xs, Ys, Xt, Yt, s, t, delt=1/100, Dtype='Saddlepoint', print.output=TRUE)
 }
 \arguments{
   \item{Xt}{x-Coordinates of the lattice at which to evaluate the transition density.}
@@ -18,6 +18,7 @@ BiGQD.density(Xs, Ys, Xt, Yt, s, t, delt=1/100, Dtype='Saddlepoint')
   \item{t}{Final time at which to evaluate the transition density.}
   \item{delt}{Step size for numerical solution of the cumulant system. Also used for the discretization of the transition time-horizon. See warnings \bold{[1]} and \bold{[2]}.}
   \item{Dtype}{The density approximant to use. Valid types are \code{"Saddlepoint"} (default) or \code{"Edgeworth"}.}
+  \item{print.output}{If \code{TRUE} information about the model and algorithm is printed to the console. }
 }
 \details{
 \if{html}{\figure{TransDens2.png}{GQD}}

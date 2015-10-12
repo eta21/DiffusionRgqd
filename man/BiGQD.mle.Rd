@@ -9,7 +9,8 @@ Calculate Maximum Likelihood Estimates for a 2D GQD Model.
 }
 \usage{
 BiGQD.mle(X, time, mesh=10, theta, control=NULL, method='Nelder-Mead', RK.order=4,
-          exclude=NULL, Tag=NA, Dtype='Saddlepoint', rtf= runif(2,-1,1), wrt=FALSE)
+          exclude=NULL, Tag=NA, Dtype='Saddlepoint', rtf= runif(2,-1,1), wrt=FALSE,
+          print.output=TRUE)
 }
 
 \arguments{
@@ -30,6 +31,7 @@ BiGQD.mle(X, time, mesh=10, theta, control=NULL, method='Nelder-Mead', RK.order=
 \item{Dtype}{The density approximant to use. Valid types are \code{"Saddlepoint"} (default), \code{"Edgeworth"} or \code{"Normal"}.}
 \item{rtf}{Starting vector for internal use.}
 \item{wrt}{If \code{TRUE} a .cpp file will be written to the current directory. For bug report diagnostics.}
+\item{print.output}{If \code{TRUE} information about the model and algorithm is printed to the console. }
 }
 
 \value{

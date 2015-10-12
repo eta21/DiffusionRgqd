@@ -10,7 +10,7 @@ MCMC Inference on Bivariate Generalized Quadratic Diffusions (2D GQDs).
 \usage{
 BiGQD.mcmc(X, time, mesh=10, theta, sds, updates, burns=min(round(updates/2),25000),
            RK.order=4, exclude=NULL, plot.chain=TRUE, Tag=NA, Dtype='Saddlepoint',
-           recycle=FALSE, rtf=runif(2), wrt=FALSE)
+           recycle=FALSE, rtf=runif(2), wrt=FALSE, print.output=TRUE)
 }
 \arguments{
   \item{X}{A matrix containing rows of data points to be modelled. Although observations are allowed to be non-equidistant, observations in both dimensions are assumed to occur at the same time epochs (i.e. \code{time} gives the time signature for both dimensions).
@@ -34,6 +34,7 @@ BiGQD.mcmc(X, time, mesh=10, theta, sds, updates, burns=min(round(updates/2),250
 \item{recycle}{Whether or not to recycle the roots calculated for the saddlepoint approximation over succesive updates.}
 \item{rtf}{Starting vector for internal use.}
 \item{wrt}{If \code{TRUE} a .cpp file will be written to the current directory. For bug report diagnostics.}
+\item{print.output}{If \code{TRUE} information about the model and algorithm is printed to the console. }
 }
 \value{
   \item{par.matrix }{A matrix containing the MCMC chain on \code{theta}. }

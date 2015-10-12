@@ -50,7 +50,7 @@ Etienne A.D. Pienaar: \email{etiannead@gmail.com}
   data(SDEsim1)
   attach(SDEsim1)
   par(mfrow=c(1,1))
-  expr1=expression(dX[t]==2*X[t]*(5+3*sin(0.5*pi*t)-X[t])*dt+0.5*X[t]*dW[t])
+  expr1=expression(dX[t]==2*(5+3*sin(0.5*pi*t)-X[t])*dt+0.5*sqrt(X[t])*dW[t])
   plot(Xt~time,type='l',col='blue',xlab='Time (t)',ylab=expression(X[t]),main=expr1)
 
  #------------------------------------------------------------------------------

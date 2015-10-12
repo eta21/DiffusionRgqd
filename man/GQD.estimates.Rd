@@ -45,7 +45,7 @@ plot(x$Xt~x$time,type='l',col='blue')
 #------------------------------------------------------------------------------
 # Define parameterized coefficients of the process, and set up starting
 # parameters.
-# True model: dX_t = 2X_t(5+3sin(0.25 pi t)-X_t)dt+0.5X_tdW_t
+# True model: dX_t = 2(5+3sin(0.25 pi t)-X_t)dt+0.5sqrt(X_t)dW_t
 #------------------------------------------------------------------------------
 
 # Remove any existing coeffients. If none are pressent NAs will be returned, but
@@ -56,9 +56,9 @@ GQD.remove()
 # This argument has to be `t' in order for the dependancy to be recognized.
 # theta does not have to be defined as an argument.
 
-G1 <- function(t){theta[1]*(theta[2]+theta[3]*sin(0.25*pi*t))}
-G2 <- function(t){-theta[1]}
-Q2 <- function(t){theta[4]*theta[4]}
+G0 <- function(t){theta[1]*(theta[2]+theta[3]*sin(0.25*pi*t))}
+G1 <- function(t){-theta[1]}
+Q1 <- function(t){theta[4]*theta[4]}
 
 theta.start  <- c(1,1,1,1)                    # Starting values for the chain
 proposal.sds <- c(0.4,0.3,0.2,0.1)*1/2        # Std devs for proposal distributions
@@ -70,7 +70,7 @@ updates      <- 50000                         # Perform 50000 updates
 #------------------------------------------------------------------------------
 
 m1 <- GQD.mcmc(x$Xt,x$time,mesh=mesh.points,theta=theta.start,sds=proposal.sds,
-               updates=updates,RK.order=4,wrt=T)
+               updates=updates)
 
 # Calculate estimates:
 GQD.estimates(m1,thin=200)

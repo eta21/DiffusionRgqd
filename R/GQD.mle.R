@@ -1,4 +1,4 @@
-GQD.mle <-function(X,time,mesh=10,theta,control=NULL,method='Nelder-Mead',Dtype='Saddle',Trunc=c(4,4),RK.order=4,P=200,alpha=0,lower=min(X)/2,upper=max(X)*2,exclude=NULL,Tag=NA,wrt=FALSE)
+GQD.mle <-function(X,time,mesh=10,theta,control=NULL,method='Nelder-Mead',Dtype='Saddle',Trunc=c(4,4),RK.order=4,P=200,alpha=0,lower=min(X)/2,upper=max(X)*2,exclude=NULL,Tag=NA,wrt=FALSE,print.output=TRUE)
 {
   solver   =function(Xs, Xt, theta, N , delt , N2, tt  , P , alpha, lower , upper, tro  ){}
   rm(list =c('solver'))  
@@ -105,6 +105,7 @@ GQD.mle <-function(X,time,mesh=10,theta,control=NULL,method='Nelder-Mead',Dtype=
     ,'36. Input: NAs not allowed.\n'
     ,'37. Input: length(Dtype)!=1.\n'
     ,'38. Input: NAs not allowed.\n'
+    ,'39. Input: Time series contains values of small magnitude.\n    This may result in numerical instabilities.\n    It may be advisable to scale the data by a constant factor.\n'
   )
 
    warntrue = rep(F,40)
@@ -225,7 +226,21 @@ GQD.mle <-function(X,time,mesh=10,theta,control=NULL,method='Nelder-Mead',Dtype=
       stop(prnt)
    }
 
-  nnn=length(X)
+   if(any(X<10^-2)){warntrue[39]=T}
+   # Print warnings:
+   if(any(warntrue))
+   {
+      prnt = b1
+      for(i in which(warntrue))
+      {
+         prnt = paste0(prnt,warn[i])
+      }
+      prnt = paste0(prnt,b2)
+      warning(prnt)
+   }
+
+
+   nnn=length(X)
   
   #==============================================================================
   #                           Data resolution Module
@@ -259,7 +274,7 @@ GQD.mle <-function(X,time,mesh=10,theta,control=NULL,method='Nelder-Mead',Dtype=
   
   state1=(sum(func.list[c(3,5,6)]==1)==0)
   if(state1){DTR.order=2;TR.order=2;sol.state='Normally distributed diffusion.';} 
-  if((state1&(Dtype!='Saddlepoint'))){warning('Normally distributed diffusion: Overriding Dtype variable.');TR.order=2;DTR.order=2;sol.state='2nd Ord. Truncation + Std Normal Dist.';}
+  if((state1&(Dtype!='Saddlepoint'))){TR.order=2;DTR.order=2;sol.state='2nd Ord. Truncation + Std Normal Dist.';}
   state2=!state1
   if(state2)
   {
@@ -1196,7 +1211,7 @@ if(state1)
   # WRIGHT AND SOURCE -----------------------------------------------------------
   
   txt.full=paste(fpart,'\n',dims[1],'\n',dims[2],ODEpart,Dpart)
-  type.sol ="                 Gneralized Ornstein-Uhlenbeck "
+  type.sol ="                 Generalized Ornstein-Uhlenbeck "
   #library(Rcpp)
   #library(RcppArmadillo)
   if(wrt){write(txt.full,file='GQD.mcmc.cpp')}
@@ -1369,9 +1384,12 @@ if(state2)
     Info=c(buffer0,type.sol,buffer0,buffer4,namess4[1:3],buffer5,namess4[4:6])
     Info=data.frame(matrix(Info,length(Info),1))
     colnames(Info)=''
-   
-    print(Info,row.names = FALSE,right=F)
+    if(print.output)
+    {
+        print(Info,row.names = FALSE,right=F)
+    }
     ############################################################################
+
     ############################################################################
     ############################################################################
 
@@ -1431,7 +1449,10 @@ like=function(pars)
              buffer1)
     Info2=data.frame(matrix(Info2,length(Info2),1))
     colnames(Info2)=''
-    print(Info2,row.names = FALSE,right=F)
+    if(print.output)
+    {
+      print(Info2,row.names = FALSE,right=F)
+    }
     ret=list(opt=result,elapsed.time=tme,model.info=model.inf)
     class(ret) = 'GQD.mle'
 

@@ -6,8 +6,8 @@ A Simulated Diffusion with Sinusoidal Drift and State-Dependant Diffusion Coeffi
 }
 \description{
 The dataset contains discretely sampled observations for a simulated stochastic differential equation (SDE) with dynamics:
-\if{html}{\deqn{dX_t = 2X_t(5+3sin(0.25pi t)-X_t)dt+0.5X_tdW_t}} 
-\if{latex}{\deqn{dX_t = 2X_t(5+3\sin(0.25 \pi t)-X_t)dt+0.5X_tdW_t}}
+\if{html}{\deqn{dX_t = 2(5+3sin(0.25pi t)-X_t)dt+0.5sqrt(X_t)dW_t}} 
+\if{latex}{\deqn{dX_t = 2(5+3\sin(0.25 \pi t)-X_t)dt+0.5\sqrt{X_t}dW_t}}
 where \code{dW_t} is standard Brownian motion, \code{t} is time and \code{X_0 = 7}.
 }
 \usage{data(SDEsim1)}
@@ -33,7 +33,7 @@ Updates available on GitHub at \url{https://github.com/eta21}. Visit \url{http:/
  data(SDEsim1)
  attach(SDEsim1)
  par(mfrow=c(1,1))
- expr1=expression(dX[t]==2*X[t]*(5+3*sin(0.5*pi*t)-X[t])*dt+0.5*X[t]*dW[t])
+ expr1=expression(dX[t]==2*(5+3*sin(0.5*pi*t)-X[t])*dt+0.5*sqrt(X[t])*dW[t])
  plot(Xt~time,type='l',col='blue',xlab='Time (t)',ylab=expression(X[t]),main=expr1)
 }
 \keyword{datasets}

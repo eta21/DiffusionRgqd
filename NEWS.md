@@ -6,3 +6,11 @@ Check out [DiffusionRgqd](https://github.com/eta21/DiffusionRgqd) for the packag
 
 # v0.1.0
 Initial verision of __DiffusionRgqd__ uploaded to CRAN and GitHub.
+
+# v0.1.1
+Made minor example updates. 
+
+# v0.1.2
+Error checking updated.
+Switch added for printing model info to the console. 
+Fixed missing characters in interface.

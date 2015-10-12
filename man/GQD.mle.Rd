@@ -10,7 +10,7 @@ The structure of the model is predefined and coefficients may be provided for mo
 \usage{
 GQD.mle(X, time, mesh=10, theta, control=NULL, method='Nelder-Mead', Dtype='Saddle', 
         Trunc=c(4,4), RK.order=4, P=200, alpha=0, lower=min(X)/2, upper=max(X)*2,
-        exclude=NULL, Tag=NA, wrt=FALSE)
+        exclude=NULL, Tag=NA, wrt=FALSE, print.output=TRUE)
 }
 
 \arguments{
@@ -39,6 +39,7 @@ The number mesh points between any two given data points.
 \item{lower,upper}{Lower and upper bounds for the normalization range.}
 \item{Tag}{\code{Tag} can be used to name (tag) an MCMC run e.g. \code{Tag='Run_1'}}
 \item{wrt}{If \code{TRUE} a .cpp file will be written to the current directory. For bug report diagnostics.}
+\item{print.output}{If \code{TRUE} information about the model and algorithm is printed to the console. }
 }
 
 \value{
@@ -110,7 +111,7 @@ Here sqrt(t)*cos(3*pi*t) constitutes the product of two terms that cannot be wri
   data(SDEsim1)
   attach(SDEsim1)
   par(mfrow=c(1,1))
-  expr1=expression(dX[t]==2*X[t]*(5+3*sin(0.5*pi*t)-X[t])*dt+0.5*X[t]*dW[t])
+  expr1=expression(dX[t]==2*(5+3*sin(0.5*pi*t)-X[t])*dt+0.5*sqrt(X[t])*dW[t])
   plot(Xt~time,type='l',col='blue',xlab='Time (t)',ylab=expression(X[t]),main=expr1)
 
  #------------------------------------------------------------------------------
@@ -129,9 +130,9 @@ Here sqrt(t)*cos(3*pi*t) constitutes the product of two terms that cannot be wri
 
   GQD.remove()
 
-  G1 <- function(t){theta[1]*(theta[2]+theta[3]*sin(0.25*pi*t))}
-  G2 <- function(t){-theta[1]}
-  Q2 <- function(t){theta[4]*theta[4]}
+  G0 <- function(t){theta[1]*(theta[2]+theta[3]*sin(0.25*pi*t))}
+  G1 <- function(t){-theta[1]}
+  Q1 <- function(t){theta[4]*theta[4]}
 
   theta.start  <- c(1,1,1,1)                      # Starting values for the chain
   mesh.points  <- 10                              # Number of mesh points

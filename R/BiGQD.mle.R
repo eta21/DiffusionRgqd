@@ -1,6 +1,6 @@
  #rm(list=ls(all=TRUE))
 
-BiGQD.mle=function(X,time,mesh=10,theta,control=NULL,method='Nelder-Mead',RK.order=4,exclude=NULL,Tag=NA,Dtype='Saddlepoint',rtf= runif(2,-1,1),wrt=FALSE)
+BiGQD.mle=function(X,time,mesh=10,theta,control=NULL,method='Nelder-Mead',RK.order=4,exclude=NULL,Tag=NA,Dtype='Saddlepoint',rtf= runif(2,-1,1),wrt=FALSE,print.output=TRUE)
 {
   rtf=0*rtf+1
   solver   =function(Xs, Xt, theta, N , delt , N2, tt  , P , alpha, lower , upper, tro  ){}
@@ -118,6 +118,7 @@ BiGQD.mle=function(X,time,mesh=10,theta,control=NULL,method='Nelder-Mead',RK.ord
     ,'36. Input: NAs not allowed.\n'
     ,'37. Input: length(Dtype)!=1.\n'
     ,'38. Input: NAs not allowed.\n'
+    ,'39. Input: Time series contains values of small magnitude.\n    This may result in numerical instabilities.\n    It may be advisable to scale the data by a constant factor.\n'
   )
 
    warntrue = rep(F,40)
@@ -143,7 +144,7 @@ BiGQD.mle=function(X,time,mesh=10,theta,control=NULL,method='Nelder-Mead',RK.ord
       for(j in 1:length(theta))
       {
         dresult1=eval(body(namess[i]))
-        theta[j] = theta[j]+runif(1,-0.01,0.01)
+        theta[j] = theta[j]+runif(1,0.1,0.2)
         dresult2=eval(body(namess[i]))
         dff = abs(dresult1-dresult2)
         if(any(round(dff,6)!=0)){pers.represented[j]=pers.represented[j]+1}
@@ -246,7 +247,18 @@ BiGQD.mle=function(X,time,mesh=10,theta,control=NULL,method='Nelder-Mead',RK.ord
       prnt = paste0(prnt,b2)
       stop(prnt)
    }
-
+     if(any(X<10^-2)){warntrue[39]=T}
+   # Print warnings:
+   if(any(warntrue))
+   {
+      prnt = b1
+      for(i in which(warntrue))
+      {
+         prnt = paste0(prnt,warn[i])
+      }
+      prnt = paste0(prnt,b2)
+      warning(prnt)
+   }
     ############################################################################
     ############################################################################
     ############################################################################
@@ -1227,8 +1239,10 @@ Info=c(buffer0,type.sol,buffer0,buffer4,
        namess4[31:36][which(indnames[31:36]==T)])
 Info=data.frame(matrix(Info,length(Info),1))
 colnames(Info)=''
+if(print.output)
+{
 print(Info,row.names = FALSE,right=F)
-
+}
 ############################################################################
 ############################################################################
 ############################################################################
@@ -1298,8 +1312,10 @@ if(!is.null(control))
              buffer1)
     Info2=data.frame(matrix(Info2,length(Info2),1))
     colnames(Info2)=''
+    if(print.output)
+    {
     print(Info2,row.names = FALSE,right=F)
-
+    }
     ret=list(opt=result,elapsed.time=tme,model.info=model.inf)
     class(ret)='GQD.mle'
     return(ret)

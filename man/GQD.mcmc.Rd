@@ -12,7 +12,7 @@ The structure of the model is predefined and coefficients may be provided for mo
 GQD.mcmc(X, time, mesh=10, theta, sds, updates, burns=min(round(updates/2),25000),
          Dtype='Saddle', Trunc=c(4,4), RK.order=4, P=200, alpha=0,
          lower=min(na.omit(X))/2, upper=max(na.omit(X))*2,
-         exclude=NULL, plot.chain=TRUE, Tag=NA, wrt=FALSE)
+         exclude=NULL, plot.chain=TRUE, Tag=NA, wrt=FALSE, print.output=TRUE)
 }
 
 \arguments{
@@ -49,6 +49,7 @@ The number of updates to burn. That is, the first \code{burns} values are omitte
 \item{lower,upper}{Lower and upper bounds for the normalization range.}
 \item{Tag}{\code{Tag} can be used to name (tag) an MCMC run e.g. \code{Tag='Run_1'}}
 \item{wrt}{If \code{TRUE} a .cpp file will be written to the current directory. For bug report diagnostics.}
+\item{print.output}{If \code{TRUE} information about the model and algorithm is printed to the console. }
 }
 \details{
 
@@ -124,7 +125,7 @@ Here sqrt(t)*cos(3*pi*t) constitutes the product of two terms that cannot be wri
  data(SDEsim1)
  attach(SDEsim1)
  par(mfrow=c(1,1))
- expr1=expression(dX[t]==2*X[t]*(5+3*sin(0.5*pi*t)-X[t])*dt+0.5*X[t]*dW[t])
+ expr1=expression(dX[t]==2*(5+3*sin(0.5*pi*t)-X[t])*dt+0.5*sqrt(X[t])*dW[t])
  plot(Xt~time,type='l',col='blue',xlab='Time (t)',ylab=expression(X[t]),main=expr1)
 #------------------------------------------------------------------------------
 # Define parameterized coefficients of the process, and set up starting
@@ -140,9 +141,9 @@ GQD.remove()
 # This argument has to be `t' in order for the dependancy to be recognized.
 # theta does not have to be defined as an argument.
 
-G1 <- function(t){theta[1]*(theta[2]+theta[3]*sin(0.25*pi*t))}
-G2 <- function(t){-theta[1]}
-Q2 <- function(t){theta[4]*theta[4]}
+G0 <- function(t){theta[1]*(theta[2]+theta[3]*sin(0.25*pi*t))}
+G1 <- function(t){-theta[1]}
+Q1 <- function(t){theta[4]*theta[4]}
 
 theta.start  <- c(1,1,1,1)                    # Starting values for the chain
 proposal.sds <- c(0.4,0.3,0.2,0.1)*1/2        # Std devs for proposal distributions
@@ -154,7 +155,7 @@ updates      <- 50000                         # Perform 50000 updates
 #------------------------------------------------------------------------------
 
 m1 <- GQD.mcmc(Xt,time,mesh=mesh.points,theta=theta.start,sds=proposal.sds,
-               updates=updates,RK.order=4,wrt=T)
+               updates=updates)
 
 # Calculate estimates:
 GQD.estimates(m1,thin=200)

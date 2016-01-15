@@ -154,7 +154,7 @@ plot(M$cumulants[2,]~M$time,col='blue',main='Variance trajectory',type='l')
 --------
 
 # Further reading
-* [Package paper](DiffusionRgqd_Paper.pdf) and [replication materials](DiffusionRgqd_RepMaterials.pdf).
+* [Package paper](DiffusionRgqd_Paper.pdf) and [replication materials](DiffusionRgqd_RepMaterials.html).
 * [Package manual](https://cran.r-project.org/web/packages/DiffusionRgqd/DiffusionRgqd.pdf)
 * More Vignettes:
     + [Introduction](Part_1_Introduction.html)

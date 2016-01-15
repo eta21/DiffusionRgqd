@@ -191,7 +191,7 @@ Mathematics and Computation*, __244__, 432–446.
 --------
 
 # Further reading
-* [Package paper](DiffusionRgqd_Paper.pdf) and [replication materials](DiffusionRgqd_RepMaterials.pdf).
+* [Package paper](DiffusionRgqd_Paper.pdf) and [replication materials](DiffusionRgqd_RepMaterials.html).
 * [Package manual](https://cran.r-project.org/web/packages/DiffusionRgqd/DiffusionRgqd.pdf)
 * More Vignettes:
     + [Introduction](Part_1_Introduction.html)

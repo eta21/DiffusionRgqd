@@ -305,7 +305,7 @@ Varughese MM (2013). “Parameter Estimation for Multivariate Diffusion Systems.
 Statistics & Data Analysis*, __57__(1), 417–428.
 
 # Further reading
-* [Package paper](DiffusionRgqd_Paper.pdf) and [replication materials](DiffusionRgqd_RepMaterials.pdf).
+* [Package paper](DiffusionRgqd_Paper.pdf) and [replication materials](DiffusionRgqd_RepMaterials.html).
 * [Package manual](https://cran.r-project.org/web/packages/DiffusionRgqd/DiffusionRgqd.pdf)
 * More Vignettes:
     + [Introduction](Part_1_Introduction.html)

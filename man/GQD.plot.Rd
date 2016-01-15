@@ -61,5 +61,5 @@ Updates available on GitHub at \url{https://github.com/eta21}. Visit \url{http:/
   GQD.plot(M)
   }
 }
-\keyword{Plot}
+\keyword{plot}
 

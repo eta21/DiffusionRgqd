@@ -5,7 +5,30 @@
 }
 \description{
 \code{GQD.mle()} constructs a C++ program in real time that allows the user to perform maximum likelihood inference on scalar GQDs. Given a set of starting parameters, the maximum likelihood estimates are calculated via minimization of minus the likelihood function via the built-in R-function \code{optim}.
-The structure of the model is predefined and coefficients may be provided for models nested within the generalized quadratic diffusion framework. That is, the saturated GQD model is given by: \strong{\deqn{dX_t = (G_0(t)+G_1(t)X_t+G_2(t)X_t^2)dt+\sqrt{Q_0(t)+Q_1(t)X_t+Q_2(t)X_t^2}dW_t}} where dW_t is Standard Brownian Motion.
+
+\if{html}{
+ \code{GQD.mcmc()} performs inference using the Metropolis-Hastings algorithm for jump diffusions of the form:
+
+ \figure{ScalarEqn1.png}
+
+ where
+
+ \figure{ScalarEqn2.png}
+
+ and
+
+  \figure{ScalarEqn3.png}
+
+ }
+\if{latex}{
+\code{GQD.mcmc()} performs inference using the Metropolis-Hastings algorithm for diffusions of the form:
+\deqn{dX_t = \mu(X,t)dt +\sigma(X_t,t)dW_t\\}
+where
+\deqn{\mu(X,t) = G_0(t,\theta)+G_1(t,\theta)X_t+G_2(t,\theta)X_t^2\\}
+and
+\deqn{\sigma(X,t)=\sqrt{Q_0(t,\theta)+Q_1(t,\theta)X_t+Q_2(t,\theta)X_t^2.}\\}
+
+ }
 }
 \usage{
 GQD.mle(X, time, mesh=10, theta, control=NULL, method='Nelder-Mead', Dtype='Saddle', 
@@ -75,19 +98,19 @@ Etienne A.D. Pienaar: \email{etiennead@gmail.com}
 }
 \section{Syntactical jargon}{
 
-\bold{Synt. [1]:} The coefficients of the 2D GQD may be parameterized using the reserved variable \code{theta}. For example:
+\bold{Synt. [1]:} The coefficients of the GQD may be parameterized using the reserved variable \code{theta}. For example:
 
-\code{a00 <- function(t){theta[1]*(theta[2]+sin(2*pi*(t-theta[3])))}}.
+\code{G0 <- function(t){theta[1]*(theta[2]+sin(2*pi*(t-theta[3])))}}.
 
 \bold{Synt. [2]:} Due to syntactical differences between R and C++ special functions have to be used when terms that depend on \code{t}. When the function cannot be separated in to terms that contain a single \code{t}, the \code{prod(a,b)} function must be used. For example:
 
-\code{a00 <- function(t){0.1*(10+0.2*sin(2*pi*t)+0.3*prod(sqrt(t),1+cos(3*pi*t)))}}.
+\code{G0 <- function(t){0.1*(10+0.2*sin(2*pi*t)+0.3*prod(sqrt(t),1+cos(3*pi*t)))}}.
 
 Here sqrt(t)*cos(3*pi*t) constitutes the product of two terms that cannot be written i.t.o. a single \code{t}. To circumvent this isue, one may use the \code{prod(a,b)} function. 
 
 \bold{Synt. [3]:} Similarly, the ^ - operator is not overloaded in C++. Instead the \code{pow(x,p)} function may be used to calculate x^p. For example sin(2*pi*t)^3 in:
 
-\code{a00 <- function(t){0.1*(10+0.2*pow(sin(2*pi*t),3))}}.
+\code{G0 <- function(t){0.1*(10+0.2*pow(sin(2*pi*t),3))}}.
 
 }
 
@@ -149,6 +172,6 @@ Here sqrt(t)*cos(3*pi*t) constitutes the product of two terms that cannot be wri
 #===============================================================================
 }
 }
-\keyword{Syntax}
+\keyword{syntax}
 \keyword{C++}
-\keyword{Maximum likelihood}
+\keyword{maximum likelihood}

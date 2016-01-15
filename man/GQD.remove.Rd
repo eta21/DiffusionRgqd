@@ -31,6 +31,6 @@ Etienne A.D. Pienaar: \email{etiennead@gmail.com}
 \seealso{
 \code{\link{GQD.density}} and \code{\link{BiGQD.density}}.
 }
-\keyword{Remove models}
+\keyword{remove models}
 
 

@@ -104,7 +104,7 @@ Varughese, M.M. 2013 Parameter estimation for multivariate diffusion systems. \e
 
 }
 }
-\keyword{Syntax}
+\keyword{syntax}
 \keyword{C++}
-\keyword{First passage time}
+\keyword{first passage time}
 

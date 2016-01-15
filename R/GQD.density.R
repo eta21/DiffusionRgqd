@@ -1,4 +1,4 @@
-GQD.density<-function(Xs,Xt,s,t,delt=1/100,Dtype='Saddlepoint',Trunc=c(4,4),P=100,alpha=0,lower=0,upper=50,print.output=TRUE)
+GQD.density<-function(Xs,Xt,s,t,delt=1/100,Dtype='Saddlepoint',Trunc=c(4,4),P=100,alpha=0,lower=0,upper=50,print.output=TRUE,eval.density=TRUE)
 {
    lookin=1
      check_for_model=function()
@@ -57,50 +57,64 @@ GQD.density<-function(Xs,Xt,s,t,delt=1/100,Dtype='Saddlepoint',Trunc=c(4,4),P=10
   b1 = '\n==============================================================================\n'
   b2 = '==============================================================================\n'
   warn=c(
-    'Input: Argument {lower} must be of length 1.\n'
-    ,'Input: Argument {upper} must be of length 1.\n'
-    ,'Input: {upper} must be > {lower}.\n'
-    ,'Input: Range [lower,upper] must be strictly positive for Dtype Gamma or InvGamma.\n'
-    ,'Input: Dtype cannot be Beta for observations not in (0,1).\n'
-    ,'Input: P must be >= 10.\n'
-    ,'Input: Dtype has to be one of Saddlepoint, Normal, Gamma, InvGamma or Beta.\n'
-    ,'Input: Trunc[2] must be <= Trunc[1].\n'
-    ,'Input: Large {delt} may result in poor approximations.\n'
-    ,'Input: Argument {delt} must be < 1.\n'
-    ,'Input: length(P)!=1.\n'
-    ,'Input: length(delt)!=1.\n'
-    ,'Input: length(alpha)!=1.\n'
-    ,'Input: length(Xt) must be > 1.\n'
-    ,'Input: Argument {Xs} must be of length 1.\n'
-    ,'Input: Argument {Xt} must be of type vector!.\n'
-    ,'Input: Argument {time} must be of type vector!.\n'
-    ,'Input: Argument {alpha} must be of length 1.\n'
-    ,'Input: Argument {Trunc} must be of length 2.\n'
-    ,'Input: Cumulant truncation (Trunc[1]) must be one of 4, 6 or 8.\n'
-    ,'Input: Density truncation (Trunc[2]) must be one of 4, 6 or 8.\n'
-    ,'Input: Starting time {s} cannot be greater than {t}.\n'
+     'Input 1: Argument {lower} must be of length 1.\n'
+    ,'Input 2: Argument {upper} must be of length 1.\n'
+    ,'Input 3: {upper} must be > {lower}.\n'
+    ,'Input 4: Range [lower,upper] must be strictly positive for Dtype Gamma or InvGamma.\n'
+    ,'Input 5: Dtype cannot be Beta for observations not in (0,1).\n'
+    ,'Input 6: P must be >= 10.\n'
+    ,'Input 7: Dtype has to be one of Saddlepoint, Normal, Gamma, InvGamma or Beta.\n'
+    ,'Input 8: Trunc[2] must be <= Trunc[1].\n'
+    ,'Input 9: Large {delt} may result in poor approximations.\n'
+    ,'Input 10: Argument {delt} must be < 1.\n'
+    ,'Input 11: length(P)!=1.\n'
+    ,'Input 12: length(delt)!=1.\n'
+    ,'Input 13: length(alpha)!=1.\n'
+    ,'Input 14: length(Xt) must be > 1.\n'
+    ,'Input 15: Argument {Xs} must be of length 1.\n'
+    ,'Input 16: Argument {Xt} must be of type vector!.\n'
+    ,'Input 17: Argument {time} must be of type vector!.\n'
+    ,'Input 18: Argument {alpha} must be of length 1.\n'
+    ,'Input 19: Argument {Trunc} must be of length 2.\n'
+    ,'Input 20: Cumulant truncation (Trunc[1]) must be one of 4, 6 or 8.\n'
+    ,'Input 21: Density truncation (Trunc[2]) must be one of 4, 6 or 8.\n'
+    ,'Input 22: Starting time {s} cannot be greater than {t}.\n'
   )
   
-  
-  if(length(Xt)<2){stop(paste0(b1,warn[14],b2))}
-  if(length(Xs)!=1){stop(paste0(b1,warn[15],b2))}
-  if(!is.vector(Xt)){stop(paste0(b1,warn[16],b2))}
-  if(sum(Dindex)==0){stop(paste0(b1,warn[7],b2))}
-  if(length(lower)>1){stop(paste0(b1,warn[1],b2))}
-  if(length(upper)>1){stop(paste0(b1,warn[2],b2))}
-  if(upper<=lower)    {stop(paste0(b1,warn[3],b2))}
-  if((Dindex==3)|(Dindex==4)){if(lower[1]<=0){stop(paste0(b1,warn[4],b2))}}
-  if(Dindex==5){if(any(Xt<=0)|any(Xt>=1)){stop(paste0(b1,warn[5],b2))}}
-  if(P<10){stop(paste0(b1,warn[6],b2))}
-  if(length(P)!=1){stop(paste0(b1,warn[11],b2))}
-  if(length(alpha)!=1){stop(paste0(b1,warn[18],b2))}
-  if(Trunc[2]>Trunc[1]){stop(paste0(b1,warn[8],b2))}
-  if(length(Trunc)!=2){stop(paste0(b1,warn[19],b2))}
-  if(sum(TR.order==c(4,6,8))!=1){stop(paste0(b1,warn[20],b2))}
-  if(sum(DTR.order==c(4,6,8))!=1){stop(paste0(b1,warn[21],b2))}
+   warntrue=rep(FALSE,40)
+   
+  if(length(Xt)<2){warntrue[14] =TRUE}#{stop(paste0(b1,warn[14],b2))}
+  if(length(Xs)!=1){warntrue[15] =TRUE}#{stop(paste0(b1,warn[15],b2))}
+  if(!is.vector(Xt)){warntrue[16] =TRUE}#{stop(paste0(b1,warn[16],b2))}
+  if(sum(Dindex)==0){warntrue[7] =TRUE}#{stop(paste0(b1,warn[7],b2))}
+  if(length(lower)>1){warntrue[1] =TRUE}#{stop(paste0(b1,warn[1],b2))}
+  if(length(upper)>1){warntrue[2] =TRUE}#{stop(paste0(b1,warn[2],b2))}
+  if(upper<=lower){warntrue[3] =TRUE}#{stop(paste0(b1,warn[3],b2))}
+  if((Dindex==3)|(Dindex==4)){if(lower[1]<=0){warntrue[4] =TRUE}}
+  if(Dindex==5){if(any(Xt<=0)|any(Xt>=1)){warntrue[5] =TRUE}}
+  if(P<10){warntrue[6] =TRUE}#{stop(paste0(b1,warn[6],b2))}
+  if(length(P)!=1){warntrue[11] =TRUE}#{stop(paste0(b1,warn[11],b2))}
+  if(length(alpha)!=1){warntrue[18] =TRUE}#{stop(paste0(b1,warn[18],b2))}
+  if(Trunc[2]>Trunc[1]){warntrue[8] =TRUE}#{stop(paste0(b1,warn[8],b2))}
+  if(length(Trunc)!=2){warntrue[19] =TRUE}#{stop(paste0(b1,warn[19],b2))}
+  if(sum(TR.order==c(4,6,8))!=1){warntrue[20] =TRUE}#{stop(paste0(b1,warn[20],b2))}
+  if(sum(DTR.order==c(4,6,8))!=1){warntrue[21] =TRUE}#{stop(paste0(b1,warn[21],b2))}
   #if(delt>=1/5){stop(paste0(b1,warn[9],b2))}
-  if(delt>=1){stop(paste0(b1,warn[10],b2))}
-  if(t<s){stop(paste0(b1,warn[22],b2))}
+  if(delt>=1){warntrue[10] =TRUE}#{stop(paste0(b1,warn[10],b2))}
+  if(t<s){warntrue[22] =TRUE}#{stop(paste0(b1,warn[22],b2))}
+
+  # Print output:
+   if(any(warntrue))
+   {
+      prnt = b1
+      for(i in which(warntrue))
+      {
+         prnt = paste0(prnt,warn[i])
+      }
+      prnt = paste0(prnt,b2)
+      stop(prnt)
+   }
+
   pow=function(x,p)
   {
     x^p
@@ -382,7 +396,8 @@ GQD.density<-function(Xs,Xt,s,t,delt=1/100,Dtype='Saddlepoint',Trunc=c(4,4),P=10
   MM=solver()
   close(pb)
   
-  
+   if(eval.density)
+   {
   #=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=
   
   #=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=
@@ -1130,6 +1145,7 @@ GQD.density<-function(Xs,Xt,s,t,delt=1/100,Dtype='Saddlepoint',Trunc=c(4,4),P=10
   #  print(res,right=T,quote=F)
   # }
   #}
+  }
   if(TR.order==4)
   {
     u=MM*0
@@ -1162,6 +1178,11 @@ GQD.density<-function(Xs,Xt,s,t,delt=1/100,Dtype='Saddlepoint',Trunc=c(4,4),P=10
     u[6,]=                              k[6,]+1*k[1,]*u[5,]+5*k[2,]*u[4,]+10*k[3,]*u[3,]+10*k[4,]*u[2,]+5*k[5,]*u[1,] 
     u[7,]=               k[7,]+1*k[1,]*u[6,]+6*k[2,]*u[5,]+15*k[3,]*u[4,]+20*k[4,]*u[3,]+15*k[5,]*u[2,]+6*k[6,]*u[1,] 
     u[8,]=k[8,]+1*k[1,]*u[7,]+7*k[2,]*u[6,]+21*k[3,]*u[5,]+35*k[4,]*u[4,]+35*k[5,]*u[3,]+21*k[6,]*u[2,]+7*k[7,]*u[1,] 
+  }
+
+  if(!eval.density)
+  {
+      DD=list(density=NULL,MSH=NULL);
   }
   ret=list(density=DD$density,Xt=Xt,time=ttt[-1],cumulants=MM,moments=u,mesh=DD$MSH)
   class(ret) = 'GQD.density'

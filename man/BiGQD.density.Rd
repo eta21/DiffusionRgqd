@@ -5,9 +5,42 @@ Generate the Transition Density of a Bivariate Generalized Quadratic Diffusion M
 }
 \description{
 \code{BiGQD.density} generates approximate transitional densities for bivariate generalized quadratic diffusions (GQDs). Given a starting coordinate, (\code{Xs}, \code{Ys}), the approximation is evaluated over a lattice \code{Xt} x \code{Yt} for an equispaced discretization (intervals of width \code{delt}) of the transition time horizon [\code{s}, \code{t}] .  
+\if{html}{
+\code{BiGQD.density} generates approximate transitional densities for a class of bivariate diffusion processes with SDE:
+
+\figure{BivEqn1.png}
+
+where
+
+\figure{BivEqn2.png}
+
+and
+
+\figure{BivEqn3.png}
+
+
+
+}
+\if{latex}{
+\code{BiGQD.density()} approximates the transitional density of jump diffusions of the form:
+\deqn{d\mathbf{X}_t = \boldsymbol\mu(\mathbf{X}_t,t)dt +\boldsymbol\sigma(\mathbf{X}_t,t)d\mathbf{W}_t\\}
+where
+\deqn{\mu^{(1)}(\mathbf{X}_t,t)= \sum_{i+j\leq 2}a_{ij}(t)X_t^iY_t^j,\\}
+\deqn{\mu^{(2)}(\mathbf{X}_t,t)= \sum_{i+j\leq 2}b_{ij}(t)X_t^iY_t^j,\\}
+and
+\deqn{\boldsymbol\sigma(X_t,Y_t,t)\boldsymbol\sigma^{\prime}(X_t,Y_t,t) = (\gamma^{(i,j)}(\mathbf{X}_t,t))_{i,j=1,2}\\}
+such that
+\deqn{\gamma^{(1,1)}(\mathbf{X}_t,t)= \sum_{i+j\leq 2}c_{ij}(t)X_t^iY_t^j,\\}
+\deqn{\gamma^{(1,2)}(\mathbf{X}_t,t)= \sum_{i+j\leq 2}d_{ij}(t)X_t^iY_t^j,\\}
+\deqn{\gamma^{(2,1)}(\mathbf{X}_t,t)= \sum_{i+j\leq 2}e_{ij}(t)X_t^iY_t^j,\\}
+\deqn{\gamma^{(2,2)}(\mathbf{X}_t,t)= \sum_{i+j\leq 2}f_{ij}(t)X_t^iY_t^j.\\}
+
+ }
+
 }
 \usage{
-BiGQD.density(Xs, Ys, Xt, Yt, s, t, delt=1/100, Dtype='Saddlepoint', print.output=TRUE)
+BiGQD.density(Xs, Ys, Xt, Yt, s, t, delt=1/100, Dtype='Saddlepoint', print.output=TRUE,
+              eval.density=TRUE)
 }
 \arguments{
   \item{Xt}{x-Coordinates of the lattice at which to evaluate the transition density.}
@@ -19,11 +52,14 @@ BiGQD.density(Xs, Ys, Xt, Yt, s, t, delt=1/100, Dtype='Saddlepoint', print.outpu
   \item{delt}{Step size for numerical solution of the cumulant system. Also used for the discretization of the transition time-horizon. See warnings \bold{[1]} and \bold{[2]}.}
   \item{Dtype}{The density approximant to use. Valid types are \code{"Saddlepoint"} (default) or \code{"Edgeworth"}.}
   \item{print.output}{If \code{TRUE} information about the model and algorithm is printed to the console. }
+  \item{eval.density}{If \code{TRUE}, the density is evaluated in addition to calculating the moment eqns.}
 }
 \details{
 \if{html}{\figure{TransDens2.png}{GQD}}
 
 \code{BiGQD.density} constructs an approximate transition density for a class of quadratic diffusion models. This is done by first evaluating the trajectory of the cumulants/moments of the diffusion numerically as the solution of a system of ordinary differential equations over a time horizon \code{[s,t]} split into equi-distant points \code{delt} units apart. Subsequently, the resulting cumulants/moments are carried into a density approximant (by default, a saddlepoint approximation) in order to evaluate the transtion surface. 
+
+ 
 }
 \value{
   \item{density}{3D Array containing approximate density values. Note that the 3rd dimension represents time.}
@@ -144,8 +180,8 @@ for(i in 1:1001)
 
 }
 
-\keyword{Transition density}
-\keyword{Bivariate Saddlepoint}
-\keyword{Bivariate Edgeworth}
-\keyword{Moments}
-\keyword{Cumulants}
+\keyword{transition density}
+\keyword{bivariate saddlepoint}
+\keyword{bivariate Edgeworth}
+\keyword{moments}
+\keyword{cumulants}

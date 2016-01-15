@@ -186,6 +186,6 @@ title=expression(theta[1]))
 #===============================================================================
 }
 }
-\keyword{Syntax}
+\keyword{syntax}
 \keyword{C++}
-\keyword{First passage time}
+\keyword{first passage time}

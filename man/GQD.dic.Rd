@@ -104,4 +104,4 @@ Etienne A.D. Pienaar: \email{etiannead@gmail.com}
 #===============================================================================
 }
 }
-\keyword{Deviance information criterion (DIC)}
+\keyword{deviance information criterion (DIC)}

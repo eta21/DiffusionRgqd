@@ -1,4 +1,4 @@
-GQD.estimates = function(x,thin = 100, burns)
+GQD.estimates = function(x,thin = 100, burns,acf.plot =TRUE)
 {
   if(class(x)=='GQD.mle')
   {
@@ -43,12 +43,16 @@ GQD.estimates = function(x,thin = 100, burns)
         d2=d2[row(test)[wh[1]]]
         par(mfrow=c(d1,d2))
       }
-      cols=rainbow(nper)
+      cols=rainbow_hcl(nper, start = 10, end = 275,c=100,l=70)
+     if(acf.plot)
+     {
      for(i in 1:dim(x$par.matrix)[2])
      {
         acf(x$par.matrix[windw,i],main=paste0('ACF: theta[',i,']\nThin=',thin,', Burns=',burns,', N=',length(windw)),col = cols[i],lwd=2)
      }
-     return(dat)
+     }
+
+     return(as.matrix(dat))
   }
 
 }

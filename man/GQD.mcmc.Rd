@@ -5,8 +5,31 @@
 MCMC Inference on Generalized Quadratic Diffusion Models (GQDs).
 }
 \description{
-\code{GQD.mcmc()} uses parametrised coefficients (provided by the user as R-functions) to construct a C++ program in real time that allows the user to perform Bayesian inference on the resulting diffusion model. Given a set of starting parameters and other input parameters, a MCMC chain is returned for further analysis.
-The structure of the model is predefined and coefficients may be provided for models nested within the generalized quadratic diffusion framework. That is, the saturated GQD model is given by: \strong{\deqn{dX_t = (G_0(t)+G_1(t)X_t+G_2(t)X_t^2)dt+\sqrt{Q_0(t)+Q_1(t)X_t+Q_2(t)X_t^2}dW_t}} where dW_t is Standard Brownian Motion.
+\code{GQD.mcmc()} uses parametrised coefficients (provided by the user as R-functions) to construct a C++ program in real time that allows the user to perform Bayesian inference on the resulting jump diffusion model. Given a set of starting parameters, a MCMC chain is returned for further analysis.
+
+\if{html}{
+ \code{GQD.mcmc()} performs inference using the Metropolis-Hastings algorithm for jump diffusions of the form:
+
+ \figure{ScalarEqn1.png}
+
+ where
+
+ \figure{ScalarEqn2.png}
+
+ and
+
+  \figure{ScalarEqn3.png}
+
+ }
+\if{latex}{
+\code{GQD.mcmc()} performs inference using the Metropolis-Hastings algorithm for diffusions of the form:
+\deqn{dX_t = \mu(X,t)dt +\sigma(X_t,t)dW_t\\}
+where
+\deqn{\mu(X,t) = G_0(t,\theta)+G_1(t,\theta)X_t+G_2(t,\theta)X_t^2\\}
+and
+\deqn{\sigma(X,t)=\sqrt{Q_0(t,\theta)+Q_1(t,\theta)X_t+Q_2(t,\theta)X_t^2.}\\}
+
+ }
 }
 \usage{
 GQD.mcmc(X, time, mesh=10, theta, sds, updates, burns=min(round(updates/2),25000),
@@ -94,7 +117,7 @@ Etienne A.D. Pienaar: \email{etiennead@gmail.com}
 }
 
 \section{Syntactical jargon}{
-\bold{Synt. [1]:} The coefficients of the 2D GQD may be parameterized using the reserved variable \code{theta}. For example:
+\bold{Synt. [1]:} The coefficients of the GQD may be parameterized using the reserved variable \code{theta}. For example:
 
 \code{G0 <- function(t){theta[1]*(theta[2]+sin(2*pi*(t-theta[3])))}}.
 
@@ -163,8 +186,8 @@ GQD.estimates(m1,thin=200)
 
 }
 }
-\keyword{Syntax}
+\keyword{syntax}
 \keyword{C++}
-\keyword{MCMC}
+\keyword{mcmc}
 
 

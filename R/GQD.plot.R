@@ -33,7 +33,7 @@
         d2=d2[row(test)[wh[1]]]
         par(mfrow=c(d1,d2))
       }
-      cols=rainbow(nper)
+      cols=rainbow_hcl(nper, start = 10, end = 275,c=100,l=70)
       ylabs=paste0('theta[',1:nper,']')
       for(i in 1:nper)
       {
@@ -42,7 +42,7 @@
             hist(par.matrix[i,tt],col=cols[i],main=ylabs[i],freq=F)
           }else
           {
-           plot(prop.matrix[i,tt]~tt,col='gray80',type='s',main=ylabs[i],xlab='Iteration',ylab='')
+           plot(prop.matrix[i,tt]~tt,col='gray90',type='s',main=ylabs[i],xlab='Iteration',ylab='')
            lines(par.matrix[i,tt]~tt,col=cols[i],type='s')
            abline(v=1,lty='dotdash')
           }

@@ -7,7 +7,7 @@ Extract Parmaeter Estimates from \code{.mle()} or \code{.mcmc()} Objects.
 \code{GQD.estimates()} calculates parameter estimates from \code{.mle()} or \code{.mcmc()} model objects.
 }
 \usage{
-GQD.estimates(x, thin = 100, burns)
+GQD.estimates(x, thin = 100, burns, acf.plot = TRUE)
 }
 
 \arguments{
@@ -18,6 +18,10 @@ Thinnging level for parameter chain.
 }
   \item{burns}{
 Number of MCMC updates to discard before calculating estimates.
+}
+
+  \item{acf.plot}{
+If TRUE, an acf plot is drawn for each element of the parameter chain.
 }
 }
 

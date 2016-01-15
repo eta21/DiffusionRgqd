@@ -11,10 +11,14 @@ Depends: R (>= 3.2.1)
 Imports:
     Rcpp,
     RcppArmadillo,
-    rgl
+    rgl,
+    colorspace
 LinkingTo: Rcpp, RcppArmadillo
 Suggests:
-    plot3D,
+    knitr,
     coda,
-    fptdApprox
+    fptdApprox,
+    Quandl,
+    R.rsp
 License: GPL (>= 2)
+VignetteBuilder: knitr, R.rsp

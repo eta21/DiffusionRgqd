@@ -4,11 +4,35 @@
 Generate the Transition Density of a Scalar Generalized Quadratic Diffusion (GQD).
 }
 \description{
-\code{GQD.density} approximates the transition density of a scalar generalized quadratic diffusion model (GQD). Given an initial value for the diffusion, \code{Xs}, the approximation is evaluated for all \code{Xt} at equispaced time-nodes given by splitting [\code{s}, \code{t}] into subintervals of length \code{delt}.
+ \code{GQD.density} approximates the transition density of a scalar generalized quadratic diffusion model (GQD). Given an initial value for the diffusion, \code{Xs}, the approximation is evaluated for all \code{Xt} at equispaced time-nodes given by splitting [\code{s}, \code{t}] into subintervals of length \code{delt}.
+ \if{html}{
+ \code{GQD.density()} approximates transitional densities of diffusions of the form:
+
+ \figure{ScalarEqn1.png}
+
+ where
+
+  \figure{ScalarEqn2.png}
+
+  and
+  
+  \figure{ScalarEqn3.png}
+  
+ }
+ \if{latex}{
+  \code{GQD.density()} approximates transitional densities of jump diffusions of the form:
+ \deqn{dX_t = \mu(X,t)dt +\sigma(X_t,t)dW_t+dP_t\\}
+ where
+ \deqn{\mu(X,t) = G_0(t,\theta)+G_1(t,\theta)X_t+G_2(t,\theta)X_t^2\\}
+ and
+ \deqn{\sigma(X,t)=\sqrt{Q_0(t,\theta)+Q_1(t,\theta)X_t+Q_2(t,\theta)X_t^2.}\\}
+ }
+
  }
 \usage{
 GQD.density(Xs, Xt, s, t, delt=1/100, Dtype='Saddlepoint', Trunc=c(4,4),
-            P=100, alpha=0, lower=0, upper=50, print.output=TRUE)
+            P=100, alpha=0, lower=0, upper=50, print.output=TRUE,
+            eval.density=TRUE)
 }
 \arguments{
   \item{Xs}{Initial value of the process at time s.}
@@ -22,6 +46,7 @@ GQD.density(Xs, Xt, s, t, delt=1/100, Dtype='Saddlepoint', Trunc=c(4,4),
 \item{alpha}{Normalization parameter controlig the mesh concentration when normalizing members of the Pearson system (see details). Increasing \code{alpha} decreases concentration around the mean and vice versa (default \code{alpha = 0}).}
 \item{lower,upper}{Lower and upper bounds for the normalization range.}
 \item{print.output}{If \code{TRUE} information about the model and algorithm is printed to the console. }
+\item{eval.density}{If \code{TRUE}, the density is evaluated in addition to calculating the moment eqns.}
 }
 \details{
 \if{html}{\figure{TransDens1.png}{GQD}}
@@ -143,8 +168,8 @@ See \code{\link{GQD.mcmc}} and \code{\link{GQD.mle}} for likelihood based infere
 }
 }
 
-\keyword{Transition density }
-\keyword{Cumulants }
-\keyword{Moments }
-\keyword{Saddlepoint }
+\keyword{transition density }
+\keyword{cumulants }
+\keyword{moments }
+\keyword{saddlepoint }
 \keyword{Pearson system }

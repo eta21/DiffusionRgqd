@@ -31,7 +31,6 @@ For a full analysis of this dataset check out Example 7.5 in the example scripts
 
 \examples{
 data(SDEsim4)
-data(SDEsim4)
 attach(SDEsim4)
 # Have a look at the time series:
 plot(Xt~time,type='l',col='blue',ylim=c(0,25),main='Simulated Data',

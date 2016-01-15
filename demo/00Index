@@ -1,0 +1,3 @@
+transition.density   How to generate transition densities for quadratic diffusions using DiffusionRgqd.
+first.passage   How to generate first passage time densities for time inhomogeneous quadratic diffusion processes.
+

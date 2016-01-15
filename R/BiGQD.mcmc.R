@@ -1447,11 +1447,11 @@ if(state4)
         d2=d2[row(test)[wh[1]]]
         par(mfrow=c(d1,d2))
       }
-      cols=rainbow(nper)
+      cols=rainbow_hcl(nper, start = 10, end = 275,c=100,l=70)
       ylabs=paste0('theta[',1:nper,']')
       for(i in 1:nper)
       {
-          plot(prop.matrix[i,],col='gray80',type='s',main=ylabs[i],xlab='Iteration',ylab='')
+          plot(prop.matrix[i,],col='gray90',type='s',main=ylabs[i],xlab='Iteration',ylab='')
           lines(par.matrix[i,],col=cols[i],type='s')
           abline(v=burns,lty='dotdash')
           if(adapt!=0){abline(v=min(5000,round(burns/2)),lty='dotted',col='red')}

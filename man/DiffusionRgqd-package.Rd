@@ -13,7 +13,7 @@ A package for Performing Inference and Analysis on Generalized Quadratic Diffusi
 Package: \tab DiffusionRgqd\cr
 Type: \tab Package\cr
 Version: \tab 0.1.2\cr
-Date: \tab 2015-11-01\cr
+Date: \tab 2015-12-01\cr
 License: \tab GPL (>= 2)\cr
 }
 The package is designed around an interface whereby the user supplies standard R-functions dictating the functional form of the coefficients of the GQD.  

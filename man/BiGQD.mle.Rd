@@ -74,7 +74,7 @@ BiGQD.mle(X, time, mesh=10, theta, control=NULL, method='Nelder-Mead', RK.order=
   \item{model.info$p}{The dimension of \code{theta}.}
 }
 \references{
-Updates available on GitHub at \url{https://github.com/eta21}. Visit \url{http://etiennead.wix.com/diffusionr} for more details on the DiffusionRgqd package.
+Updates available on GitHub at \url{https://github.com/eta21}.
 
 Daniels, H.E. 1954 Saddlepoint approximations in statistics. \emph{Ann. Math. Stat.}, \bold{25}:631--650.
 

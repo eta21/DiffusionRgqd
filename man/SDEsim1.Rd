@@ -26,7 +26,7 @@ The process was simulated by numerically solving the SDE using a Euler-Maruyama 
 Etienne A.D. Pienaar: \email{etiannead@gmail.com}
 }
 \references{
-Updates available on GitHub at \url{https://github.com/eta21}. Visit \url{http://etiennead.wix.com/diffusionr} for more details on the DiffusionRgqd package.
+Updates available on GitHub at \url{https://github.com/eta21}. 
 }
 
 \examples{

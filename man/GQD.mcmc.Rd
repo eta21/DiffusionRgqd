@@ -35,7 +35,8 @@ and
 GQD.mcmc(X, time, mesh=10, theta, sds, updates, burns=min(round(updates/2),25000),
          Dtype='Saddle', Trunc=c(4,4), RK.order=4, P=200, alpha=0,
          lower=min(na.omit(X))/2, upper=max(na.omit(X))*2,
-         exclude=NULL, plot.chain=TRUE, Tag=NA, wrt=FALSE, print.output=TRUE)
+         exclude=NULL, plot.chain=TRUE, Tag=NA, wrt=FALSE, print.output=TRUE,
+         palette = 'mono')
 }
 
 \arguments{
@@ -73,6 +74,7 @@ The number of updates to burn. That is, the first \code{burns} values are omitte
 \item{Tag}{\code{Tag} can be used to name (tag) an MCMC run e.g. \code{Tag='Run_1'}}
 \item{wrt}{If \code{TRUE} a .cpp file will be written to the current directory. For bug report diagnostics.}
 \item{print.output}{If \code{TRUE} information about the model and algorithm is printed to the console. }
+\item{palette}{Colour palette for drawing trace plots. Default \code{palette = 'mono'}, otherwise a qualitative palette will be used.}
 }
 \details{
 
@@ -89,7 +91,7 @@ The number of updates to burn. That is, the first \code{burns} values are omitte
   \item{model.info$pd}{Effective number of parameters (see \code{model.info$DIC}).}
 }
 \references{
-Updates available on GitHub at \url{https://github.com/eta21}. Visit \url{http://etiennead.wix.com/diffusionr} for more details on the DiffusionRgqd package.
+Updates available on GitHub at \url{https://github.com/eta21}. 
 
 Daniels, H.E. 1954 Saddlepoint approximations in statistics. \emph{Ann. Math. Stat.}, \bold{25}:631--650.
 

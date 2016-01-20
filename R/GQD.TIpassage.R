@@ -20,66 +20,73 @@ GQD.TIpassage=
     if(IEQ.type=='Volterra')
     {
 
-    stop("Volterra solution offline.");
+    #stop("Volterra solution offline.");
     #===============================================================================
     #                             State 1
     #===============================================================================
     txtA.state1=
-      '#include <RcppArmadillo.h>
+      '
+    #include <RcppArmadillo.h>
+    #include <math.h>
+    #include <Rcpp.h>
+    #define pi           3.14159265358979323846  /* pi */
+    using namespace arma;
+    using namespace Rcpp;
+    using namespace R;
     
     // [[Rcpp::depends("RcppArmadillo")]]
     
-    arma::mat f(arma::mat a,arma::vec theta,arma::vec t,int N2)
+    mat f(mat a,vec theta,vec t,int N2)
 {
-    double pi =3.141592653589793;
-    arma::mat atemp(N2,2);'
+    
+    mat atemp(N2,2);'
     
     txtB.state1.homo= '
     return atemp;
 }
     
     // [[Rcpp::export]]
-    arma::mat  solver(arma::vec Xs,arma::vec Xt,arma::vec theta,int N,double delt,int N2,arma::vec tt)
+    mat  solver(vec Xs,vec Xt,vec theta,int N,double delt,int N2,vec tt)
 {
-  arma::mat fx0(N2,2);
-  arma::mat fx1(N2,2);
-  arma::mat fx2(N2,2);
-  arma::mat fx3(N2,2);
-  arma::mat fx4(N2,2);
-  arma::mat fx5(N2,2);
-  arma::mat fx6(N2,2);
-  arma::mat fx7(N2,2);
-  arma::mat fx8(N2,2);
-  arma::mat fx9(N2,2);
-  arma::mat fx10(N2,2);
-  arma::mat fx11(N2,2);
-  arma::mat fx12(N2,2);
-  arma::mat fx13(N2,2);
-  arma::mat fx14(N2,2);
-  arma::mat fx15(N2,2);
-  arma::mat fx16(N2,2);
-  arma::mat x0(N2,2);
-  arma::mat x1(N2,2);
-  arma::mat x2(N2,2);
-  arma::mat x3(N2,2);
-  arma::mat x4(N2,2);
-  arma::mat x5(N2,2);
-  arma::mat x6(N2,2);
-  arma::mat x7(N2,2);
-  arma::mat x8(N2,2);
-  arma::mat x9(N2,2);
-  arma::mat x10(N2,2);
-  arma::mat x11(N2,2);
-  arma::mat x12(N2,2);
-  arma::mat x13(N2,2);
-  arma::mat x14(N2,2);
-  arma::mat x15(N2,2);
-  arma::mat x16(N2,2);
+  mat fx0(N2,2);
+  mat fx1(N2,2);
+  mat fx2(N2,2);
+  mat fx3(N2,2);
+  mat fx4(N2,2);
+  mat fx5(N2,2);
+  mat fx6(N2,2);
+  mat fx7(N2,2);
+  mat fx8(N2,2);
+  mat fx9(N2,2);
+  mat fx10(N2,2);
+  mat fx11(N2,2);
+  mat fx12(N2,2);
+  mat fx13(N2,2);
+  mat fx14(N2,2);
+  mat fx15(N2,2);
+  mat fx16(N2,2);
+  mat x0(N2,2);
+  mat x1(N2,2);
+  mat x2(N2,2);
+  mat x3(N2,2);
+  mat x4(N2,2);
+  mat x5(N2,2);
+  mat x6(N2,2);
+  mat x7(N2,2);
+  mat x8(N2,2);
+  mat x9(N2,2);
+  mat x10(N2,2);
+  mat x11(N2,2);
+  mat x12(N2,2);
+  mat x13(N2,2);
+  mat x14(N2,2);
+  mat x15(N2,2);
+  mat x16(N2,2);
     x0.fill(0);
     x0.col(0)=Xs;
-    arma::mat res(N2,N);
-    arma::vec d=tt;
-    for (int i = 1; i < N+1; i++)
+    mat res(N2,N);
+    vec d=tt;
+    for (int i = 1; i < N; i++)
 {
     
   fx0=f(x0,theta,d,N2);
@@ -134,7 +141,7 @@ GQD.TIpassage=
         -0.0250000000000000000000000000000000000000000000000000000000000*fx15
         +0.0333333333333333333333333333333333333333333333333333333333333*fx16)*delt;
     d=d+delt;
-    res.col(i-1) =exp(-log(2*3.141592653589793)-0.5*log(x.col(1))-0.5*((Xt-x.col(0))%(Xt-x.col(0))/x.col(1)));
+    res.col(i) =exp(-0.5*log(2*3.141592653589793*x0.col(1))-0.5*((Xt-x0.col(0))%(Xt-x0.col(0))/x0.col(1)));
 }
     return(res);
 }'
@@ -144,70 +151,76 @@ GQD.TIpassage=
 #                             State 2
 #===============================================================================
     txtA.state2=
-      '#include <RcppArmadillo.h>
-    
+      '
+    #include <RcppArmadillo.h>
+    #include <math.h>
+    #include <Rcpp.h>
+    #define pi           3.14159265358979323846  /* pi */
+    using namespace arma;
+    using namespace Rcpp;
+    using namespace R;    
     // [[Rcpp::depends("RcppArmadillo")]]
     
-    arma::mat f(arma::mat a,arma::vec theta,arma::vec t,int N2)
+    mat f(mat a,vec theta,vec t,int N2)
 {
-    double pi =3.141592653589793;
-    arma::mat atemp(N2,4);'
+    
+    mat atemp(N2,4);'
     
     txtB.state2.homo= '
     return atemp;
 }
     
     // [[Rcpp::export]]
-    arma::mat  solver(arma::vec Xs,arma::vec Xt,arma::vec theta,int N,double delt,int N2,arma::vec tt)
+    mat  solver(vec Xs,vec Xt,vec theta,int N,double delt,int N2,vec tt)
 {
-  arma::mat fx0(N2,4);
-  arma::mat fx1(N2,4);
-  arma::mat fx2(N2,4);
-  arma::mat fx3(N2,4);
-  arma::mat fx4(N2,4);
-  arma::mat fx5(N2,4);
-  arma::mat fx6(N2,4);
-  arma::mat fx7(N2,4);
-  arma::mat fx8(N2,4);
-  arma::mat fx9(N2,4);
-  arma::mat fx10(N2,4);
-  arma::mat fx11(N2,4);
-  arma::mat fx12(N2,4);
-  arma::mat fx13(N2,4);
-  arma::mat fx14(N2,4);
-  arma::mat fx15(N2,4);
-  arma::mat fx16(N2,4);
-  arma::mat x0(N2,4);
-  arma::mat x1(N2,4);
-  arma::mat x2(N2,4);
-  arma::mat x3(N2,4);
-  arma::mat x4(N2,4);
-  arma::mat x5(N2,4);
-  arma::mat x6(N2,4);
-  arma::mat x7(N2,4);
-  arma::mat x8(N2,4);
-  arma::mat x9(N2,4);
-  arma::mat x10(N2,4);
-  arma::mat x11(N2,4);
-  arma::mat x12(N2,4);
-  arma::mat x13(N2,4);
-  arma::mat x14(N2,4);
-  arma::mat x15(N2,4);
-  arma::mat x16(N2,4);
+  mat fx0(N2,4);
+  mat fx1(N2,4);
+  mat fx2(N2,4);
+  mat fx3(N2,4);
+  mat fx4(N2,4);
+  mat fx5(N2,4);
+  mat fx6(N2,4);
+  mat fx7(N2,4);
+  mat fx8(N2,4);
+  mat fx9(N2,4);
+  mat fx10(N2,4);
+  mat fx11(N2,4);
+  mat fx12(N2,4);
+  mat fx13(N2,4);
+  mat fx14(N2,4);
+  mat fx15(N2,4);
+  mat fx16(N2,4);
+  mat x0(N2,4);
+  mat x1(N2,4);
+  mat x2(N2,4);
+  mat x3(N2,4);
+  mat x4(N2,4);
+  mat x5(N2,4);
+  mat x6(N2,4);
+  mat x7(N2,4);
+  mat x8(N2,4);
+  mat x9(N2,4);
+  mat x10(N2,4);
+  mat x11(N2,4);
+  mat x12(N2,4);
+  mat x13(N2,4);
+  mat x14(N2,4);
+  mat x15(N2,4);
+  mat x16(N2,4);
     x0.fill(0);
     x0.col(0)=Xs;
-    arma::mat res(N2,N);
-    arma::vec d=tt;
-    arma::vec p(N2);
-    arma::vec q(N2);
-    arma::vec chk(N2);
-    arma::vec th(N2);
+    mat res(N2,N);
+    vec d=tt;
+    vec p(N2);
+    vec q(N2);
+    vec chk(N2);
+    vec th(N2);
     
-    arma::vec K(N2);
-    arma::vec K1(N2);
-    arma::vec K2(N2);
-    arma::vec val(N2);
-    for (int i = 1; i < N+1; i++)
+    vec K(N2);
+    vec K1(N2);
+    vec K2(N2);
+    vec val(N2);
+    for (int i = 1; i < N; i++)
 {
   fx0=f(x0,theta,d,N2);
   x1=x0+delt*(0.1*fx0);
@@ -270,7 +283,7 @@ GQD.TIpassage=
     K1 =x0.col(0)   +(x0.col(1)%th)       +(x0.col(2)%th%th)/2.0    +(x0.col(3)%th%th%th)/6.0;
     K2 =x0.col(1)   +(x0.col(2)%th)       +(x0.col(3)%th%th)/2.0;
     val=-0.5*log(2*3.141592653589793*K2)+(K-th%K1);
-    res.col(i-1)=exp(val);
+    res.col(i)=exp(val);
 }
     return(res);
 }'
@@ -279,22 +292,22 @@ GQD.TIpassage=
       '
     
     // [[Rcpp::export]]
-    arma::vec fpt(arma::mat res,arma::vec res2,int N,double delt)
-{
-    arma::vec g(N);
+    vec fpt(mat res1,vec res2,int N,double delt)
+   {
+    vec g(N);
     g.fill(0);
     double sm;
-    for (int i = 2; i < N+1; i++)
-{
-    sm=0;
-    for (int j = 1; j < i+1; j++)
-{
-    sm=sm+res(j-1,(i-j+1)-1)*g[j-1];
-}
-    g[i-1] = (res2[i-1]/delt -sm)/res(i-2,0);
-}
+    for (int i = 1; i < N; i++)
+    {
+      sm=0;
+      for (int j = 1; j < i; j++)
+      {
+        sm=sm+res1(j,i-j)*g(j);
+      }
+      g(i) = (res2(i)/delt -sm)/res1(i,1);
+    }
     return g;
-}
+   }
     '
 
 
@@ -489,22 +502,27 @@ GQD.TIpassage=
       #  txt.full=paste(txtA.state2,'\n',dims[1],'\n',dims[2],'\n',dims[3],'\n',dims[4],txtB.state2.NONhomo,txtC.state2)
       #}
       #write(txt.full,'FPT_modelbuild.cpp')
-      
+
       type.sol ="                 Generalized Quadratic Diffusion (GQD) "#paste0("GENERALIZED LINEAR DIFFUSON",c('',": TIME INHOMOGNEOUS")[2-homo],c(')','+INDEPENDENT')[1+state1])
       
     }
     #library(Rcpp)
     #library(RcppArmadillo)
+     if(wrt)
+     {
+       write(txt.full,'FPT_modelbuild.cpp')
+     }
 stre="Compiling C++ code. Please wait."
 cat(stre, " \r")
     sourceCpp(code=txt.full)
 cat('                                     ','\r')
-    N=(t-s)/delt
-    tt=seq(s,t-delt,delt)
+     N=(Tmax-s)/delt
+     tt=seq(s,Tmax-delt,delt)
     
     res=solver(rep(B,N),rep(B,N),c(0,theta),N,delt,N,tt)
     res2=solver(rep(Xs,1),rep(B,1),c(0,theta),N,delt,1,0)
     y=fpt(res,res2,N,delt)
+    #return(list(density=y,time=tt))
     #print('Done.')
     }
     
@@ -516,19 +534,25 @@ cat('                                     ','\r')
 #===============================================================================
 
 #_______________________________________________________________________________
-txt1.1A=      '#include <RcppArmadillo.h>
-
+txt1.1A=      '
+#include <RcppArmadillo.h>
+#include <math.h>
+#include <Rcpp.h>
+#define pi           3.14159265358979323846  /* pi */
+using namespace arma;
+using namespace Rcpp;
+using namespace R;
 // [[Rcpp::depends("RcppArmadillo")]]
 // [[Rcpp::export]]
-arma::vec prod(arma::vec a,arma::vec b)
+vec prod(vec a,vec b)
 {
  return(a%b);
 }
 
-arma::mat f(arma::mat a,arma::vec theta,arma::vec t,int N2)
+mat f(mat a,vec theta,vec t,int N2)
 {
-    double pi =3.141592653589793;
-    arma::mat atemp(N2,2);'
+    
+    mat atemp(N2,2);'
 
 #_______________________________________________________________________________
     txt1.2A= '
@@ -538,73 +562,74 @@ arma::mat f(arma::mat a,arma::vec theta,arma::vec t,int N2)
 #_______________________________________________________________________________
     txt2A='
   // [[Rcpp::export]]
-  arma::vec saddle(arma::mat xx,double Bt)
+  vec saddle(mat xx,double Bt)
 {
-  arma::vec val=exp(-0.5*log(2*3.141592653589793*xx.col(1))-0.5*(Bt-xx.col(0))%(Bt-xx.col(0))/xx.col(1));
+  vec val=exp(-0.5*log(2*3.141592653589793*xx.col(1))-0.5*(Bt-xx.col(0))%(Bt-xx.col(0))/xx.col(1));
   return(val);
 }
   // [[Rcpp::export]]
-  arma::vec saddle2(arma::mat xx,double Bt)
+  vec saddle2(mat xx,double Bt)
 {
-  arma::vec val=-exp(-0.5*log(2*3.141592653589793*xx.col(1))-0.5*(Bt-xx.col(0))%(Bt-xx.col(0))/xx.col(1))%(Bt-xx.col(0))/xx.col(1);
+  vec val=-exp(-0.5*log(2*3.141592653589793*xx.col(1))-0.5*(Bt-xx.col(0))%(Bt-xx.col(0))/xx.col(1))%(Bt-xx.col(0))/xx.col(1);
   return(val);
 }
 
 // [[Rcpp::export]]
-arma::vec pcurr(arma::mat xx,double Bt,arma::vec theta,arma::vec t)
+vec pcurr(mat xx,double Bt,vec theta,vec t)
 {
-  double pi =3.141592653589793;
-  arma::vec val ='
+  
+  vec val ='
 #_______________________________________________________________________________
 txt3A=';
   return(val);
 }
 
 // [[Rcpp::export]]
-arma::mat solver(arma::vec Xs,double Bt,arma::vec theta,int N,double delt,int N2,arma::vec tt)
+mat solver(vec Xs,double Bt,vec theta,int N,double delt,int N2,vec tt)
 {
-    arma::mat fx0(N2,2);
-    arma::mat fx1(N2,2);
-    arma::mat fx2(N2,2);
-    arma::mat fx3(N2,2);
-    arma::mat fx4(N2,2);
-    arma::mat fx5(N2,2);
-    arma::mat fx6(N2,2);
-    arma::mat fx7(N2,2);
-    arma::mat fx8(N2,2);
-    arma::mat fx9(N2,2);
-    arma::mat fx10(N2,2);
-    arma::mat fx11(N2,2);
-    arma::mat fx12(N2,2);
-    arma::mat fx13(N2,2);
-    arma::mat fx14(N2,2);
-    arma::mat fx15(N2,2);
-    arma::mat fx16(N2,2);
-    arma::mat x0(N2,2);
-    arma::mat x1(N2,2);
-    arma::mat x2(N2,2);
-    arma::mat x3(N2,2);
-    arma::mat x4(N2,2);
-    arma::mat x5(N2,2);
-    arma::mat x6(N2,2);
-    arma::mat x7(N2,2);
-    arma::mat x8(N2,2);
-    arma::mat x9(N2,2);
-    arma::mat x10(N2,2);
-    arma::mat x11(N2,2);
-    arma::mat x12(N2,2);
-    arma::mat x13(N2,2);
-    arma::mat x14(N2,2);
-    arma::mat x15(N2,2);
-    arma::mat x16(N2,2);
+    mat fx0(N2,2);
+    mat fx1(N2,2);
+    mat fx2(N2,2);
+    mat fx3(N2,2);
+    mat fx4(N2,2);
+    mat fx5(N2,2);
+    mat fx6(N2,2);
+    mat fx7(N2,2);
+    mat fx8(N2,2);
+    mat fx9(N2,2);
+    mat fx10(N2,2);
+    mat fx11(N2,2);
+    mat fx12(N2,2);
+    mat fx13(N2,2);
+    mat fx14(N2,2);
+    mat fx15(N2,2);
+    mat fx16(N2,2);
+    mat x0(N2,2);
+    mat x1(N2,2);
+    mat x2(N2,2);
+    mat x3(N2,2);
+    mat x4(N2,2);
+    mat x5(N2,2);
+    mat x6(N2,2);
+    mat x7(N2,2);
+    mat x8(N2,2);
+    mat x9(N2,2);
+    mat x10(N2,2);
+    mat x11(N2,2);
+    mat x12(N2,2);
+    mat x13(N2,2);
+    mat x14(N2,2);
+    mat x15(N2,2);
+    mat x16(N2,2);
 
     x0.fill(0);
     x0.col(0)=Xs;
 
-    arma::mat res(N2,N);
+    mat res(N2,N);
+    res.fill(0);
 
-    arma::vec d=tt;
-    for (int i = 1; i < N+1; i++)
+    vec d=tt;
+    for (int i = 1; i < N; i++)
 {
   fx0=f(x0,theta,d,N2);
   x1=x0+delt*(0.1*fx0);
@@ -658,15 +683,15 @@ arma::mat solver(arma::vec Xs,double Bt,arma::vec theta,int N,double delt,int N2
         -0.0250000000000000000000000000000000000000000000000000000000000*fx15
         +0.0333333333333333333333333333333333333333333333333333333333333*fx16)*delt;
     d=d+delt;
-    res.col(i-1) = pcurr(x0,Bt,theta,d);
+    res.col(i) = pcurr(x0,Bt,theta,d);
 }
 return(res);
 }
 // [[Rcpp::export]]
-arma::vec ieq(arma::mat res1,arma::vec res2,int N,double delt)
+vec ieq(mat res1,vec res2,int N,double delt)
 {
-    arma::vec v(N);
-    v(0)=res2(0);
+    vec v(N);
+    v(0)=0;
     double smtemp=0;
 
     for  (int i = 1; i < N; i++)
@@ -686,19 +711,26 @@ arma::vec ieq(arma::mat res1,arma::vec res2,int N,double delt)
 #===============================================================================
 
 #_______________________________________________________________________________
-txt1.1=      '#include <RcppArmadillo.h>
+txt1.1=      '
+#include <RcppArmadillo.h>
+#include <math.h>
+#include <Rcpp.h>
+#define pi           3.14159265358979323846  /* pi */
+using namespace arma;
+using namespace Rcpp;
+using namespace R;
 
 // [[Rcpp::depends("RcppArmadillo")]]
 // [[Rcpp::export]]
-arma::vec prod(arma::vec a,arma::vec b)
+vec prod(vec a,vec b)
 {
  return(a%b);
 }
 
-arma::mat f(arma::mat a,arma::vec theta,arma::vec t,int N2)
+mat f(mat a,vec theta,vec t,int N2)
 {
-    double pi =3.141592653589793;
-    arma::mat atemp(N2,4);'
+    
+    mat atemp(N2,4);'
 
 #_______________________________________________________________________________
     txt1.2= '
@@ -708,95 +740,95 @@ arma::mat f(arma::mat a,arma::vec theta,arma::vec t,int N2)
 #_______________________________________________________________________________
     txt2='
 // [[Rcpp::export]]
-arma::vec saddle(arma::mat xx,double Bt)
+vec saddle(mat xx,double Bt)
 {
-  arma::vec p=(1.0/3.0) *(3*(xx.col(3)/6.0)%xx.col(1) - pow(xx.col(2)/2.0,2))/pow(xx.col(3)/6.0,2);
-  arma::vec q=(1.0/27.0)*(27*pow(xx.col(3)/6.0,2)%(xx.col(0)-Bt) - 9*(xx.col(3)/6.0)%(xx.col(2)/2.0)%xx.col(1) + 2*pow(xx.col(2)/2.0,3))/pow(xx.col(3)/6.0,3);
-  arma::vec chk=pow(q,2)/4.0 + pow(p,3)/27.0;
-  arma::vec th=-(xx.col(2)/2.0)/(3*(xx.col(3)/6.0))+pow(-q/2.0+sqrt(chk),(1.0/3.0))-pow(q/2.0+sqrt(chk),(1.0/3.0));
+  vec p=(1.0/3.0) *(3*(xx.col(3)/6.0)%xx.col(1) - pow(xx.col(2)/2.0,2))/pow(xx.col(3)/6.0,2);
+  vec q=(1.0/27.0)*(27*pow(xx.col(3)/6.0,2)%(xx.col(0)-Bt) - 9*(xx.col(3)/6.0)%(xx.col(2)/2.0)%xx.col(1) + 2*pow(xx.col(2)/2.0,3))/pow(xx.col(3)/6.0,3);
+  vec chk=pow(q,2)/4.0 + pow(p,3)/27.0;
+  vec th=-(xx.col(2)/2.0)/(3*(xx.col(3)/6.0))+pow(-q/2.0+sqrt(chk),(1.0/3.0))-pow(q/2.0+sqrt(chk),(1.0/3.0));
 
-  arma::vec K =xx.col(0)%th+(xx.col(1)%th%th)/2.0+(xx.col(2)%th%th%th)/6.0 +(xx.col(3)%th%th%th%th)/24.0;
-  arma::vec K1=xx.col(0)   +(xx.col(1)%th)       +(xx.col(2)%th%th)/2.0    +(xx.col(3)%th%th%th)/6.0;
-  arma::vec K2=xx.col(1)   +(xx.col(2)%th)       +(xx.col(3)%th%th)/2.0;
-  arma::vec val=exp(-0.5*log(2*3.141592653589793*K2)+(K-th%K1));
+  vec K =xx.col(0)%th+(xx.col(1)%th%th)/2.0+(xx.col(2)%th%th%th)/6.0 +(xx.col(3)%th%th%th%th)/24.0;
+  vec K1=xx.col(0)   +(xx.col(1)%th)       +(xx.col(2)%th%th)/2.0    +(xx.col(3)%th%th%th)/6.0;
+  vec K2=xx.col(1)   +(xx.col(2)%th)       +(xx.col(3)%th%th)/2.0;
+  vec val=exp(-0.5*log(2*3.141592653589793*K2)+(K-th%K1));
   return(val);
 }
 // [[Rcpp::export]]
-arma::vec saddle2(arma::mat xx,double Bt)
+vec saddle2(mat xx,double Bt)
 {
-  arma::vec p=(1.0/3.0) *(3*(xx.col(3)/6.0)%xx.col(1) - pow(xx.col(2)/2.0,2))/pow(xx.col(3)/6.0,2);
-  arma::vec q=(1.0/27.0)*(27*pow(xx.col(3)/6.0,2)%(xx.col(0)-Bt) - 9*(xx.col(3)/6.0)%(xx.col(2)/2.0)%xx.col(1) + 2*pow(xx.col(2)/2.0,3))/pow(xx.col(3)/6.0,3);
-  arma::vec chk=pow(q,2)/4.0 + pow(p,3)/27.0;
-  arma::vec th=-(xx.col(2)/2.0)/(3*(xx.col(3)/6.0))+pow(-q/2.0+sqrt(chk),(1.0/3.0))-pow(q/2.0+sqrt(chk),(1.0/3.0));
-  arma::vec thdash=1.0/(xx.col(1)+th%xx.col(2)+0.5*th%th%xx.col(3));
+  vec p=(1.0/3.0) *(3*(xx.col(3)/6.0)%xx.col(1) - pow(xx.col(2)/2.0,2))/pow(xx.col(3)/6.0,2);
+  vec q=(1.0/27.0)*(27*pow(xx.col(3)/6.0,2)%(xx.col(0)-Bt) - 9*(xx.col(3)/6.0)%(xx.col(2)/2.0)%xx.col(1) + 2*pow(xx.col(2)/2.0,3))/pow(xx.col(3)/6.0,3);
+  vec chk=pow(q,2)/4.0 + pow(p,3)/27.0;
+  vec th=-(xx.col(2)/2.0)/(3*(xx.col(3)/6.0))+pow(-q/2.0+sqrt(chk),(1.0/3.0))-pow(q/2.0+sqrt(chk),(1.0/3.0));
+  vec thdash=1.0/(xx.col(1)+th%xx.col(2)+0.5*th%th%xx.col(3));
 
-  arma::vec K =xx.col(0)%th+(xx.col(1)%th%th)/2.0+(xx.col(2)%th%th%th)/6.0 +(xx.col(3)%th%th%th%th)/24.0;
-  arma::vec K1=xx.col(0)   +(xx.col(1)%th)       +(xx.col(2)%th%th)/2.0    +(xx.col(3)%th%th%th)/6.0;
-  arma::vec K2=xx.col(1)   +(xx.col(2)%th)       +(xx.col(3)%th%th)/2.0;
-  arma::vec gg      = 1.0/sqrt(2*3.141592653589793*(K2));
-  arma::vec ggdash = -3.141592653589793*pow(2*3.141592653589793*(K2),-3.0/2.0)%(xx.col(2)%thdash+xx.col(3)%thdash%th);
-  arma::vec hh      = exp(K-th%K1);
-  arma::vec hhdash = exp(K-th%K1)%(-th%thdash%xx.col(1)-th%th%thdash%xx.col(2)-0.5*(th%th%th)%thdash%xx.col(3));
+  vec K =xx.col(0)%th+(xx.col(1)%th%th)/2.0+(xx.col(2)%th%th%th)/6.0 +(xx.col(3)%th%th%th%th)/24.0;
+  vec K1=xx.col(0)   +(xx.col(1)%th)       +(xx.col(2)%th%th)/2.0    +(xx.col(3)%th%th%th)/6.0;
+  vec K2=xx.col(1)   +(xx.col(2)%th)       +(xx.col(3)%th%th)/2.0;
+  vec gg      = 1.0/sqrt(2*3.141592653589793*(K2));
+  vec ggdash = -3.141592653589793*pow(2*3.141592653589793*(K2),-3.0/2.0)%(xx.col(2)%thdash+xx.col(3)%thdash%th);
+  vec hh      = exp(K-th%K1);
+  vec hhdash = exp(K-th%K1)%(-th%thdash%xx.col(1)-th%th%thdash%xx.col(2)-0.5*(th%th%th)%thdash%xx.col(3));
 
-  arma::vec val=(ggdash%hh+gg%hhdash);
+  vec val=(ggdash%hh+gg%hhdash);
   return(val);
 }
 
 // [[Rcpp::export]]
-arma::vec pcurr(arma::mat xx,double Bt,arma::vec theta,arma::vec t)
+vec pcurr(mat xx,double Bt,vec theta,vec t)
 {
-  double pi =3.141592653589793;
-  arma::vec val ='
+  
+  vec val ='
 #_______________________________________________________________________________
 txt3=';
   return(val);
 }
 
 // [[Rcpp::export]]
-arma::mat solver(arma::vec Xs,double Bt,arma::vec theta,int N,double delt,int N2,arma::vec tt)
+mat solver(vec Xs,double Bt,vec theta,int N,double delt,int N2,vec tt)
 {
-    arma::mat fx0(N2,4);
-    arma::mat fx1(N2,4);
-    arma::mat fx2(N2,4);
-    arma::mat fx3(N2,4);
-    arma::mat fx4(N2,4);
-    arma::mat fx5(N2,4);
-    arma::mat fx6(N2,4);
-    arma::mat fx7(N2,4);
-    arma::mat fx8(N2,4);
-    arma::mat fx9(N2,4);
-    arma::mat fx10(N2,4);
-    arma::mat fx11(N2,4);
-    arma::mat fx12(N2,4);
-    arma::mat fx13(N2,4);
-    arma::mat fx14(N2,4);
-    arma::mat fx15(N2,4);
-    arma::mat fx16(N2,4);
-    arma::mat x0(N2,4);
-    arma::mat x1(N2,4);
-    arma::mat x2(N2,4);
-    arma::mat x3(N2,4);
-    arma::mat x4(N2,4);
-    arma::mat x5(N2,4);
-    arma::mat x6(N2,4);
-    arma::mat x7(N2,4);
-    arma::mat x8(N2,4);
-    arma::mat x9(N2,4);
-    arma::mat x10(N2,4);
-    arma::mat x11(N2,4);
-    arma::mat x12(N2,4);
-    arma::mat x13(N2,4);
-    arma::mat x14(N2,4);
-    arma::mat x15(N2,4);
-    arma::mat x16(N2,4);
+    mat fx0(N2,4);
+    mat fx1(N2,4);
+    mat fx2(N2,4);
+    mat fx3(N2,4);
+    mat fx4(N2,4);
+    mat fx5(N2,4);
+    mat fx6(N2,4);
+    mat fx7(N2,4);
+    mat fx8(N2,4);
+    mat fx9(N2,4);
+    mat fx10(N2,4);
+    mat fx11(N2,4);
+    mat fx12(N2,4);
+    mat fx13(N2,4);
+    mat fx14(N2,4);
+    mat fx15(N2,4);
+    mat fx16(N2,4);
+    mat x0(N2,4);
+    mat x1(N2,4);
+    mat x2(N2,4);
+    mat x3(N2,4);
+    mat x4(N2,4);
+    mat x5(N2,4);
+    mat x6(N2,4);
+    mat x7(N2,4);
+    mat x8(N2,4);
+    mat x9(N2,4);
+    mat x10(N2,4);
+    mat x11(N2,4);
+    mat x12(N2,4);
+    mat x13(N2,4);
+    mat x14(N2,4);
+    mat x15(N2,4);
+    mat x16(N2,4);
 
     x0.fill(0);
     x0.col(0)=Xs;
 
-    arma::mat res(N2,N);
-
-    arma::vec d=tt;
-    for (int i = 1; i < N+1; i++)
+    mat res(N2,N);
+    res.fill(0);
+    vec d=tt;
+    for (int i = 1; i < N; i++)
 {
   fx0=f(x0,theta,d,N2);
   x1=x0+delt*(0.1*fx0);
@@ -850,17 +882,16 @@ arma::mat solver(arma::vec Xs,double Bt,arma::vec theta,int N,double delt,int N2
         -0.0250000000000000000000000000000000000000000000000000000000000*fx15
         +0.0333333333333333333333333333333333333333333333333333333333333*fx16)*delt;
     d=d+delt;
-    res.col(i-1) = pcurr(x0,Bt,theta,d);
+    res.col(i) = pcurr(x0,Bt,theta,d);
 }
 return(res);
 }
 // [[Rcpp::export]]
-arma::vec ieq(arma::mat res1,arma::vec res2,int N,double delt)
+vec ieq(mat res1,vec res2,int N,double delt)
 {
-    arma::vec v(N);
-    v(0)=res2(0);
+    vec v(N);
+    v(0)=0;
     double smtemp=0;
-
     for  (int i = 1; i < N; i++)
    {
      smtemp=0;
@@ -1014,6 +1045,19 @@ cat('                                     ','\r')
      y=ieq(solver(rep(B,N),B,c(0,theta),N,delt,N,tt),t(solver(rep(Xs,1),B,c(0,theta),N,delt,1,tt[1])),N,delt)
 
     }
-
-    return(list(density=y,time=tt,prob.coverage = round(sum(y*delt),3)))
+    xcx = list(density=y,time=tt)
+    med.surv = function(x)
+    {
+      dens = x$density
+      time = x$time
+      dt = diff(time)[1]
+      cdf = cumsum(dens*dt)
+      if(any(cdf==0.5)){return(time[which(cdf==0.5)])}
+      wh.min = max(which(cdf < 0.5))
+      wh.pls = min(which(cdf > 0.5))
+      res = time[wh.min]+(0.5-cdf[wh.min])*(time[wh.pls]-time[wh.min])/(cdf[wh.pls]-cdf[wh.min])
+      return(res)
+    }
+    
+    return(list(density=y,time=tt,prob.coverage = round(sum(y*delt),3),med.survival = med.surv(xcx)))
   }

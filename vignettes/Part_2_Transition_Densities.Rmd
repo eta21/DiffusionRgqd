@@ -26,12 +26,12 @@ by calculating the conditional moment trajectories of a diffusion process over t
 it is possible to derive a system of differential equations that govern the evolution of the cumulants of the process over time. Let $\kappa_i(t)$ denote the $i$-th cumulant of $X_t$ given that the process assumes the initial value $X_s$, then:
 \[
 \begin{aligned}
-\frac{\partial}{\partial t}{\kappa}_j(t)=&g_0(t)\mbox{Ind}(j = 1)\\
-&+g_1(t) j\kappa_{j}(t)\\
-&+g_2(t)\biggl(j\kappa_{j+1}(t)+\sum_{r=1}^{j}r{j\choose r}\kappa_{r}(t)\kappa_{j-r+1}(t)\biggr)\\
-&+q_0(t)\mbox{Ind}(j = 2)\\
-&+q_1(t)\frac{j(j-1)}{2}\kappa_{j-1}(t)\mbox{Ind}(j \geq 2)\\
-&+q_2(t)\biggl(\frac{j(j-1)}{2}\kappa_j(t)+\frac{j}{2}\sum_{r=1}^{j-1}r {j-1\choose r} \kappa_{r}(t)\kappa_{j-1-r+1}(t)\biggr)\mbox{Ind}(j \geq 2),\\
+\frac{\partial}{\partial t}{\kappa}_j(t)=&G_0(t)\mbox{Ind}(j = 1)\\
+&+G_1(t) j\kappa_{j}(t)\\
+&+G_2(t)\biggl(j\kappa_{j+1}(t)+\sum_{r=1}^{j}r{j\choose r}\kappa_{r}(t)\kappa_{j-r+1}(t)\biggr)\\
+&+Q_0(t)\mbox{Ind}(j = 2)\\
+&+Q_1(t)\frac{j(j-1)}{2}\kappa_{j-1}(t)\mbox{Ind}(j \geq 2)\\
+&+Q_2(t)\biggl(\frac{j(j-1)}{2}\kappa_j(t)+\frac{j}{2}\sum_{r=1}^{j-1}r {j-1\choose r} \kappa_{r}(t)\kappa_{j-1-r+1}(t)\biggr)\mbox{Ind}(j \geq 2),\\
 \end{aligned}
 \]
 for $i = 1,2,\ldots$. By solving these equations numerically using high order [Runge-Kutta](https://en.wikipedia.org/wiki/Runge-Kutta_methods) methods, we may plug the resulting moment trajectories into a suitable surrogate density such as a Normal distribution or a saddlepoint approximation in order to approximate the transitional density. 

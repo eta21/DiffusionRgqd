@@ -79,7 +79,7 @@ BiGQD.mcmc(X, time, mesh=10, theta, sds, updates, burns=min(round(updates/2),250
   \item{model.info$pd}{Effective number of parameters (see \code{model.info$DIC}).}
 }
 \references{
-Updates available on GitHub at \url{https://github.com/eta21}. Visit \url{http://etiennead.wix.com/diffusionr} for more details on the DiffusionRgqd package.
+Updates available on GitHub at \url{https://github.com/eta21}. 
 
 Daniels, H.E. 1954 Saddlepoint approximations in statistics. \emph{Ann. Math. Stat.}, \bold{25}:631--650.
 
@@ -141,7 +141,7 @@ Here sqrt(t)*cos(3*pi*t) constitutes the product of two terms that cannot be wri
 \examples{
 \donttest{
 #===============================================================================
-# This example simulates a bivariat time homogeneous diffusion and shows how
+# This example simulates a bivariate time homogeneous diffusion and shows how
 # to conduct inference using BiGQD.mcmc(). We fit two competing models and then
 # use the output to select a winner.
 #-------------------------------------------------------------------------------

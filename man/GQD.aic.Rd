@@ -30,7 +30,7 @@ A list of \code{GQD.mle()} objects.
   \item{}{A data frame with summary of model output. See Details.}
 }
 \references{
-Updates available on GitHub at \url{https://github.com/eta21}. Visit \url{http://etiennead.wix.com/diffusionr} for more details on the DiffusionRgqd package.
+Updates available on GitHub at \url{https://github.com/eta21}. 
 }
 \author{
 Etienne A.D. Pienaar: \email{etiannead@gmail.com}

@@ -1,5 +1,5 @@
 globalVariables('priors')
-BiGQD.mcmc=function(X,time,mesh=10,theta,sds,updates,burns=min(round(updates/2),25000),RK.order=4,exclude=NULL,plot.chain=TRUE,Tag=NA,Dtype='Saddlepoint',recycle=FALSE,rtf=runif(2),wrt=FALSE,print.output=TRUE)
+BiGQD.mcmc=function(X,time,mesh=10,theta,sds,updates,burns=min(round(updates/2),25000),RK.order=4,exclude=NULL,plot.chain=TRUE,Tag=NA,Dtype='Saddlepoint',recycle=FALSE,rtf=runif(2),wrt=FALSE,print.output=TRUE,palette='mono')
 {
   solver   =function(Xs, Xt, theta, N , delt , N2, tt  , P , alpha, lower , upper, tro  ){}
   rm(list =c('solver'))  
@@ -1343,7 +1343,7 @@ if(state4)
         par.matrix[,i]=theta
         ll[i]=lold
         kk=kk+is.true
-        acc[i]=kk/i
+        acc[i]=is.true
         if(max.retries>2000){print('Fail: Failed evaluation limit exceeded!');failed.chain=T;break;}
         if(any(is.na(theta))){print('Fail: Samples were NA! ');failed.chain=T;break;}
         setTxtProgressBar(pb, i)
@@ -1351,6 +1351,7 @@ if(state4)
 
     }
     close(pb)
+    acc = cumsum(acc)/(1:updates)
     }
     if(adapt!=0)
     {
@@ -1447,7 +1448,12 @@ if(state4)
         d2=d2[row(test)[wh[1]]]
         par(mfrow=c(d1,d2))
       }
-      cols=rainbow_hcl(nper, start = 10, end = 275,c=100,l=70)
+      if(palette=='mono')
+      {
+        cols =rep('#222299',nper)
+      }else{
+        cols=rainbow_hcl(nper, start = 10, end = 275,c=100,l=70)
+      }
       ylabs=paste0('theta[',1:nper,']')
       for(i in 1:nper)
       {

@@ -27,7 +27,7 @@ of a scalar diffusion process $X_t$ crossing a fixed barrier $\lambda_t$ is give
 \[
 f(\lambda_t|X_s) = \int_s^t f(\lambda_t|\lambda_u)g(\lambda_u|X_s)du,
 \]
-where $g(\lambda_t|X_s)$ denotes the first passage time density evaluated at time $t$ and $f(y|x)$ is the transitional density of the diffusion process. Unfortunately, even when the transitional density is available exactly, the integral equation may not be analytically tractable. Fortunately, numerous techniques exist for evaluating the first passage time density by solving the integral equation numerically. Thus, by combining the cumulant truncation procedure for evaluating the [transitional density](https://cran.r-project.org/web/packages/DiffusionRgqd/vignettes/Part_2_Transition_Densities.html) with numerical procedures for evaluating the integral equation, we are able to evalaute first passage time problems for time-inhomogeneous generalized quadratic diffusions.
+where $g(\lambda_t|X_s)$ denotes the first passage time density evaluated at time $t$ and $f(y|x)$ is the transitional density of the diffusion process. Unfortunately, even when the transitional density is available exactly, the integral equation may not be analytically tractable. Fortunately, numerous techniques exist for evaluating the first passage time density by solving the integral equation numerically. Thus, by combining the cumulant truncation procedure for evaluating the [transitional density](Part_2_Transition_Densities.html) with numerical procedures for evaluating the integral equation, we are able to evalaute first passage time problems for time-inhomogeneous generalized quadratic diffusions.
 
 --------
 

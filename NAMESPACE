@@ -11,4 +11,4 @@ importFrom("utils", "alarm", "flush.console", "setTxtProgressBar",
 importFrom("Rcpp", "sourceCpp")
 importFrom("RcppArmadillo", "armadillo_set_seed")
 importFrom("rgl", "persp3d","open3d","play3d","spin3d")
-importFrom("colorspace", "rainbow_hcl")
+importFrom("colorspace", "rainbow_hcl","sequential_hcl")

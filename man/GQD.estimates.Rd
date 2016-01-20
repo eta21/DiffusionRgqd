@@ -7,7 +7,8 @@ Extract Parmaeter Estimates from \code{.mle()} or \code{.mcmc()} Objects.
 \code{GQD.estimates()} calculates parameter estimates from \code{.mle()} or \code{.mcmc()} model objects.
 }
 \usage{
-GQD.estimates(x, thin = 100, burns, acf.plot = TRUE)
+ GQD.estimates(x, thin = 100, burns, CI = c(0.05, 0.95), corrmat =
+          FALSE, acf.plot = TRUE)
 }
 
 \arguments{
@@ -19,7 +20,13 @@ Thinnging level for parameter chain.
   \item{burns}{
 Number of MCMC updates to discard before calculating estimates.
 }
+  \item{CI}{
+Credibility interval quantiles (for MCMC chains).
+}
 
+  \item{corrmat}{
+If TRUE, an estimated correlation matrix is returned in addition to the estimate vector.
+}
   \item{acf.plot}{
 If TRUE, an acf plot is drawn for each element of the parameter chain.
 }
@@ -33,7 +40,7 @@ Data frame with parameter estimates and appropriate interval statistics.
 Etienne A.D. Pienaar: \email{etiannead@gmail.com}
 }
 \references{
-Updates available on GitHub at \url{https://github.com/eta21}. Visit \url{http://etiennead.wix.com/diffusionr} for more details on the DiffusionRgqd package.
+Updates available on GitHub at \url{https://github.com/eta21}. 
 }
 \examples{
 \donttest{

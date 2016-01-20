@@ -36,7 +36,7 @@ GQD.TIpassage(Xs,B, s, t, delt, theta=c(0), IEQ.type='Buonocore', wrt=FALSE)
 
 }
 \references{
-Updates available on GitHub at \url{https://github.com/eta21}. Visit \url{http://etiennead.wix.com/diffusionr} for more details on the DiffusionRgqd package.
+Updates available on GitHub at \url{https://github.com/eta21}. 
 
 A. Buonocore, A. Nobile, and L. Ricciardi. 1987 A new integral equation for the evaluation of first-passage-
 time probability densities. \emph{Adv. Appl. Probab.} \bold{19}:784--800.

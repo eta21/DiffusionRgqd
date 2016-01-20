@@ -89,7 +89,7 @@ The number of updates to burn. That is, the first \code{burns} values are omitte
   \item{model.info$pd}{Effective number of parameters (see \code{model.info$DIC}).}
 }
 \references{
-Updates available on GitHub at \url{https://github.com/eta21}. Visit \url{http://etiennead.wix.com/diffusionr} for more details on the DiffusionRgqd package.
+Updates available on GitHub at \url{https://github.com/eta21}. 
 
 Daniels, H.E. 1954 Saddlepoint approximations in statistics. \emph{Ann. Math. Stat.}, \bold{25}:631--650.
 

@@ -67,7 +67,7 @@ GQD.density(Xs, Xt, s, t, delt=1/100, Dtype='Saddlepoint', Trunc=c(4,4),
 
 
 \references{
-Updates available on GitHub at \url{https://github.com/eta21}. Visit \url{http://etiennead.wix.com/diffusionr} for more details on the DiffusionRgqd package.
+Updates available on GitHub at \url{https://github.com/eta21}. 
 
 Daniels, H.E. 1954 Saddlepoint approximations in statistics. \emph{Ann. Math. Stat.}, \bold{25}:631--650.
 

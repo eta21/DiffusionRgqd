@@ -8,7 +8,6 @@ Extract Parmaeter Estimates from \code{.mle()} or \code{.mcmc()} Objects.
 }
 \usage{
  GQD.estimates(x, thin = 100, burns, CI = c(0.05, 0.95), corrmat =
-<<<<<<< HEAD
           FALSE, acf.plot = TRUE, palette = 'mono')
 }
 
@@ -20,30 +19,6 @@ Extract Parmaeter Estimates from \code{.mle()} or \code{.mcmc()} Objects.
 \item{corrmat}{If TRUE, an estimated correlation matrix is returned in addition to the estimate vector.}
 \item{acf.plot}{If TRUE, an acf plot is drawn for each element of the parameter chain.}
 \item{palette}{Colour palette for drawing trace plots. Default \code{palette = 'mono'}, otherwise a qualitative palette will be used.}
-=======
-          FALSE, acf.plot = TRUE)
-}
-
-\arguments{
-  \item{x}{List object of type 'GQD.mcmc' or 'GQD.mle'. That is, when \code{model =GQD.mcmc()} then \code{model} constitutes an appropriate object for \code{x}.  
-}
-  \item{thin}{
-Thinnging level for parameter chain.
-}
-  \item{burns}{
-Number of MCMC updates to discard before calculating estimates.
-}
-  \item{CI}{
-Credibility interval quantiles (for MCMC chains).
-}
-
-  \item{corrmat}{
-If TRUE, an estimated correlation matrix is returned in addition to the estimate vector.
-}
-  \item{acf.plot}{
-If TRUE, an acf plot is drawn for each element of the parameter chain.
-}
->>>>>>> b0268ad657b4f039bb4adc2dbbcfc06b3ddd0743
 }
 
 \value{

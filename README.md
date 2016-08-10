@@ -35,12 +35,18 @@ install.packages("RcppArmadillo",dep=T)
 Go to Applications/Utilities and see if X11 is there. If not, you’ll need to install X11 or XQuartz. These are available from http://xquartz.macosforge.org/landing/
 
 #### Back in R, run the following code:
+```
 install.packages(“rgl",dep=T) 
+```
 
 #### Download the DiffusionRjgqd package and run the code:
+```
 install.packages("~/DiffusionRgqd_1.0.tar.gz", repos = NULL, type = "source”)
+```
 
 #### Run the following code in R to see if the package works:
+```
 library(DiffpackRgqd) 
 example(GQD.density)
 example(GQD.mcmc)
+```

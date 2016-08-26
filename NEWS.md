@@ -2,7 +2,7 @@
 # DiffusionRgqd - NEWS
 __DiffusionRgqd__ is now available on CRAN and GitHub.
 
-Check out [DiffusionRgqd](https://github.com/eta21/DiffusionRgqd) for the package source files, vignettes and other downloadable content or visit the [DiffusionRgqd CRAN page](https://cran.r-project.org/web/packages/DiffusionRgqd/index.html).
+Check out [DiffusionRgqd](https://github.com/eta21/DiffusionRgqd) for the package source files, vignettes and other downloadable content or visit the [DiffusionRgqd CRAN page](https://CRAN.R-project.org/package=DiffusionRgqd).
 
 ## v0.1.0
 + Initial version of __DiffusionRgqd__ uploaded to CRAN and GitHub.
@@ -23,3 +23,6 @@ Check out [DiffusionRgqd](https://github.com/eta21/DiffusionRgqd) for the packag
 + Updated colour palettes for better human perception.
 + Improved root finding algorithm for bivariate saddlepoint approximations.
  
+## v0.1.3
++ Vignettes changed to html source.
++ Citation info updated

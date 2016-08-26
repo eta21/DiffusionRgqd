@@ -7,7 +7,7 @@ Quick Plots for DiffusionRgqd Objects
 \code{GQD.plot()} recognizes output objects calculated using routines from the \bold{DiffusionRgqd} package and subsequently constructs an appropriate plot, for example a perspective plot of a transition density.
 }
 \usage{
-GQD.plot(x, thin = 1, burns, h = FALSE)
+GQD.plot(x, thin = 1, burns, h = FALSE, palette = "mono")
 }
 \arguments{
   \item{x}{
@@ -22,6 +22,7 @@ Number of parameter draws to discard for \code{.mcmc} objects.
   \item{h}{
   if \code{TRUE} a histogram is drawn i.s.o. a trace plot.
 }
+\item{palette}{Colour palette for drawing trace plots. Default \code{palette = 'mono'}, otherwise a qualitative palette will be used.}
 }
 
 \value{Varies in accordance with input type.

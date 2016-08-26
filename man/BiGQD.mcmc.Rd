@@ -42,7 +42,7 @@ such that
 \usage{
 BiGQD.mcmc(X, time, mesh=10, theta, sds, updates, burns=min(round(updates/2),25000),
            RK.order=4, exclude=NULL, plot.chain=TRUE, Tag=NA, Dtype='Saddlepoint',
-           recycle=FALSE, rtf=runif(2), wrt=FALSE, print.output=TRUE)
+           recycle=FALSE, rtf=runif(2), wrt=FALSE, print.output=TRUE, palette = "mono")
 }
 \arguments{
   \item{X}{A matrix containing rows of data points to be modelled. Although observations are allowed to be non-equidistant, observations in both dimensions are assumed to occur at the same time epochs (i.e. \code{time} gives the time signature for both dimensions).
@@ -67,6 +67,7 @@ BiGQD.mcmc(X, time, mesh=10, theta, sds, updates, burns=min(round(updates/2),250
 \item{rtf}{Starting vector for internal use.}
 \item{wrt}{If \code{TRUE} a .cpp file will be written to the current directory. For bug report diagnostics.}
 \item{print.output}{If \code{TRUE} information about the model and algorithm is printed to the console. }
+\item{palette}{Colour palette for drawing trace plots. Default \code{palette = 'mono'}, otherwise a qualitative palette will be used.}
 }
 \value{
   \item{par.matrix }{A matrix containing the MCMC chain on \code{theta}. }

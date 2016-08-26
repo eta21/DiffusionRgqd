@@ -5,10 +5,10 @@ citEntry(entry = "Manual",
   author       = personList(as.person("Etienne A D Pienaar"),
                    as.person("Melvin M Varughese")),
   year         = "2015",
-  note         = "R package version 0.1.2",
+  note         = "R package version 0.1.3",
   url          = "https://CRAN.R-project.org/package=DiffusionRgqd",
   paste("Etienne A. D. Pienaar, Melvin M. Varughese (2015).",
-        "Diffusion{R}gqd: An {R} Package for Performing Inference and Analysis on Time-Inhomogeneous Quadratic Diffusion Processes. R package version 0.1.2. https://CRAN.R-project.org/package=DiffusionRgqd.")
+        "Diffusion{R}gqd: An {R} Package for Performing Inference and Analysis on Time-Inhomogeneous Quadratic Diffusion Processes. R package version 0.1.3. https://CRAN.R-project.org/package=DiffusionRgqd.")
 )
 
 
